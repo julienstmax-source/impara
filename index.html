@@ -291,9 +291,8 @@ const { CATEGORIES, WORDS, PHRASES, PERSONS, CONJ, PASSATO, LESSONS, VERB_FR, PE
 const CARDS = [...WORDS, ...PHRASES];
 const BY_ID = Object.fromEntries(CARDS.map((w) => [w.id, w]));
 const CAT = Object.fromEntries(CATEGORIES.map((c) => [c.id, c]));
-const BOX_INTERVALS = [0, 1, 3, 7, 14], DAY = 86400000, KEY = "impara-app-v1", AUTH_KEY = "impara-auth-v1";
+const BOX_INTERVALS = [0, 1, 3, 7, 14], DAY = 86400000, KEY = "impara-app-v1";
 const SB_URL = "https://ngjvhpvtgbsywxvshwmp.supabase.co";
-const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nanZocHZ0Z2JzeXd4dnNod21wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEzOTYyMjMsImV4cCI6MjEwNjk3MjIyM30._qY3dxHgBbJElE4rMM04WoYTfukmuF8-1Pb6VfmstXs";
 const API = SB_URL + "/functions/v1/api";
 const DEMO = !!window.IMPARA_DEMO;
 const rnd = (n) => Math.floor(Math.random() * n);
@@ -374,11 +373,11 @@ const I = {
    2. Store (persistance locale + journal de synchro)
    ═══════════════════════════════════════════ */
 const Store = {
-  fresh() { return { device: null, progress: {}, pos: {}, stats: { streak: 0, lastDay: null, bestQuiz: 0, errors: {} }, grammar: {}, conjBest: {}, percorsi: { active: null, done: {} }, activity: {}, menu: null, theme: null, goals: { newCards: 30, lessons: 2 }, settings: { interval_min: 60, start_hour: 8, end_hour: 21, kinds: ["word", "phrase", "conj"], enabled: true }, subscribed: false, dirty: { progress: [], state: [], activity: [] }, syncAt: 0 }; },
+  fresh() { return { device: null, progress: {}, pos: {}, stats: { streak: 0, lastDay: null, bestQuiz: 0, errors: {} }, grammar: {}, conjBest: {}, percorsi: { active: null, done: {} }, activity: {}, menu: null, theme: null, goals: { newCards: 30, lessons: 2 }, settings: { interval_min: 60, start_hour: 8, end_hour: 21, kinds: ["word", "phrase", "conj"], enabled: true }, subscribed: false }; },
   s: null,
   load() {
     this.s = this.fresh();
-    try { const raw = localStorage.getItem(KEY); if (raw) { const o = JSON.parse(raw); const f = this.s; this.s = { ...f, ...o, pos: o.pos || {}, settings: { ...f.settings, ...(o.settings || {}) }, stats: { ...f.stats, ...(o.stats || {}), errors: o.stats?.errors || {} }, percorsi: { ...f.percorsi, ...(o.percorsi || {}), done: o.percorsi?.done || {} }, goals: { ...f.goals, ...(o.goals || {}) }, dirty: { progress: [], state: [], activity: [], ...(o.dirty || {}) }, activity: o.activity || {} }; } } catch (e) {}
+    try { const raw = localStorage.getItem(KEY); if (raw) { const o = JSON.parse(raw); const f = this.s; this.s = { ...f, ...o, pos: o.pos || {}, settings: { ...f.settings, ...(o.settings || {}) }, stats: { ...f.stats, ...(o.stats || {}), errors: o.stats?.errors || {} }, percorsi: { ...f.percorsi, ...(o.percorsi || {}), done: o.percorsi?.done || {} }, goals: { ...f.goals, ...(o.goals || {}) }, activity: o.activity || {} }; } } catch (e) {}
     if (!this.s.device) this.s.device = crypto.randomUUID ? crypto.randomUUID() : "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => { const r = rnd(16); return (c === "x" ? r : (r & 3 | 8)).toString(16); });
     const today = new Date().toDateString(), yest = new Date(Date.now() - DAY).toDateString();
     if (this.s.stats.lastDay !== today) { this.s.stats.streak = this.s.stats.lastDay === yest ? (this.s.stats.streak || 0) + 1 : 1; this.markState("stats"); }
@@ -387,20 +386,19 @@ const Store = {
     this.save();
   },
   save() { try { localStorage.setItem(KEY, JSON.stringify(this.s)); } catch (e) {} },
-  markState(k) { if (!this.s.dirty.state.includes(k)) this.s.dirty.state.push(k); Sync.schedule(); },
+  markState() { Sync.schedule(); },
   // Notation d'une carte (répétition espacée) + journal d'erreurs + activité du jour
   grade(id, known, errType) {
     if (!BY_ID[id]) return;
     const cur = this.s.progress[id] || { box: 0, fails: 0, lapses: 0 }, isNew = !cur.seen;
     const box = known ? Math.min((cur.box || 0) + 1, 4) : 0;
     this.s.progress[id] = { box, due: Date.now() + BOX_INTERVALS[box] * DAY, seen: true, fails: (cur.fails || 0) + (known ? 0 : 1), lapses: (cur.lapses || 0) + (!known && (cur.box || 0) >= 3 ? 1 : 0), lastOk: known, updated: Date.now() };
-    if (!this.s.dirty.progress.includes(id)) this.s.dirty.progress.push(id);
     if (!known && errType) { this.s.stats.errors[errType] = (this.s.stats.errors[errType] || 0) + 1; this.markState("stats"); }
     this.activity({ answers: 1, correct: known ? 1 : 0, newCards: isNew ? 1 : 0 });
     this.save(); Sync.schedule();
   },
-  see(id) { if (!BY_ID[id] || this.s.progress[id]?.seen) return; this.s.progress[id] = { box: 0, due: Date.now(), seen: true, fails: 0, lapses: 0, lastOk: null, updated: Date.now() }; if (!this.s.dirty.progress.includes(id)) this.s.dirty.progress.push(id); this.activity({ newCards: 1 }); this.save(); Sync.schedule(); },
-  activity(delta) { const k = dayKey(), a = this.s.activity[k] || { answers: 0, correct: 0, newCards: 0, lessons: 0 }; for (const [f, v] of Object.entries(delta)) a[f] = (a[f] || 0) + v; a.updated = Date.now(); this.s.activity[k] = a; if (!this.s.dirty.activity.includes(k)) this.s.dirty.activity.push(k); const keys = Object.keys(this.s.activity).sort(); while (keys.length > 90) delete this.s.activity[keys.shift()]; },
+  see(id) { if (!BY_ID[id] || this.s.progress[id]?.seen) return; this.s.progress[id] = { box: 0, due: Date.now(), seen: true, fails: 0, lapses: 0, lastOk: null, updated: Date.now() }; this.activity({ newCards: 1 }); this.save(); Sync.schedule(); },
+  activity(delta) { const k = dayKey(), a = this.s.activity[k] || { answers: 0, correct: 0, newCards: 0, lessons: 0 }; for (const [f, v] of Object.entries(delta)) a[f] = (a[f] || 0) + v; a.updated = Date.now(); this.s.activity[k] = a; const keys = Object.keys(this.s.activity).sort(); while (keys.length > 90) delete this.s.activity[keys.shift()]; },
   due() { return CARDS.filter((w) => { const p = this.s.progress[w.id]; return p?.seen && (p.due || 0) <= Date.now(); }); },
   seen() { return CARDS.filter((w) => this.s.progress[w.id]?.seen); },
   mastered() { return CARDS.filter((w) => (this.s.progress[w.id]?.box || 0) >= 4).length; },
@@ -413,99 +411,14 @@ const Store = {
 };
 
 /* ═══════════════════════════════════════════
-   3. Compte (Supabase Auth, code par e-mail) et synchronisation
+   3. État envoyé au serveur (sans compte) : file d'apprentissage, cartes faibles, scores de conjugaison
+   → les notifications s'adaptent à cet appareil
    ═══════════════════════════════════════════ */
-const Auth = {
-  s: null,
-  load() { try { this.s = JSON.parse(localStorage.getItem(AUTH_KEY) || "null"); } catch (e) { this.s = null; } },
-  save() { try { if (this.s) localStorage.setItem(AUTH_KEY, JSON.stringify(this.s)); else localStorage.removeItem(AUTH_KEY); } catch (e) {} },
-  get user() { return this.s?.user_id || null; },
-  get email() { return this.s?.email || null; },
-  headers() { return { apikey: SB_KEY, "Content-Type": "application/json", ...(this.s ? { Authorization: `Bearer ${this.s.access_token}` } : {}) }; },
-  async req(path, body, extra = {}) {
-    const r = await fetch(SB_URL + path, { method: body ? "POST" : "GET", headers: { apikey: SB_KEY, "Content-Type": "application/json", ...extra }, body: body ? JSON.stringify(body) : undefined });
-    const data = await r.json().catch(() => ({}));
-    if (!r.ok) throw new Error(data.msg || data.error_description || data.message || data.error || `Erreur ${r.status}`);
-    return data;
-  },
-  async sendCode(email) { if (DEMO) return; await this.req("/auth/v1/otp", { email, create_user: true }); },
-  async verify(email, token) {
-    if (DEMO) { this.s = { access_token: "demo", refresh_token: "demo", expires_at: Date.now() + 86400e3, user_id: "demo-user", email }; this.save(); return; }
-    const d = await this.req("/auth/v1/verify", { type: "email", email, token });
-    this.setSession(d);
-  },
-  setSession(d) { this.s = { access_token: d.access_token, refresh_token: d.refresh_token, expires_at: Date.now() + (d.expires_in || 3600) * 1000, user_id: d.user?.id, email: d.user?.email }; this.save(); },
-  // Lien magique ouvert depuis l'e-mail : la session arrive dans l'URL
-  fromUrl() {
-    const h = location.hash; if (!/access_token=/.test(h)) return false;
-    const q = new URLSearchParams(h.replace(/^#\/?/, "")); const at = q.get("access_token"), rt = q.get("refresh_token");
-    if (!at) return false;
-    try { const payload = JSON.parse(atob(at.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))); this.s = { access_token: at, refresh_token: rt, expires_at: (payload.exp || 0) * 1000, user_id: payload.sub, email: payload.email }; this.save(); } catch (e) { return false; }
-    history.replaceState(null, "", location.pathname + "#/oggi");
-    return true;
-  },
-  async ensure() {
-    if (!this.s || DEMO) return !!this.s;
-    if (Date.now() < this.s.expires_at - 60000) return true;
-    try { const d = await this.req("/auth/v1/token?grant_type=refresh_token", { refresh_token: this.s.refresh_token }); this.setSession(d); return true; }
-    catch (e) { console.warn("refresh", e); if (/invalid|expired|not found|revoked/i.test(e.message)) { this.s = null; this.save(); } return false; }
-  },
-  async logout() { try { if (this.s && !DEMO) await this.req("/auth/v1/logout", {}, { Authorization: `Bearer ${this.s.access_token}` }); } catch (e) {} this.s = null; this.save(); },
-};
-
 const Sync = {
-  t: null, busy: false, error: null,
-  schedule() { if (!Auth.user) return; clearTimeout(this.t); this.t = setTimeout(() => this.push(), 2500); },
-  async rest(path, opts = {}) {
-    if (!(await Auth.ensure())) throw new Error("Session expirée, reconnecte-toi.");
-    const r = await fetch(SB_URL + "/rest/v1" + path, { ...opts, headers: { ...Auth.headers(), ...(opts.headers || {}) } });
-    if (!r.ok) { const d = await r.json().catch(() => ({})); throw new Error(d.message || d.hint || `Erreur ${r.status}`); }
-    return r.status === 204 ? null : r.json();
-  },
-  // Après connexion : rapatrie le serveur, fusionne (le plus récent gagne), renvoie tout
-  async full() {
-    if (!Auth.user || this.busy) return;
-    this.busy = true; this.error = null; render();
-    try {
-      if (DEMO) { await new Promise((r) => setTimeout(r, 400)); }
-      else {
-        const [prog, state, act] = await Promise.all([this.rest("/progress?select=item_id,box,due,seen,fails,lapses,last_ok,updated_at"), this.rest("/state?select=key,value,updated_at"), this.rest("/activity?select=day,answers,correct,new_cards,lessons,updated_at&order=day.desc&limit=90")]);
-        const s = Store.s;
-        for (const r of prog) { const loc = s.progress[r.item_id], rt = new Date(r.updated_at).getTime(); if (!loc || (loc.updated || 0) < rt) s.progress[r.item_id] = { box: r.box, due: r.due ? new Date(r.due).getTime() : 0, seen: r.seen, fails: r.fails, lapses: r.lapses, lastOk: r.last_ok, updated: rt }; }
-        const remote = Object.fromEntries(state.map((x) => [x.key, x]));
-        const maxMerge = (loc, rem) => { const o = { ...(rem || {}) }; for (const [k, v] of Object.entries(loc || {})) o[k] = Math.max(v || 0, o[k] || 0); return o; };
-        if (remote.grammar) s.grammar = maxMerge(s.grammar, remote.grammar.value);
-        if (remote.conjBest) s.conjBest = maxMerge(s.conjBest, remote.conjBest.value);
-        if (remote.percorsi) { const rv = remote.percorsi.value || {}; s.percorsi = { active: s.percorsi.active || rv.active || null, done: { ...(rv.done || {}), ...s.percorsi.done } }; }
-        if (remote.stats) { const rv = remote.stats.value || {}; s.stats.bestQuiz = Math.max(s.stats.bestQuiz || 0, rv.bestQuiz || 0); s.stats.streak = Math.max(s.stats.streak || 0, rv.streak || 0); const errs = { ...(rv.errors || {}) }; for (const [k, v] of Object.entries(s.stats.errors)) errs[k] = Math.max(v, errs[k] || 0); s.stats.errors = errs; }
-        if (remote.goals) s.goals = { ...s.goals, ...(remote.goals.value || {}) };
-        if (remote.theme && !s.theme) s.theme = remote.theme.value;
-        for (const a of act) { const loc = s.activity[a.day] || {}; s.activity[a.day] = { answers: Math.max(loc.answers || 0, a.answers), correct: Math.max(loc.correct || 0, a.correct), newCards: Math.max(loc.newCards || 0, a.new_cards), lessons: Math.max(loc.lessons || 0, a.lessons), lessonsIds: loc.lessonsIds }; }
-        s.dirty = { progress: Object.keys(s.progress), state: ["grammar", "conjBest", "percorsi", "stats", "goals", "theme"], activity: Object.keys(s.activity) };
-        Store.save();
-        await this.push(true);
-        try { await Api.call("/register", { tz: tz(), ...Store.s.settings }); } catch (e) {}
-      }
-      Store.s.syncAt = Date.now(); Store.save();
-    } catch (e) { this.error = e.message; }
-    this.busy = false; render();
-  },
-  async push(silent) {
-    if (!Auth.user) return;
-    const s = Store.s, d = s.dirty, uid = Auth.user;
-    if (!d.progress.length && !d.state.length && !d.activity.length && !silent) return;
-    try {
-      if (!DEMO) {
-        const prog = d.progress.filter((id) => s.progress[id]).map((id) => { const p = s.progress[id]; return { user_id: uid, item_id: id, box: p.box, due: new Date(p.due || Date.now()).toISOString(), seen: !!p.seen, fails: p.fails || 0, lapses: p.lapses || 0, last_ok: p.lastOk ?? null, updated_at: new Date(p.updated || Date.now()).toISOString() }; });
-        for (let i = 0; i < prog.length; i += 300) await this.rest("/progress", { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(prog.slice(i, i + 300)) });
-        const stateRows = [...new Set([...d.state, "queue"])].map((k) => ({ user_id: uid, key: k, value: k === "queue" ? Menu.queue() : k === "percorsi" ? s.percorsi : s[k] ?? null, updated_at: new Date().toISOString() })).filter((r) => r.value !== null && r.value !== undefined);
-        if (stateRows.length) await this.rest("/state", { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(stateRows) });
-        const act = d.activity.filter((k) => s.activity[k]).map((k) => { const a = s.activity[k]; return { user_id: uid, day: k, answers: a.answers || 0, correct: a.correct || 0, new_cards: a.newCards || 0, lessons: a.lessons || 0, updated_at: new Date().toISOString() }; });
-        if (act.length) await this.rest("/activity", { method: "POST", headers: { Prefer: "resolution=merge-duplicates,return=minimal" }, body: JSON.stringify(act) });
-      }
-      s.dirty = { progress: [], state: [], activity: [] }; s.syncAt = Date.now(); this.error = null; Store.save();
-    } catch (e) { this.error = e.message; console.warn("sync", e); }
-  },
+  t: null,
+  state() { return { queue: Menu.queue(), weak: Store.due().filter((w) => (Store.s.progress[w.id]?.fails || 0) > 0 || (Store.s.progress[w.id]?.box || 0) <= 1).slice(0, 80).map((w) => w.id), conjBest: Store.s.conjBest }; },
+  schedule() { if (!Store.s.subscribed || DEMO) return; clearTimeout(this.t); this.t = setTimeout(() => this.push(), 5000); },
+  async push() { if (!Store.s.subscribed || DEMO) return; try { await Api.call("/register", this.state()); } catch (e) { console.warn("état non envoyé", e); } },
 };
 
 /* ═══════════════════════════════════════════
@@ -523,9 +436,9 @@ const Demo = {
     await new Promise((r) => setTimeout(r, 120)); if (!this.sent) this.seed();
     const s = Store.s.settings;
     if (path === "/vapid") return { key: "demo" };
-    if (path === "/me") return { exists: true, subscribed: true, enabled: s.enabled, interval_min: s.interval_min, start_hour: s.start_hour, end_hour: s.end_hour, kinds: s.kinds, linked: !!Auth.user };
+    if (path === "/me") return { exists: true, subscribed: true, enabled: s.enabled, interval_min: s.interval_min, start_hour: s.start_hour, end_hour: s.end_hour, kinds: s.kinds };
     if (path === "/today") return { sent: this.sent };
-    if (path === "/register") return { subscribed: true, enabled: s.enabled, linked: !!Auth.user };
+    if (path === "/register") return { subscribed: true, enabled: s.enabled };
     if (path === "/test") { const it = this.item(pick(s.kinds.length ? s.kinds : ["word"])); this.sent.unshift({ sent_at: new Date().toISOString(), item: it }); return { ok: true, report: [{ sent: it.id }] }; }
     return {};
   },
@@ -533,9 +446,7 @@ const Demo = {
 const Api = {
   async call(path, body) {
     if (DEMO) return Demo.call(path, body);
-    if (Auth.s) await Auth.ensure();
-    const headers = { "Content-Type": "application/json", ...(Auth.s ? { Authorization: `Bearer ${Auth.s.access_token}` } : {}) };
-    const r = await fetch(API + path + (body ? "" : `?device=${Store.s.device}`), body ? { method: "POST", headers, body: JSON.stringify({ device: Store.s.device, ...body }) } : { headers });
+    const r = await fetch(API + path + (body ? "" : `?device=${Store.s.device}`), body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ device: Store.s.device, ...body }) } : {});
     const data = await r.json().catch(() => ({}));
     if (!r.ok) throw new Error(data.error || `Erreur ${r.status}`);
     return data;
@@ -561,16 +472,15 @@ const Push = {
     const { key } = await Api.call("/vapid");
     let sub = await reg.pushManager.getSubscription();
     if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: this.b64(key) });
-    const me = await Api.call("/register", { subscription: sub.toJSON(), tz: tz(), ...Store.s.settings, enabled: true });
+    const me = await Api.call("/register", { subscription: sub.toJSON(), tz: tz(), ...Store.s.settings, enabled: true, ...Sync.state() });
     Store.s.subscribed = !!me.subscribed; Store.s.settings.enabled = true; Store.save();
   },
-  async sync() { await Api.call("/register", { tz: tz(), ...Store.s.settings }); },
+  async sync() { await Api.call("/register", { tz: tz(), ...Store.s.settings, ...Sync.state() }); },
   async me() {
     try {
       const me = await Api.call("/me"); if (!me.exists) return;
       const d = Store.s.settings; Store.s.subscribed = !!me.subscribed; Store.s.settings = { ...d, interval_min: me.interval_min ?? d.interval_min, start_hour: me.start_hour ?? d.start_hour, end_hour: me.end_hour ?? d.end_hour, kinds: Array.isArray(me.kinds) && me.kinds.length ? me.kinds : d.kinds, enabled: me.enabled ?? d.enabled }; Store.save(); render();
-      if (me.subscribed) Today.refresh(true);
-      if (Auth.user && !me.linked) Api.call("/register", {}).catch(() => {});
+      if (me.subscribed) { Today.refresh(true); Sync.schedule(); }
     } catch (e) {}
   },
 };
@@ -834,8 +744,7 @@ Views["/oggi"] = () => {
   else if (perm === "denied") banner = `<div class="banner warn">${I.bellOff}<div class="t">Notifications bloquées<small>${Push.isIOS ? "Réglages → Notifications → Impara!" : "Cadenas dans la barre d'adresse → Notifications"}</small></div></div>`;
   else if (!Store.s.subscribed) banner = `<div class="banner">${I.bell}<div class="t">Reçois un mot ou une phrase toutes les ${UI.fmtInterval(s.interval_min)}<small>de ${s.start_hour}h à ${s.end_hour}h, réglable ensuite</small></div><button class="act" data-a="enable">Activer</button></div>`;
   else if (!s.enabled) banner = `<div class="banner warn">${I.bellOff}<div class="t">Notifications en pause</div><a class="act" href="#/impostazioni">Reprendre</a></div>`;
-  else banner = `<div class="banner ok">${I.bell}<div class="t">Toutes les ${UI.fmtInterval(s.interval_min)}, de ${s.start_hour}h à ${s.end_hour}h<small>${s.kinds.map((k) => ({ word: "mots", phrase: "phrases", conj: "verbes" })[k]).join(", ")}${Auth.user ? " · adaptées à tes faiblesses" : ""}</small></div><button class="act" data-a="test">Tester</button></div>`;
-  const account = Auth.user ? "" : `<a class="banner" href="#/impostazioni">${I.cloud}<div class="t">Crée ton compte pour synchroniser iPhone et ordinateur<small>Un code reçu par e-mail, sans mot de passe</small></div><span class="act">Réglages</span></a>`;
+  else banner = `<div class="banner ok">${I.bell}<div class="t">Toutes les ${UI.fmtInterval(s.interval_min)}, de ${s.start_hour}h à ${s.end_hour}h<small>${s.kinds.map((k) => ({ word: "mots", phrase: "phrases", conj: "verbes" })[k]).join(", ")} · adaptées à tes faiblesses</small></div><button class="act" data-a="test">Tester</button></div>`;
 
   const m = Menu.today(), doneN = Object.keys(m.done).length;
   const menu = `<div class="h3"><span>Menù del giorno</span><span>${doneN}/5</span></div><div class="list menu">${m.courses.map((c) => {
@@ -859,7 +768,7 @@ Views["/oggi"] = () => {
       ${UI.tile("ok", Store.mastered(), "cartes acquises", "/progressi")}
       ${UI.tile("gold", `${week.newCards}<small style="font-size:12px;font-weight:700">/${Store.s.goals.newCards}</small>`, "nouvelles cette semaine", "/progressi")}
     </div>
-    ${banner}${account}${menu}
+    ${banner}${menu}
     ${Store.s.subscribed ? `
       <div class="h3"><span>Reçus aujourd'hui</span><button type="button" class="h3btn" data-a="refresh" aria-label="Actualiser" ${Today.loading ? "disabled" : ""}>${Today.loading ? "…" : I.refresh}</button></div>
       ${items.length ? `<div class="list">${items.map(itemRow).join("")}</div><div class="btnrow"><button class="btn brand block" data-a="session" data-scope="today">Esercizi di oggi (${Math.min(12, new Set(items.map((x) => x.item?.id).filter(Boolean)).size)})</button></div>`
@@ -1095,18 +1004,9 @@ Views["/progressi"] = () => {
 };
 
 Views["/impostazioni"] = () => {
-  const s = Store.s.settings, A = G.st.auth ??= { step: Auth.user ? "in" : "email", email: Auth.email || "", busy: false, msg: "" };
-  if (Auth.user) A.step = "in";
+  const s = Store.s.settings;
   const opts = (sel) => Array.from({ length: 25 }, (_, h) => h).filter((h) => sel === "start" ? h <= 23 : h >= 1).map((h) => `<option value="${h}" ${h === (sel === "start" ? s.start_hour : s.end_hour) ? "selected" : ""}>${h}h</option>`).join("");
-  const syncLine = Sync.busy ? "Synchronisation…" : Sync.error ? `Erreur : ${esc(Sync.error)}` : Store.s.syncAt ? `Synchronisé ${new Date(Store.s.syncAt).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}` : "Pas encore synchronisé";
-  const account = Auth.user
-    ? `<div class="field"><div class="inl"><label>${esc(Auth.email || "Connecté")}</label><span class="chip ok">connecté</span></div><p class="p" style="font-size:12.5px;margin-top:6px">${syncLine} · progression, leçons, parcours et objectifs suivis sur tous tes appareils.</p></div>
-       <div class="field"><div class="btnrow" style="margin:0"><button class="btn" data-a="sync-now" ${Sync.busy ? "disabled" : ""}>${I.refresh} Synchroniser</button><button class="btn" data-a="logout">Se déconnecter</button></div></div>`
-    : A.step === "email"
-      ? `<div class="field"><label>Adresse e-mail</label><input id="email" class="tin sans" type="email" inputmode="email" autocomplete="email" placeholder="toi@exemple.com" value="${esc(A.email)}" aria-label="Adresse e-mail"><p class="p" style="font-size:12.5px;margin-top:8px">Tu reçois un code à six chiffres par e-mail. Pas de mot de passe.</p>${A.msg ? `<p class="p" style="color:var(--err)">${esc(A.msg)}</p>` : ""}<div class="btnrow"><button class="btn brand block" data-a="auth-send" data-enter="1" ${A.busy ? "disabled" : ""}>${A.busy ? "Envoi…" : "Recevoir le code"}</button></div></div>`
-      : `<div class="field"><label>Code reçu à ${esc(A.email)}</label><input id="code" class="tin sans" inputmode="numeric" autocomplete="one-time-code" placeholder="123456" maxlength="8" aria-label="Code">${A.msg ? `<p class="p" style="color:var(--err);margin-top:8px">${esc(A.msg)}</p>` : ""}<div class="btnrow"><button class="btn" data-a="auth-back">Changer d'adresse</button><button class="btn brand" data-a="auth-verify" data-enter="1" ${A.busy ? "disabled" : ""}>${A.busy ? "Vérification…" : "Valider"}</button></div><p class="p" style="font-size:12.5px;margin-top:8px">Rien reçu ? Regarde les indésirables, ou <button type="button" class="link" data-a="auth-send">renvoie un code</button>.</p></div>`;
-  return `<div class="h3"><span>Compte</span></div><div class="list">${account}</div>
-    <div class="h3"><span>Notifications</span></div><div class="list">
+  return `<div class="h3"><span>Notifications</span></div><div class="list">
       <div class="field"><div class="inl"><label>${Store.s.subscribed ? (s.enabled ? "Actives sur cet appareil" : "En pause") : "Non activées sur cet appareil"}</label>${Store.s.subscribed ? `<button class="sw ${s.enabled ? "on" : ""}" data-a="set-enabled" role="switch" aria-checked="${s.enabled}" aria-label="Notifications"></button>` : `<button class="btn brand" style="min-height:38px" data-a="enable">Activer</button>`}</div></div>
       <div class="field"><label>Fréquence</label><div class="seg">${[[30, "30 min"], [60, "1 h"], [120, "2 h"], [180, "3 h"], [240, "4 h"]].map(([m, l]) => `<button class="${s.interval_min === m ? "on" : ""}" data-a="set-int" data-v="${m}" aria-pressed="${s.interval_min === m}">${l}</button>`).join("")}</div></div>
       <div class="field"><label>Plage horaire</label><div class="hours"><select id="sh" aria-label="Début">${opts("start")}</select><span style="color:var(--muted)">à</span><select id="eh" aria-label="Fin">${opts("end")}</select></div></div>
@@ -1117,7 +1017,7 @@ Views["/impostazioni"] = () => {
       <div class="field"><label>Nouvelles cartes par semaine</label><div class="seg">${[20, 30, 50, 80].map((n) => `<button class="${Store.s.goals.newCards === n ? "on" : ""}" data-a="set-goal" data-k="newCards" data-v="${n}">${n}</button>`).join("")}</div></div>
       <div class="field"><label>Leçons validées par semaine</label><div class="seg">${[1, 2, 3, 5].map((n) => `<button class="${Store.s.goals.lessons === n ? "on" : ""}" data-a="set-goal" data-k="lessons" data-v="${n}">${n}</button>`).join("")}</div></div>
     </div>
-    <p class="p" style="margin-top:14px;font-size:12.5px">Chaque changement est enregistré aussitôt. Appareil ${Store.s.device.slice(0, 8)}.</p>`;
+    <p class="p" style="margin-top:14px;font-size:12.5px">Chaque changement est enregistré aussitôt. La progression reste sur cet appareil (${Store.s.device.slice(0, 8)}) ; les notifications s'adaptent à tes cartes faibles et au parcours suivi.</p>`;
 };
 
 /* ═══════════════════════════════════════════
@@ -1136,7 +1036,7 @@ function titleFor() {
 }
 function render({ top = false } = {}) {
   const prevMain = app.querySelector(".main"), scroll = top || !prevMain ? 0 : prevMain.scrollTop;
-  const ae = document.activeElement, typing = ae && ["inp", "email", "code"].includes(ae.id) && !ae.readOnly ? { id: ae.id, v: ae.value } : null, hadFocus = !!ae && ae !== document.body && app.contains(ae);
+  const ae = document.activeElement, typing = ae?.id === "inp" && !ae.readOnly ? { id: ae.id, v: ae.value } : null, hadFocus = !!ae && ae !== document.body && app.contains(ae);
   const view = Views[Router.path] || Views["/oggi"];
   const sub = !!Router.params.a || ["/impostazioni", "/sessione", "/progressi", "/percorsi"].includes(Router.path);
   const parent = Router.path === "/impostazioni" || Router.path === "/progressi" ? "/oggi" : Router.path === "/sessione" ? (G.sess?.back || "/oggi") : Router.path === "/percorsi" ? (Router.params.a ? "/percorsi" : "/studia") : Router.path;
@@ -1152,7 +1052,7 @@ function render({ top = false } = {}) {
   </div>`;
   const main = app.querySelector(".main"); if (scroll) main.scrollTop = scroll;
   const touch = "ontouchstart" in window;
-  const inp = document.getElementById("inp") || document.getElementById("email") || document.getElementById("code");
+  const inp = document.getElementById("inp");
   if (inp && !inp.readOnly) { if (typing && typing.id === inp.id && !top) { inp.value = typing.v; inp.focus(); } else if (!touch && inp.id === "inp") inp.focus(); }
   else if (!touch && hadFocus) app.querySelector("[data-enter]")?.focus();
   if (Router.path === "/giochi" && Router.params.a === "cruci" && G.st.c?.focus) { const el = app.querySelector(`.cell input[data-key="${G.st.c.focus}"]`); if (el && document.activeElement !== el) el.focus(); }
@@ -1175,11 +1075,6 @@ const Actions = {
   "set-goal": (d) => { Store.s.goals[d.k] = +d.v; Store.markState("goals"); Store.save(); render(); },
   "goals-edit": () => Router.go("/impostazioni"),
   reveal: (d) => { G.st.open ??= {}; G.st.open[d.id] = !G.st.open[d.id]; render(); },
-  async "auth-send"() { const A = G.st.auth, email = (document.getElementById("email")?.value || A.email || "").trim().toLowerCase(); if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { A.msg = "Adresse e-mail invalide."; render(); return; } A.email = email; A.busy = true; A.msg = ""; render(); try { await Auth.sendCode(email); A.step = "code"; toast("Code envoyé, regarde ta boîte mail"); } catch (e) { A.msg = e.message; } A.busy = false; render(); },
-  "auth-back": () => { const A = G.st.auth; A.step = "email"; A.msg = ""; render(); },
-  async "auth-verify"() { const A = G.st.auth, code = (document.getElementById("code")?.value || "").replace(/\s/g, ""); if (code.length < 6) { A.msg = "Entre le code à six chiffres."; render(); return; } A.busy = true; A.msg = ""; render(); try { await Auth.verify(A.email, code); A.step = "in"; A.busy = false; render(); toast("Connecté"); await Sync.full(); } catch (e) { A.msg = e.message; A.busy = false; render(); } },
-  async logout() { await Auth.logout(); G.st.auth = { step: "email", email: "", busy: false, msg: "" }; Store.s.dirty = { progress: [], state: [], activity: [] }; Store.s.syncAt = 0; Store.save(); try { await Api.call("/register", { unlink: true }); } catch (e) {} toast("Déconnecté"); render(); },
-  "sync-now": () => Sync.full(),
   session: (d) => Sess.today(d.scope),
   "sess-close": () => { const b = G.sess?.back || "/oggi"; G.sess = null; Router.go(b); },
   "sess-retry": () => { const s = G.sess; if (!s) return; Sess.check({ ids: s.pool || [], n: s.n || s.rounds.length, title: s.title, back: s.back, onDone: s.onDone }); },
@@ -1236,7 +1131,7 @@ app.addEventListener("click", (e) => {
   const a = e.target.closest('a[href^="#/"]'); if (a) { e.preventDefault(); Router.go(a.getAttribute("href").slice(1)); }
 });
 app.addEventListener("keydown", (e) => {
-  if (e.key === "Enter" && ["inp", "email", "code"].includes(e.target.id)) { e.preventDefault(); app.querySelector("[data-enter]")?.click(); }
+  if (e.key === "Enter" && e.target.id === "inp") { e.preventDefault(); app.querySelector("[data-enter]")?.click(); }
   if (e.target.matches(".cell input") && e.key === "Backspace") { const key = e.target.dataset.key, C = G.st.c; if ((C.cells[key] || "").length) return; e.preventDefault(); const p = Cw.entryFor(key); if (!p) return; const ks = cellsOf(p), i = ks.indexOf(key); if (i > 0) { C.cells[ks[i - 1]] = ""; Cw.paint(); Cw.focus(ks[i - 1]); } }
 });
 document.addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target === document.body) { e.preventDefault(); app.querySelector("[data-enter]")?.click(); } });
@@ -1252,15 +1147,13 @@ document.addEventListener("visibilitychange", () => { if (document.visibilitySta
 /* ═══════════════════════════════════════════
    13. Démarrage
    ═══════════════════════════════════════════ */
-Store.load(); Auth.load();
-const fromLink = Auth.fromUrl();
-if (DEMO) window.ImparaReset = () => { try { localStorage.removeItem(KEY); localStorage.removeItem(AUTH_KEY); } catch (e) {} Store.load(); Auth.load(); Demo.sent = null; Today.sent = []; Today.at = 0; G.key = ""; G.st = {}; G.sess = null; Router.go("/oggi"); render({ top: true }); Push.me(); };
+Store.load();
+if (DEMO) window.ImparaReset = () => { try { localStorage.removeItem(KEY); } catch (e) {} Store.load(); Demo.sent = null; Today.sent = []; Today.at = 0; G.key = ""; G.st = {}; G.sess = null; Router.go("/oggi"); render({ top: true }); Push.me(); };
 if (location.hash === "#oggi" || !location.hash) location.replace("#/oggi");
 Router.parse(); G.fresh(Router.path, Router.params);
 Push.init();
 render();
 Push.me();
-if (Auth.user) Sync.full().then(() => { if (fromLink) toast("Connecté"); });
 </script>
 </body>
 </html>
