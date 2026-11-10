@@ -27,7 +27,7 @@
   --bg:#EEF0F3; --card:#FFFFFF; --ink:#171A21; --ink-2:#4B5160; --muted:#636A79; --line:#E1E4EA; --line-2:#CFD4DD; --field:#8D94A3;
   --brand:#8E1B3C; --brand-2:#6E1230; --brand-soft:#F6E7EC; --on-brand:#FFFFFF; --brand-ink:#8E1B3C; --ok-ink:#1F6B41; --err-ink:#B02A2A;
   --gold:#D99A1E; --gold-soft:#FBF1DB; --ok:#2E8B57; --ok-soft:#E3F3EA; --info:#2456C2; --info-soft:#E4EBFA; --err:#D23C3C; --err-soft:#FBE4E4;
-  --c1:#B8325A; --c2:#2F62D6; --c3:#2E8B57; --c4:#B9800F; --tab-bg:#FFFFFF; --focus:#8E1B3C; --tile-ok:#27744A; --streak-fg:#7A5410; --tabs-h:58px;
+  --c1:#B8325A; --c2:#2F62D6; --c3:#2E8B57; --c4:#B9800F; --tab-bg:#FFFFFF; --focus:#8E1B3C; --tile-ok:#27744A; --ok-solid:#1F6B41; --err-solid:#B02A2A; --streak-fg:#7A5410; --tabs-h:62px;
   --sans:'Plus Jakarta Sans',system-ui,-apple-system,"Segoe UI",sans-serif; --serif:'Newsreader',Georgia,"Times New Roman",serif;
   --r-s:8px; --r-m:12px; --r-l:18px;
   --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
@@ -35,12 +35,12 @@
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --bg:#121419; --card:#1B1E25; --ink:#F1F2F5; --ink-2:#C2C6D0; --muted:#9BA1AF; --line:#2A2E38; --line-2:#3A3F4B; --field:#6B7282;
   --brand:#A82A50; --brand-2:#861A3A; --brand-soft:#2E1A21; --brand-ink:#E88AA8; --ok-ink:#5CC489; --err-ink:#F08A8A; --gold:#E2AA3A; --gold-soft:#2E2715; --ok:#3FA86D; --ok-soft:#17281E; --info:#5B86E8; --info-soft:#17213A; --err:#E25656; --err-soft:#331A1A;
-  --c1:#C94F76; --c2:#5B86E8; --c3:#3FA86D; --c4:#B98120; --tab-bg:#1B1E25; --focus:#E2AA3A; --tile-ok:#2E8B57; --streak-fg:#F2CC7A; color-scheme:dark;
+  --c1:#C94F76; --c2:#5B86E8; --c3:#3FA86D; --c4:#B98120; --tab-bg:#1B1E25; --focus:#E2AA3A; --tile-ok:#27744A; --streak-fg:#F2CC7A; color-scheme:dark;
 }}
 :root[data-theme="dark"]{
   --bg:#121419; --card:#1B1E25; --ink:#F1F2F5; --ink-2:#C2C6D0; --muted:#9BA1AF; --line:#2A2E38; --line-2:#3A3F4B; --field:#6B7282;
   --brand:#A82A50; --brand-2:#861A3A; --brand-soft:#2E1A21; --brand-ink:#E88AA8; --ok-ink:#5CC489; --err-ink:#F08A8A; --gold:#E2AA3A; --gold-soft:#2E2715; --ok:#3FA86D; --ok-soft:#17281E; --info:#5B86E8; --info-soft:#17213A; --err:#E25656; --err-soft:#331A1A;
-  --c1:#C94F76; --c2:#5B86E8; --c3:#3FA86D; --c4:#B98120; --tab-bg:#1B1E25; --focus:#E2AA3A; --tile-ok:#2E8B57; --streak-fg:#F2CC7A; color-scheme:dark;
+  --c1:#C94F76; --c2:#5B86E8; --c3:#3FA86D; --c4:#B98120; --tab-bg:#1B1E25; --focus:#E2AA3A; --tile-ok:#27744A; --streak-fg:#F2CC7A; color-scheme:dark;
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
@@ -66,7 +66,7 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .iconbtn{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--ink-2);background:var(--card);border:1px solid var(--line)}
 .content{flex:1;padding:4px 14px calc(78px + var(--sab));max-width:760px;width:100%}
 
-.tabs{position:absolute;left:0;right:0;bottom:0;z-index:20;background:var(--tab-bg);border-top:1px solid var(--line);display:flex;min-height:calc(var(--tabs-h) + var(--sab));padding:6px 6px calc(6px + var(--sab))}
+.tabs{position:absolute;left:0;right:0;bottom:0;z-index:20;background:var(--tab-bg);border-top:1px solid var(--line);display:flex;height:calc(var(--tabs-h) + var(--sab));padding:6px 6px calc(6px + var(--sab))}
 .tabs a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 2px 3px;color:var(--muted);font-size:11px;font-weight:700;text-decoration:none;border-radius:10px;position:relative}
 .tabs a.on{color:var(--brand-ink)}
 .tabs a.on::before{content:"";position:absolute;top:-6px;left:50%;width:28px;height:3px;margin-left:-14px;border-radius:0 0 3px 3px;background:var(--brand-ink)}
@@ -111,7 +111,7 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .row{display:flex;align-items:center;gap:12px;padding:10px 12px;min-height:54px;width:100%;border-top:1px solid var(--line);text-decoration:none;color:inherit}
 .row:first-child{border-top:0}
 .row .ic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--brand-soft);color:var(--brand-ink)}
-.row .ic.info{background:var(--info-soft);color:var(--info)} .row .ic.ok{background:var(--ok-soft);color:var(--ok-ink)} .row .ic.gold{background:var(--gold-soft);color:var(--gold)} .row .ic.muted{background:var(--bg);color:var(--muted)}
+.row .ic.info{background:var(--info-soft);color:var(--info)} .row .ic.ok{background:var(--ok-soft);color:var(--ok-ink)} .row .ic.gold{background:var(--gold-soft);color:var(--streak-fg)} .row .ic.muted{background:var(--bg);color:var(--muted)}
 .row .tx{flex:1;min-width:0}
 .row .tx b{display:block;font-size:15px;font-weight:700;line-height:1.25}
 .row .tx small{display:block;color:var(--muted);font-size:12px;margin-top:2px;line-height:1.3}
@@ -127,9 +127,9 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .item-main{flex:1;min-width:0;display:flex;align-items:flex-start;gap:10px;padding:10px 12px}
 .item>.spk{margin:7px 6px 0 0}
 .item .k{width:8px;height:8px;border-radius:50%;margin-top:9px;flex:none;background:var(--info)}
-.item .k.phrase{background:var(--brand)} .item .k.conj{background:var(--ok)}
+.item .k.phrase{background:var(--c1)} .item .k.conj{background:var(--ok)}
 .item .tx{flex:1;min-width:0}
-.item .tx .w{display:block;font-size:17px;line-height:1.3}
+.item .tx .w{display:block;font-size:19px;line-height:1.3}
 .item .tx .tr{display:block;font-size:14px;color:var(--ink-2);margin-top:3px;line-height:1.4}
 .item .tx .tr i{color:var(--muted);font-style:italic}
 .item .tx .hint{display:block;font-size:12px;color:var(--muted);margin-top:2px}
@@ -137,16 +137,18 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .chip{display:inline-block;font-size:12px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--bg);color:var(--ink-2);margin-top:4px}
 
 .seg{display:flex;background:var(--bg);border-radius:10px;padding:3px;gap:3px}
-.seg button{flex:1;min-height:40px;border-radius:8px;font-size:13px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;justify-content:center}
-.seg button.on{background:var(--card);color:var(--brand-ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg button{flex:1;min-height:40px;border-radius:8px;font-size:13px;font-weight:700;color:var(--ink-2);display:flex;align-items:center;justify-content:center;gap:5px}
+.seg button svg.i{width:14px;height:14px;stroke-width:2.6}
+.seg button.on{background:var(--brand-soft);color:var(--brand-ink);box-shadow:inset 0 0 0 1.5px var(--brand-ink)}
 .field{padding:12px;border-top:1px solid var(--line)}
 .field:first-child{border-top:0}
-.field label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px}
+.field .flab{display:block;font-size:13px;font-weight:700;color:var(--muted);margin-bottom:8px}
 .field .inl{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.field .inl label{margin:0;color:var(--ink);font-size:15px;font-weight:600}
-.sw{width:50px;height:30px;border-radius:15px;background:var(--line-2);position:relative;flex:none;transition:background .15s}
+.field .inl .flab{margin:0;color:var(--ink);font-size:15px;font-weight:600}
+.sw{width:50px;height:30px;border-radius:15px;background:var(--field);position:relative;flex:none;transition:background .15s}
 .sw::after{content:'';position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.2);transition:left .15s}
 .sw.on{background:var(--ok)} .sw.on::after{left:23px}
+.sw::before{content:"";position:absolute;inset:-7px -4px}
 .hours{display:flex;align-items:center;gap:8px}
 .hours span{color:var(--muted)}
 .hours select{flex:1;min-height:44px;font-size:16px;border:1px solid var(--field);border-radius:10px;background:var(--card);padding:0 10px;font-weight:600;-webkit-appearance:none;appearance:none}
@@ -157,37 +159,45 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .fcard.flip{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;border-radius:var(--r-l);padding:26px 22px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
 .face.front{background:var(--card);border:1px solid var(--line);box-shadow:0 12px 32px -18px rgba(23,26,33,.35)}
-.face.back{background:linear-gradient(160deg,var(--brand),var(--brand-2));color:#fff;transform:rotateY(180deg);box-shadow:0 14px 36px -16px rgba(142,27,60,.6)}
-.face .lv{position:absolute;top:14px;left:16px;font-size:12px;font-weight:700;color:var(--muted)}
-.face.back .lv{color:rgba(255,255,255,.75)}
-.face .word{font-family:var(--serif);font-size:clamp(28px,8vw,40px);line-height:1.12;font-weight:500;letter-spacing:-.01em}
+.face.back{background:var(--card);border:1px solid var(--line);transform:rotateY(180deg);box-shadow:0 12px 32px -18px rgba(23,26,33,.35)}
+.face.back::before{content:"";position:absolute;inset:6px;border:1.5px solid var(--brand-ink);border-radius:13px;pointer-events:none}
+.face .lv{position:absolute;top:16px;left:18px;font-size:12px;font-weight:700;color:var(--muted);display:flex;align-items:center;gap:8px}
+.boxes{display:inline-flex;gap:3px} .boxes i{width:6px;height:6px;border-radius:50%;background:var(--line-2)} .boxes i.on{background:var(--brand-ink)}
+.face .word{font-family:var(--serif);font-size:clamp(34px,11.1cqw,56px);line-height:1.08;font-weight:500;letter-spacing:-.015em;overflow-wrap:anywhere}
+.face .word.mid{font-size:clamp(28px,8.4cqw,40px);line-height:1.12}
+.face .word.long{font-size:clamp(22px,6.5cqw,32px);line-height:1.2;letter-spacing:-.005em}
 .face.front .word{color:var(--brand-ink)}
-.face .ex{margin-top:14px;font-size:15px;line-height:1.5;color:var(--ink-2);font-family:var(--serif);font-style:italic}
-.face.back .ex{color:rgba(255,255,255,.88)}
-.face .fr{font-size:clamp(20px,5.6vw,26px);font-weight:700;line-height:1.25}
-.face .tap{position:absolute;bottom:14px;left:0;right:0;font-size:12px;color:var(--muted);font-weight:600}
-.face.back .tap{color:rgba(255,255,255,.7)}
+.face .ex{margin-top:16px;font-size:18px;line-height:1.4;color:var(--ink-2);font-family:var(--serif);font-style:italic}
+.face.back .ex{font-family:var(--sans);font-style:normal;font-size:15px;line-height:1.45}
+.face .fr{font-size:clamp(21px,6.1cqw,28px);font-weight:700;line-height:1.25;overflow-wrap:anywhere}
+.face .tap{position:absolute;bottom:16px;left:0;right:0;font-size:12px;color:var(--muted);font-weight:600}
 @media (prefers-reduced-motion:reduce){.fcard{transition:none}}
 .under{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);font-weight:600;padding:0 4px}
 
 /* ───────── Quiz / exercices ───────── */
-.q{font-family:var(--serif);font-size:clamp(22px,6vw,30px);line-height:1.25;margin:14px 0 14px;text-align:center}
-.q.sans{font-family:var(--sans);font-weight:800;font-size:clamp(19px,5vw,24px);letter-spacing:-.01em}
+.q{font-family:var(--serif);font-size:clamp(22px,6cqw,30px);line-height:1.25;margin:14px 0 14px;text-align:center}
+.q.sans{font-family:var(--sans);font-weight:700;font-size:clamp(18px,4.8cqw,22px);letter-spacing:-.01em}
 .lead{text-align:center;color:var(--muted);font-size:13px;font-weight:600;margin-top:10px}
 .opts{display:flex;flex-direction:column;gap:8px}
 .opt{min-height:50px;padding:12px 14px;border-radius:var(--r-m);background:var(--card);border:1px solid var(--line);font-size:16px;width:100%;display:flex;align-items:center;gap:10px}
 .opt .n{width:24px;height:24px;border-radius:7px;background:var(--bg);color:var(--muted);font-size:12px;font-weight:800;display:grid;place-items:center;flex:none}
-.opt.right{background:var(--ok-soft);border-color:var(--ok)} .opt.right .n{background:var(--ok);color:#fff}
-.opt.wrong{background:var(--err-soft);border-color:var(--err)} .opt.wrong .n{background:var(--err);color:#fff}
+.opt .it{font-size:19px;line-height:1.25}
+.opt .n svg.i{width:14px;height:14px;stroke-width:3.2}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)} .opt.right .n{background:var(--ok-solid);color:#fff}
+.opt.wrong{background:var(--err-soft);border-color:var(--err)} .opt.wrong .n{background:var(--err-solid);color:#fff}
 .opt:disabled{opacity:1}
 .tin{width:100%;min-height:52px;padding:0 14px;border:1.5px solid var(--field);border-radius:var(--r-m);background:var(--card);font-family:var(--serif);font-size:22px;text-align:center}
-.tin:focus{border-color:var(--brand)}
+.tin:focus,.tin:focus-visible{outline:none;border-color:var(--brand-ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand-ink) 22%,transparent)}
+.tin::placeholder{color:var(--muted);opacity:1}
+.tin[data-locked]{caret-color:transparent}
 .tin.right{border-color:var(--ok);background:var(--ok-soft)} .tin.wrong{border-color:var(--err);background:var(--err-soft)}
-.fb{margin-top:12px;padding:10px 12px;border-radius:var(--r-m);font-size:14px;line-height:1.45;background:var(--card);border:1px solid var(--line)}
+.fb{margin-top:12px;padding:10px 12px;border-radius:var(--r-m);font-size:14px;line-height:1.45;background:var(--card);border:1px solid var(--line);display:flex;align-items:flex-start;gap:8px}
+.fb>div{flex:1;min-width:0}
 .fb.good{border-color:var(--ok);background:var(--ok-soft)} .fb.bad{border-color:var(--err);background:var(--err-soft)}
-.fb b{font-family:var(--serif);font-size:16px}
+.fb b{font-family:var(--serif);font-size:19px;font-weight:500;line-height:1.3}
+.exl{display:block;margin-top:6px} .exl .it{display:block;font-size:17px;line-height:1.4} .exl .tr{display:block;font-size:13px;color:var(--ink-2);margin-top:1px}
 .prog{height:4px;background:var(--line);border-radius:2px;overflow:hidden;margin:6px 0 4px}
-.prog i{display:block;height:100%;background:var(--brand);transition:width .25s}
+.prog i{display:block;height:100%;background:var(--brand-ink);transition:width .25s}
 .meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);font-weight:600}
 .score{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--ink)}
 .result{text-align:center;padding:26px 16px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);margin-top:14px}
@@ -197,14 +207,19 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 /* ───────── Grammatica ───────── */
 .lesson p{color:var(--ink-2);font-size:15px;line-height:1.55;margin:6px 0 12px}
 .gtab{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden;margin:10px 0}
-.gtab th{background:var(--bg);color:var(--muted);font-weight:700;text-align:left;padding:7px 10px;font-size:12px}
-.gtab td{padding:7px 10px;border-top:1px solid var(--line)} .gtab td:first-child{color:var(--muted);font-weight:600}
-.gtab td:not(:first-child){font-family:var(--serif);font-size:15px}
+.gtab th{background:var(--bg);color:var(--muted);font-weight:700;text-align:left;padding:7px 8px;font-size:12px}
+.gtab td{padding:7px 8px;border-top:1px solid var(--line);font-family:var(--serif);font-size:17px;line-height:1.3;color:var(--ink)}
+.gtab td.lab{font-family:var(--sans);font-size:13px;color:var(--muted);font-weight:600}
+.gtab td.fr{font-family:var(--sans);font-size:14px;color:var(--ink-2)}
+.gtab.dense td{font-size:16px} .gtab.dense td.lab{font-size:12px} .gtab.dense :is(th,td){padding:7px 6px}
+.nb{white-space:nowrap}
 .gscroll{overflow-x:auto}
-.gex{border-left:3px solid var(--gold);padding:8px 12px;margin:8px 0;background:var(--card);border-radius:0 10px 10px 0}
-.gex .it{font-size:16px} .gex small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.gscroll.over{-webkit-mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 28px),transparent)}
+.gex{border-left:3px solid var(--gold);padding:8px 6px 8px 12px;margin:8px 0;background:var(--card);border-radius:0 10px 10px 0;display:grid;grid-template-columns:1fr auto;column-gap:6px;align-items:start}
+.gex .it{font-size:17px;line-height:1.4} .gex small{display:block;grid-column:1;color:var(--muted);font-size:13px;margin-top:2px}
+.gex .spk{grid-column:2;grid-row:1 / span 2;margin-top:-4px}
 .hero{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-m);background:linear-gradient(140deg,var(--brand),var(--brand-2));color:#fff;text-decoration:none;margin:6px 0 4px}
-.hero .ic{width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:grid;place-items:center}
+.hero .ic{flex:none;width:40px;height:40px;border-radius:11px;background:rgba(255,255,255,.16);display:grid;place-items:center}
 .hero b{display:block;font-size:16px} .hero small{font-size:13px;opacity:.85}
 
 /* ───────── Giochi ───────── */
@@ -236,7 +251,7 @@ svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.9;stro
 .pairs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pcol{display:flex;flex-direction:column;gap:8px}
 .pb{min-height:50px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);font-weight:600;font-size:14px;display:flex;align-items:center;justify-content:center;text-align:center}
-.pb.it{font-family:var(--serif);font-weight:500;font-size:16px}
+.pb.it{font-family:var(--serif);font-weight:500;font-size:18px;line-height:1.2}
 .pb.sel{border-color:var(--gold);background:var(--gold-soft)} .pb.done{background:var(--ok-soft);border-color:var(--ok);color:var(--ok-ink)} .pb.err{background:var(--err-soft);border-color:var(--err)}
 .toast{position:absolute;left:50%;bottom:calc(84px + var(--sab));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:14px;font-weight:600;z-index:50;max-width:90vw;text-align:center;box-shadow:0 8px 24px -10px rgba(0,0,0,.4)}
 .empty{text-align:center;color:var(--muted);padding:26px 12px;font-size:14px;line-height:1.5}
@@ -247,10 +262,8 @@ details.day summary::-webkit-details-marker{display:none}
 /* ───────── Nouveautés v3 : prononciation, menù, percorsi, progressi, compte ───────── */
 .spk{width:40px;height:40px;border-radius:9px;display:grid;place-items:center;color:var(--muted);flex:none}
 .spk svg.i{width:18px;height:18px} .spk:active{color:var(--brand-ink)}
-.spk.onscene{position:absolute;right:10px;top:10px;z-index:3;background:var(--card);border:1px solid var(--line)}
-.spk.inline{display:inline-grid;width:28px;height:28px;vertical-align:middle;margin-left:4px}
-.spk.inline,.fb .spk{position:relative} .spk.inline::after,.fb .spk::after{content:"";position:absolute;inset:-8px}
-.fb .spk{display:inline-grid;width:28px;height:28px;vertical-align:middle}
+.spk.onscene{position:absolute;right:14px;top:14px;z-index:3;background:var(--card);border:1px solid var(--line)}
+.fb .spk{width:40px;height:36px;margin:-4px -8px -4px 0}
 .scene{position:relative}
 .menu .row{min-height:52px} .menu .course{width:74px;flex:none;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--brand-ink)}
 .row.done .tx b{color:var(--muted)} .row.done .course{color:var(--muted)}
@@ -273,13 +286,14 @@ svg.i.okc{color:var(--ok-ink)}
 .vcol{flex:1;max-width:24px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;position:relative;border-radius:4px}
 .vcol.win{background:var(--bg)}
 .vstack{display:flex;flex-direction:column-reverse;gap:2px;transform-origin:bottom;width:100%}
-.vseg{display:block;width:100%;min-height:2px} .vstack .vseg:last-child{border-radius:4px 4px 0 0}
+.vseg{display:block;width:100%;min-height:2px;background:var(--c)} .vstack .vseg:last-child{border-radius:4px 4px 0 0}
 .vcol:hover .vstack,.vcol:focus-visible .vstack{filter:brightness(1.12)}
 .vlab{display:flex;gap:3px;margin-top:4px} .vlab small{flex:1;max-width:24px;text-align:center;font-size:11px;color:var(--muted);font-weight:700;white-space:nowrap;overflow:visible}
 .legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink-2);margin-top:10px;font-weight:600}
-.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--c)} .legend .n{color:var(--muted)}
+.hatch{background:repeating-linear-gradient(45deg,var(--c) 0 2.5px,color-mix(in srgb,var(--c) 30%,var(--card)) 2.5px 5px)!important}
 .hstack{display:flex;height:14px;gap:2px;transform-origin:left;border-radius:4px;overflow:hidden}
-.hstack i{display:block;height:100%;min-width:2px}
+.hstack i{display:block;height:100%;min-width:2px;background:var(--c)}
 .hbar .track i{transform-origin:left}
 .hbar.c3{grid-template-columns:118px 1fr 52px}
 .anim .vstack{animation:growy .7s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s)}
@@ -352,21 +366,21 @@ svg.i.okc{color:var(--ok-ink)}
 .stat.hot b{color:var(--brand-ink)}
 .stat:active{background:var(--bg)}
 /* Menù del giorno : la carte d'une trattoria (filet intérieur, plats en italique, pointillés jusqu'à la portion) */
-.carta{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:19px 17px 15px;position:relative;box-shadow:0 16px 36px -28px rgba(23,26,33,.5)}
-.carta::before{content:"";position:absolute;inset:5px;border:1px solid var(--line);border-radius:13px;pointer-events:none}
+.carta{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:17px 17px 15px;position:relative;box-shadow:0 16px 36px -28px rgba(23,26,33,.5)}
+.carta::before{content:"";position:absolute;inset:5px;border:1px solid color-mix(in srgb,var(--brand-ink) 24%,var(--line));border-radius:13px;pointer-events:none}
 .carta>*{position:relative}
 .carta header{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:4px}
 .carta h2{font-size:26px;font-style:italic;font-weight:500;letter-spacing:-.01em;color:var(--brand-ink);line-height:1.15}
 .carta header span{font-size:13px;font-weight:700;color:var(--muted)}
-.carta ol{list-style:none;padding:0;margin:0 0 12px}
-.course{display:block;width:100%;padding:9px 0 10px;border-top:1px solid var(--line);text-decoration:none;color:inherit;min-height:58px}
+.carta ol{list-style:none;padding:0;margin:0 0 10px}
+.course{display:block;width:100%;padding:7px 0 8px;border-top:1px solid var(--line);text-decoration:none;color:inherit;min-height:48px}
 .carta li:first-child .course{border-top:0}
 .c-name{display:block;font-style:italic;font-size:14px;color:var(--brand-ink);line-height:1.25}
-.c-line{display:flex;align-items:flex-end;gap:8px}
+.c-line{display:flex;flex-wrap:wrap;align-items:flex-end;gap:0 8px}
 .c-line b{font-size:16px;font-weight:700;line-height:1.3;min-width:0}
 .c-line b.it{font-weight:500;font-size:18px;line-height:1.25}
-.c-dots{flex:1;min-width:14px;border-bottom:2px dotted var(--line-2);margin-bottom:6px}
-.c-val{flex:none;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-2);line-height:1.3}
+.c-dots{flex:1 1 40px;min-width:40px;border-bottom:2px dotted var(--field);opacity:.7;margin-bottom:6px}
+.c-val{flex:none;margin-left:auto;font-family:var(--serif);font-style:italic;font-size:15px;color:var(--ink-2);line-height:1.3}
 .c-val svg.i{width:18px;height:18px;vertical-align:-3px}
 .course small{display:block;font-size:13px;color:var(--muted);margin-top:1px;line-height:1.35}
 .course.done .c-name,.course.done .c-line b{color:var(--muted)}
@@ -381,25 +395,45 @@ svg.i.okc{color:var(--ok-ink)}
 /* Écrans d'exercice : le contenu occupe la hauteur, l'action principale reste en bas, au-dessus des onglets */
 .content.fill{display:flex;flex-direction:column;padding-bottom:calc(var(--tabs-h) + var(--sab))}
 .fill{flex:1;display:flex;flex-direction:column;min-height:0}
-.fill .scene{flex:1;min-height:240px;max-height:540px;display:flex}
+.fill .scene{flex:1;min-height:240px;max-height:460px;width:100%;max-width:560px;margin:8px auto 10px;display:flex}
+.fill:has(>.scene)>:first-child{margin-top:auto}
+.fill .scene~.dock{margin-top:0}
 .fill .fcard{height:auto;flex:1}
-.dock{margin-top:auto;position:sticky;bottom:calc(var(--tabs-h) + var(--sab));padding:16px 0 10px;background:linear-gradient(to top,var(--bg) 80%,transparent);z-index:5}
+.dock{margin-top:auto;position:sticky;bottom:calc(var(--tabs-h) + var(--sab));padding:14px 0 18px;background:linear-gradient(to top,var(--bg) 80%,transparent);z-index:5}
 .dock .btnrow{margin-top:0} .dock .btn{min-height:52px;font-size:16px}
 .shell.focus .tabs{display:none}
 .shell.focus .content.fill{padding-bottom:var(--sab)}
 .shell.focus .dock{bottom:var(--sab)}
 .shell.focus .toast{bottom:calc(84px + var(--sab))}
-.scene{touch-action:pan-y;transition:transform .25s cubic-bezier(.2,.7,.2,1);animation:cardin .28s cubic-bezier(.2,.7,.2,1) backwards}
+.scene{touch-action:pan-y pinch-zoom;transition:transform .25s cubic-bezier(.2,.7,.2,1);animation:cardin .28s cubic-bezier(.2,.7,.2,1) backwards}
 @keyframes cardin{from{opacity:0;transform:translateY(10px) scale(.985)}}
 .scene[data-swipe="right"] .face{box-shadow:0 0 0 3px var(--ok)}
 .scene[data-swipe="left"] .face{box-shadow:0 0 0 3px var(--err)}
 .fb{animation:fbin .22s ease backwards} @keyframes fbin{from{opacity:0;transform:translateY(6px)}}
+/* ───────── v4.1 : réponses en bas sous le pouce, bouton de suite à place fixe, écrans de fin ancrés ───────── */
+.bar h1{outline:none}
+.h3 h2,.h4 h3{font:inherit;color:inherit;letter-spacing:inherit}
+.btn.line{background:transparent;border-color:var(--brand-ink);color:var(--brand-ink)}
+.fill>:is(.opts,.letters,.pairs){margin-top:auto;padding-top:14px}
+.fill>:is(.opts,.letters,.pairs)~.dock{margin-top:0}
+.fill>.result.solo{margin-block:auto}
+.dock.float{margin-top:12px}
+.missed .item-main{padding:9px 12px} .missed .tx .tr{margin-top:1px}
+.carta>.btn{position:sticky;bottom:calc(var(--tabs-h) + var(--sab) + 12px);z-index:2;box-shadow:0 0 0 7px var(--card)}
+.course small{margin-top:0}
 @container shell (min-width:900px){
   .bar,.content{margin-inline:auto;width:100%}
   .content.fill{padding-bottom:24px}
   .fill{flex:none}
-  .fill .scene{flex:none;height:400px}
+  .fill .scene{flex:none;height:400px;margin:8px auto 10px}
+  .fill:has(>.scene)>:is(.meta,.prog,.under,.dock){width:100%;max-width:560px;margin-inline:auto}
   .dock{position:static;margin-top:4px;padding-top:12px;background:none}
+  .dock.float{position:sticky;bottom:0;margin-top:12px;padding-bottom:14px;background:linear-gradient(to top,var(--bg) 80%,transparent)}
+  .carta>.btn{bottom:16px}
+  .fill>:is(.opts,.letters,.pairs){padding-top:0}
+  .fill:has(>.opts)>.fb{order:1} .fill:has(>.opts)>.dock{order:2}
+  .fill>.result.solo{margin-block:14px 0}
+  .fill:has(>.scene)>:first-child{margin-top:0}
 }
 @container shell (min-width:1100px){
   .bar:has(+ .content.wide),.content.wide{max-width:1100px}
@@ -418,7 +452,7 @@ svg.i.okc{color:var(--ok-ink)}
 /* ═══════════════════════════════════════════
    0. Contenu, utilitaires
    ═══════════════════════════════════════════ */
-const APP_VERSION = "4.0";
+const APP_VERSION = "4.1";
 const { CATEGORIES, WORDS, PHRASES, PERSONS, CONJ, PASSATO, LESSONS, VERB_FR, PERCORSI, EXPLAINERS = [] } = JSON.parse(document.getElementById("content").textContent);
 const EXPL = Object.fromEntries(EXPLAINERS.map((x) => [x.id, x]));
 const CARDS = [...WORDS, ...PHRASES];
@@ -452,6 +486,8 @@ const acceptedAnswers = (w) => {
 };
 const shortClue = (fr) => fr.split("—")[0].split("(")[0].split(";")[0].trim();
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+// Tout texte italien passe par ici : police à empattements et lang="it" (le lecteur d'écran change de voix)
+const ita = (t, cls = "") => `<span class="it${cls ? " " + cls : ""}" lang="it">${esc(t)}</span>`;
 const plural = (n, s, p) => n > 1 ? p : s;
 const tz = () => Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Rome";
 const isPhrase = (c) => c.cat === "libro" || c.cat === "dialoghi";
@@ -604,7 +640,7 @@ const Store = {
   weak() { const sc = (w) => { const p = this.s.progress[w.id]; return (p.fails || 0) + (p.lapses || 0) * 2; }; // En difficulté tant que la carte n'est pas consolidée (boîte 3) : la liste se vide quand on progresse
     return CARDS.filter((w) => { const p = this.s.progress[w.id]; return p && (p.box || 0) < 3 && (p.fails >= 2 || p.lapses >= 1 || (p.fails >= 1 && !p.box)); }).sort((a, b) => sc(b) - sc(a)); },
   lessonsDone(track) { return LESSONS.filter((l) => (!track || l.track === track) && (this.s.grammar[l.id] || 0) >= l.quiz.length).length; },
-  boxLabel(id) { return ["nouvelle", "vue", "en cours", "presque acquise", "acquise"][this.s.progress[id]?.box || 0]; },
+  boxLabel(id) { const p = this.s.progress[id]; return !p?.seen ? "nouvelle" : ["à revoir", "vue", "en cours", "presque acquise", "acquise"][p.box || 0]; },
   weekStart() { const d = new Date(); d.setHours(12, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return dayKey(d); },
   week() { const from = this.weekStart(), out = { answers: 0, correct: 0, newCards: 0, lessons: 0 }; for (const [k, a] of Object.entries(this.s.activity)) if (k >= from) for (const f of Object.keys(out)) out[f] += a[f] || 0; return out; },
   lessonValidated(id) { const a0 = this.s.activity[dayKey()]; if (!a0?.lessonsIds?.includes(id)) { this.activity({ lessons: 1 }); const a = this.s.activity[dayKey()]; a.lessonsIds = [...(a.lessonsIds || []), id]; } this.save(); Sync.schedule(); },
@@ -757,7 +793,10 @@ function cleanStats(d) {
     cron: { ok: n(cron.ok), failed: n(cron.failed), last_run: validDate(cron.last_run) } };
 }
 let toastT = null;
-function toast(msg) { let el = document.getElementById("toast"); if (!el) { el = document.createElement("div"); el.id = "toast"; el.className = "toast"; document.getElementById("app").appendChild(el); } el.textContent = msg; el.style.display = "block"; clearTimeout(toastT); toastT = setTimeout(() => { el.style.display = "none"; }, 3200); }
+function toast(msg) { let el = document.getElementById("toast"); if (!el) { el = document.createElement("div"); el.id = "toast"; el.className = "toast"; document.getElementById("app").appendChild(el); } el.textContent = msg; el.style.display = "block"; clearTimeout(toastT); toastT = setTimeout(() => { el.style.display = "none"; }, 3200); announce(esc(msg)); }
+// Zone d'annonce permanente pour les lecteurs d'écran : corrections et messages y sont écrits (elle existe avant son contenu, l'annonce est fiable)
+let liveT = null;
+function announce(html) { const el = document.getElementById("live"); if (!el) return; el.textContent = ""; clearTimeout(liveT); liveT = setTimeout(() => { el.innerHTML = html; }, 60); }
 let settingsT = null;
 function settingsChanged() {
   Store.s.settingsDirty = !!Store.s.subscribed; Store.save(); render(); clearTimeout(settingsT);
@@ -871,37 +910,52 @@ const UI = {
     return `<${tag} class="row ${cls}">${ic ? (ic.startsWith('<svg class="ring') ? ic : `<span class="ic ${icCls}">${ic}</span>`) : ""}<span class="tx"><b>${title}</b>${sub ? `<small>${sub}</small>` : ""}</span><span class="end">${end || ""}${chev ? I.chev : ""}</span></${href ? "a" : "button"}>`;
   },
   spk: (text, cls = "") => `<button type="button" class="spk ${cls}" data-a="speak" data-text="${esc(text)}" aria-label="Écouter">${I.volume}</button>`,
+  // Les cinq boîtes de la répétition espacée : un point de plus à chaque révision réussie à échéance
+  boxes(id) { const p = Store.s.progress[id], b = p?.seen ? (p.box || 0) + 1 : 0; return `<span class="boxes" lang="fr" role="img" aria-label="${b ? `boîte ${b} sur 5` : "carte nouvelle"}">${[1, 2, 3, 4, 5].map((i) => `<i${i <= b ? ' class="on"' : ""}></i>`).join("")}</span>`; },
+  // Carte : le mot est dimensionné sur la carte (pas sur l'écran) ; la face visible est lue telle quelle, en italien au recto
   flash({ id, flipped, lv, it, ex, fr, exFr, action }) {
-    return `<div class="scene" data-key="${esc(id)}"><button type="button" class="fcard ${flipped ? "flip" : ""}" data-a="${action}" data-kbd=" " aria-pressed="${!!flipped}" aria-label="Carte : ${esc(flipped ? fr : it)}. Touche pour ${flipped ? "revenir à l'italien" : "voir la traduction"}">
-      <div class="face front"><span class="lv">${esc(lv)}</span><div class="word" lang="it">${esc(it)}</div>${ex ? `<div class="ex" lang="it">${esc(ex)}</div>` : ""}<span class="tap">Touche pour voir la traduction</span></div>
-      <div class="face back"><span class="lv">Français</span><div class="fr">${esc(fr)}</div>${exFr ? `<div class="ex">${esc(exFr)}</div>` : ""}<span class="tap">Touche pour revenir</span></div>
+    const size = it.length > 24 ? " long" : it.length > 17 ? " mid" : "";
+    return `<div class="scene" data-key="${esc(id)}"><button type="button" class="fcard ${flipped ? "flip" : ""}" data-a="${action}" data-kbd=" "${flipped ? "" : ' lang="it"'}>
+      <div class="face front"${flipped ? ' aria-hidden="true"' : ""}><span class="lv">${esc(lv)}${this.boxes(id)}</span><div class="word${size}">${esc(it)}</div>${ex ? `<div class="ex">${esc(ex)}</div>` : ""}<span class="tap" lang="fr" aria-hidden="true">Touche pour voir la traduction</span></div>
+      <div class="face back" lang="fr"${flipped ? "" : ' aria-hidden="true"'}><span class="lv">Français</span><div class="fr">${esc(fr)}</div>${exFr ? `<div class="ex">${esc(exFr)}</div>` : ""}<span class="tap" aria-hidden="true">Touche pour revenir</span></div>
     </button>${this.spk(it, "onscene")}</div>`;
   },
   meta: (left, right) => `<div class="meta"><span>${left}</span><span class="score">${right}</span></div>`,
   prog: (pct) => `<div class="prog"><i style="width:${Math.max(0, Math.min(100, pct))}%"></i></div>`,
   big: (n, of) => `${n}<span style="font-size:22px;color:var(--muted)">/${of}</span>`,
-  result(big, title, sub, buttons) { return `<div class="result"><div class="big">${big}</div><div class="t">${title}</div>${sub ? `<div class="s">${sub}</div>` : ""}</div><div class="btnrow">${buttons}</div>`; },
-  opts(opts, action, state, serif = true) {
-    return `<div class="opts">${opts.map((o, i) => { let c = "opt"; if (state) { if (o.id === state.correct) c += " right"; else if (o.id === state.picked) c += " wrong"; } return `<button class="${c}" data-a="${action}" data-id="${esc(o.id)}" data-kbd="${i + 1}" ${state ? "disabled" : ""}><span class="n">${"ABCD"[i]}</span><span ${serif ? 'class="it" lang="it"' : ""}>${esc(o.label)}</span></button>`; }).join("")}</div>`;
+  // Écran de fin : le score, ce qu'il faut revoir (avec l'écoute), et les boutons ancrés en bas comme pendant l'exercice
+  result(big, title, sub, buttons, missed = []) {
+    const seen = new Set(), list = (missed || []).filter((m) => m && m.it && !seen.has(m.it) && seen.add(m.it));
+    return `<div class="fill"><div class="result${list.length ? "" : " solo"}"><div class="big">${big}</div><div class="t">${title}</div>${sub ? `<div class="s">${sub}</div>` : ""}</div>
+      ${list.length ? `<div class="h3"><h2>À revoir</h2><span>${list.length}</span></div><div class="list missed">${list.map((m) => `<div class="item"><div class="item-main"><span class="tx">${ita(m.it, "w")}${m.fr ? `<span class="tr">${esc(m.fr)}</span>` : ""}</span></div>${this.spk(m.it)}</div>`).join("")}</div>` : ""}
+      ${this.dock(`<div class="btnrow">${buttons}</div>`)}</div>`;
   },
-  tin: (value, state, placeholder = "Scrivi qui") => `<input id="inp" class="tin ${state ? (state.ok ? "right" : "wrong") : ""}" value="${esc(value)}" placeholder="${placeholder}" aria-label="Ta réponse en italien" autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="done" ${state ? "readonly" : ""}>`,
-  fb: (ok, html) => `<div class="fb ${ok ? "good" : "bad"}" role="status">${html}</div>`,
-  exLine: (w) => w?.ex ? `<br><span class="it">${esc(w.ex)}</span> <span style="color:var(--muted)">— ${esc(w.exFr)}</span>` : "",
-  next: (action, last) => `<button class="btn brand block" data-a="${action}" data-enter="1">${last ? "Résultat" : "Suivant"}</button>`,
+  // Réponses d'un QCM : après la réponse, la pastille porte ✓ ou ✗ (l'état ne tient pas qu'à la couleur)
+  opts(opts, action, state) {
+    return `<div class="opts">${opts.map((o, i) => { let c = "opt", mark = "ABCD"[i]; if (state) { if (o.id === state.correct) { c += " right"; mark = `${I.check}<span class="sr">Bonne réponse : </span>`; } else if (o.id === state.picked) { c += " wrong"; mark = `${I.x}<span class="sr">Ta réponse, fausse : </span>`; } } return `<button class="${c}" data-a="${action}" data-id="${esc(o.id)}" data-kbd="${i + 1}" ${state ? "disabled" : ""}><span class="n">${mark}</span>${ita(o.label)}</button>`; }).join("")}</div>`;
+  },
+  // Champ de réponse : une fois la réponse vérifiée il est verrouillé sans être désactivé, pour garder le focus — donc le clavier du téléphone — d'une question à l'autre
+  tin: (value, state, placeholder = "Scrivi qui") => `<input id="inp" class="tin ${state ? (state.ok ? "right" : "wrong") : ""}" value="${esc(value)}" placeholder="${placeholder}" lang="it" aria-label="Ta réponse en italien" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" enterkeyhint="${state ? "next" : "done"}" ${state ? 'data-locked="1" aria-readonly="true"' : ""}>`,
+  // Correction : ok = true / false, ou null pour une simple information ; say = texte italien à écouter
+  fb: (ok, html, say) => `<div class="fb${ok == null ? "" : ok ? " good" : " bad"}"><div>${html}</div>${say ? UI.spk(say) : ""}</div>`,
+  exLine: (w) => w?.ex ? `<span class="exl">${ita(w.ex)}${w.exFr ? `<span class="tr">${esc(w.exFr)}</span>` : ""}</span>` : "",
+  // Bouton de suite : présent dès la question (désactivé), il ne change jamais de place
+  next: (action, last, ready = true) => `<button class="btn brand block" data-a="${action}" data-enter="1"${ready ? "" : " disabled"}>${last ? "Résultat" : "Suivant"}</button>`,
   verify: (action, block = true) => `<button class="btn brand${block ? " block" : ""}" data-a="${action}" data-enter="1">Vérifier</button>`,
   fmtInterval: (m) => m < 60 ? `${m} min` : m % 60 === 0 ? `${m / 60} h` : `${Math.floor(m / 60)} h ${m % 60}`,
 };
 /* Graphiques : barres fines, bouts arrondis, 2 px d'espace entre segments, légende dès 2 séries, infobulles */
 const Chart = {
   // series : [{ key, label, color }] ; rows : [{ label, tipTitle, values: {key: n}, win? }]
-  vbars(series, rows, { labelEvery = 1, max } = {}) {
+  vbars(series, rows, { labelEvery = 1, max, label = "Graphique" } = {}) {
     const totals = rows.map((r) => series.reduce((a, s) => a + (r.values[s.key] || 0), 0)); max = max || Math.max(1, ...totals);
-    const cols = rows.map((r, i) => { const t = totals[i]; const segs = series.filter((s) => r.values[s.key] > 0).map((s) => `<i class="vseg" style="flex:${r.values[s.key]};background:${s.color}"></i>`).join(""); const tip = `${r.tipTitle || r.label}\n` + (series.length > 1 ? series.filter((s) => r.values[s.key]).map((s) => `${s.label} : ${r.values[s.key]}`).join("\n") : `${t}`); return `<div class="vcol ${r.win ? "win" : ""}" data-tip="${esc(tip.trim())}" tabindex="0" role="img" aria-label="${esc(tip.replace(/\n/g, ", "))}"><div class="vstack" style="height:${Math.round(t / max * 100)}%;--d:${(i * 0.02).toFixed(2)}s">${segs}</div></div>`; }).join("");
+    const sums = series.map((s) => ({ ...s, n: rows.reduce((a, r) => a + (r.values[s.key] || 0), 0) }));
+    const cols = rows.map((r, i) => { const t = totals[i]; const segs = series.filter((s) => r.values[s.key] > 0).map((s) => `<i class="vseg${s.hatch ? " hatch" : ""}" style="flex:${r.values[s.key]};--c:${s.color}"></i>`).join(""); const tip = `${r.tipTitle || r.label}\n` + (series.length > 1 ? series.filter((s) => r.values[s.key]).map((s) => `${s.label} : ${r.values[s.key]}`).join("\n") : `${t}`); return `<div class="vcol ${r.win ? "win" : ""}" data-tip="${esc(tip.trim())}"><div class="vstack" style="height:${Math.round(t / max * 100)}%;--d:${(i * 0.02).toFixed(2)}s">${segs}</div></div>`; }).join("");
     const labs = rows.map((r, i) => `<small>${i % labelEvery === 0 ? esc(r.label) : ""}</small>`).join("");
-    return `<div class="vbars">${cols}</div><div class="vlab">${labs}</div>${series.length > 1 ? this.legend(series) : ""}`;
+    return `<div class="vbars" role="img" aria-label="${esc(`${label} : ${sums.map((s) => `${s.label} ${s.n}`).join(", ")}`)}">${cols}</div><div class="vlab" aria-hidden="true">${labs}</div>${series.length > 1 ? this.legend(sums) : ""}`;
   },
-  legend: (series) => `<div class="legend">${series.map((s) => `<span><i style="background:${s.color}"></i>${esc(s.label)}${s.n != null ? ` <span style="color:var(--muted)">${s.n}</span>` : ""}</span>`).join("")}</div>`,
-  hstack(parts) { const total = parts.reduce((a, p) => a + p.n, 0) || 1; parts = parts.filter((p) => p.n > 0); return `<div class="hstack">${parts.map((p) => `<i style="flex:${p.n};background:${p.color}" data-tip="${esc(p.label)} : ${p.n} (${pct(p.n, total)})"></i>`).join("")}</div>${this.legend(parts)}`; },
+  legend: (series) => `<div class="legend">${series.map((s) => `<span><i class="${s.hatch ? "hatch" : ""}" style="--c:${s.color}"></i>${esc(s.label)}${s.n != null ? ` <span class="n">${s.n}</span>` : ""}</span>`).join("")}</div>`,
+  hstack(parts) { const total = parts.reduce((a, p) => a + p.n, 0) || 1; parts = parts.filter((p) => p.n > 0); return `<div class="hstack">${parts.map((p) => `<i class="${p.hatch ? "hatch" : ""}" style="flex:${p.n};--c:${p.color}" data-tip="${esc(p.label)} : ${p.n} (${pct(p.n, total)})"></i>`).join("")}</div>${this.legend(parts)}`; },
   hbars(rows, { color = "var(--c2)", cls = "", max } = {}) { max = max || Math.max(1, ...rows.map((r) => r.n)); return rows.map((r, i) => `<div class="hbar ${cls}" data-tip="${esc(r.tip || `${r.label} : ${r.n}`)}"><span>${esc(r.label)}</span><div class="track"><i style="width:${Math.max(1, Math.round(r.n / max * 100))}%;background:${r.color || color};--d:${(i * 0.04).toFixed(2)}s"></i></div><b>${r.text ?? r.n}</b></div>`).join(""); },
   kpi: (n, unit, sub) => `<div class="kpi"><b>${n}</b><span>${unit}</span></div>${sub ? `<div class="kpi-sub">${sub}</div>` : ""}`,
 };
@@ -990,7 +1044,8 @@ const Sess = {
       ? { type: "type", w, lead: "Écris en italien", prompt: w.fr, accepted: [...acceptedAnswers(w)], display: w.it }
       : { type: "mcq", w, lead: "Comment dit-on en italien", q: w.fr, opts: Distract.options(w), a: w.id, display: w.it });
     conjItems.forEach((it, i) => { const opts = i % 2 === 0 ? Distract.conjOptions(it.id, it.body) : []; rs.push(opts.length === 4 ? { type: "mcq", lead: "Choisis la bonne forme", q: it.title, opts, a: it.id, display: it.body, conj: it.id } : { type: "type", lead: `${it.extra} — écris la forme`, prompt: it.title, accepted: String(it.body || "").split(" / ").map(norm), display: it.body, conj: it.id }); });
-    return shuffle(rs).slice(0, n);
+    // D'abord reconnaître (QCM), puis produire (saisie) : le clavier du téléphone ne s'ouvre qu'une fois par session
+    const out = shuffle(rs).slice(0, n); return [...out.filter((r) => r.type === "mcq"), ...out.filter((r) => r.type !== "mcq")];
   },
   open(sess) { G.sess = { idx: 0, score: 0, answered: null, input: "", ...sess }; Router.go("/sessione"); },
   today(scope) {
@@ -1030,14 +1085,14 @@ const Xp = {
   lines(st) { return (Array.isArray(st.l) ? st.l : [st.l]).map((l) => this.parse(l)); },
   say(st) { return st.s || this.lines(st)[0].filter((t) => !t.cls.some((c) => c === "lab" || c === "fr" || c === "ko")).map((t) => t.text).join(" "); },
   dur(st) { return Math.min(7000, 2400 + st.c.length * 26); },
-  token: (t, enter) => `<span class="xt ${t.cls.join(" ")}${t.text.endsWith("'") ? " el" : ""}${enter ? " in" : ""}" ${t.id ? `data-k="${t.id}"` : ""}>${esc(t.text)}</span>`,
+  token: (t, enter) => `<span class="xt ${t.cls.join(" ")}${t.text.endsWith("'") ? " el" : ""}${enter ? " in" : ""}" ${t.id ? `data-k="${t.id}"` : ""}${t.cls.some((c) => c === "lab" || c === "fr") ? ' lang="fr"' : ""}>${esc(t.text)}</span>`,
   stageHtml(st, enter) { return this.lines(st).map((toks) => `<div class="xl">${toks.map((t) => this.token(t, enter)).join("")}</div>`).join(""); },
   restHtml(x, X, capIn) {
     const st = x.steps[X.i], n = x.steps.length, last = X.i + 1 >= n;
     return `<p class="cap ${capIn ? "in" : ""}" aria-live="polite">${esc(st.c)}</p>
       <div class="ctl"><button class="btn" data-a="xp-prev" ${X.i === 0 ? "disabled" : ""} aria-label="Étape précédente">${I.chevL}</button><button class="btn" data-a="xp-play" aria-label="${X.play ? "Pause" : "Lecture automatique"}" aria-pressed="${!!X.play}">${X.play ? I.pause : I.play}</button><div class="dots" aria-hidden="true">${x.steps.map((_, i) => `<i class="${i === X.i ? "on" : i < X.i ? "seen" : ""}"></i>`).join("")}</div>${UI.spk(this.say(st))}<button class="btn brand" data-a="xp-next" aria-label="${last ? "Recommencer" : "Étape suivante"}">${last ? I.refresh : I.chev}</button></div>`;
   },
-  html(x, X) { return `<section class="xs" aria-label="Spiegazione animata"><div class="xhead"><span class="t">${esc(x.title)}</span><span id="xcount">${X.i + 1} / ${x.steps.length}</span><button type="button" class="h3btn" data-a="xp-close" aria-label="Fermer la spiegazione">${I.x}</button></div><div class="stage" id="xstage">${this.stageHtml(x.steps[X.i], X.i === 0 && !reducedMotion())}</div><div id="xrest">${this.restHtml(x, X)}</div></section>`; },
+  html(x, X) { return `<section class="xs" aria-label="Spiegazione animata"><div class="xhead"><span class="t">${esc(x.title)}</span><span id="xcount">${X.i + 1} / ${x.steps.length}</span><button type="button" class="h3btn" data-a="xp-close" aria-label="Fermer la spiegazione">${I.x}</button></div><div class="stage" id="xstage" lang="it">${this.stageHtml(x.steps[X.i], X.i === 0 && !reducedMotion())}</div><div id="xrest">${this.restHtml(x, X)}</div></section>`; },
   open() { const x = this.current(); if (!x) return; G.st.xp = { i: 0, play: false }; render(); this.play(true); },
   close() { this.stop(); G.st.xp = null; render(); },
   // Passage à l'étape i : les jetons qui gardent leur id glissent, les autres entrent/sortent en fondu
@@ -1081,15 +1136,15 @@ const Views = {};
 
 const IT_DAYS = ["domenica", "lunedì", "martedì", "mercoledì", "giovedì", "venerdì", "sabato"], IT_MONTHS = ["gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"];
 const itDate = (d = new Date()) => `${IT_DAYS[d.getDay()]} ${d.getDate() === 1 ? "1º" : d.getDate()} ${IT_MONTHS[d.getMonth()]}`;
-const NEWS = ["Menù del giorno : un seul bouton, le prochain plat", "Cartes : boutons en bas, ou glisse à droite (lo so) et à gauche", "Réglages : sauvegarde de ta progression, thème clair ou sombre", "Ouverture immédiate, même sans réseau"];
+const NEWS = ["Quiz : les réponses sont en bas, sous le pouce, et « Suivant » ne change plus de place", "Saisie : le clavier reste ouvert d'une question à l'autre", "Fin d'exercice : la liste de ce qu'il faut revoir, avec l'écoute", "Italien plus grand partout, thème sombre plus lisible"];
 const courseVal = (c) => { const n = (k, one, many) => `${k} ${k === 1 ? one : many}`; return c.id === "antipasto" ? n(c.n, "carta", "carte") : c.id === "primo" ? n(c.ids.length, "parola", "parole") : c.id === "secondo" ? (c.tense ? "8 forme" : c.lesson ? "lezione" : "") : c.id === "contorno" ? "gioco" : "una frase"; };
 
 Views["/oggi"] = () => {
   const st = G.st, items = Today.items(), older = Today.older(), s = Store.s.settings, perm = Push.permission();
-  // Ce qui demande une action passe en bandeau ; l'état normal tient sur une ligne
-  let alert = "", status = "";
-  if (G.update) alert += `<div class="banner">${I.refresh}<div class="t">Une mise à jour est prête<small>Elle s'installe en rechargeant l'app.</small></div><button class="act" data-a="update-app">Recharger</button></div>`;
-  if (Store.recovered) alert += `<div class="banner warn">${I.cloud}<div class="t">Progression restaurée depuis la copie d'hier<small>L'enregistrement d'aujourd'hui était illisible.</small></div></div>`;
+  // Ce qui touche à l'app elle-même reste en tête ; notifications et nouveautés viennent après le menu, qui garde le haut de l'écran
+  let urgent = "", alert = "", status = "";
+  if (G.update) urgent += `<div class="banner">${I.refresh}<div class="t">Une mise à jour est prête<small>Elle s'installe en rechargeant l'app.</small></div><button class="act" data-a="update-app">Recharger</button></div>`;
+  if (Store.recovered) urgent += `<div class="banner warn">${I.cloud}<div class="t">Progression restaurée depuis la copie d'hier<small>L'enregistrement d'aujourd'hui était illisible.</small></div></div>`;
   if (!Push.supported()) alert += Push.isIOS && !Push.standalone()
     ? `<div class="banner warn">${I.phone}<div class="t">Installe l'app pour recevoir les notifications<ol class="steps"><li>Dans Safari, touche <b>Partager</b></li><li>Choisis <b>Sur l'écran d'accueil</b>, puis Ajouter</li><li>Ouvre Impara! depuis l'icône et active les notifications ici</li></ol></div></div>`
     : `<div class="banner warn">${I.bellOff}<div class="t">Ce navigateur ne gère pas les notifications<small>Utilise Safari (iPhone) ou Chrome / Edge (ordinateur).</small></div></div>`;
@@ -1102,9 +1157,15 @@ Views["/oggi"] = () => {
   // Menù del giorno : la carte d'une trattoria, un plat après l'autre, et un seul bouton — le prochain plat
   const m = Menu.today(), doneN = Object.keys(m.done).length, nextC = m.courses.find((c) => !m.done[c.id]);
   const tag = (c, cls, inner) => c.href ? `<a class="${cls}" href="#${c.href}">${inner}</a>` : `<button type="button" class="${cls}" data-a="${c.action}">${inner}</button>`;
-  const carta = `<section class="carta" aria-label="Menù del giorno"><header><h2 class="it">Menù del giorno</h2><span>${doneN} / 5</span></header>
-    <ol>${m.courses.map((c) => { const done = !!m.done[c.id], val = courseVal(c); return `<li>${tag(c, `course${done ? " done" : c === nextC ? " next" : ""}`, `<i class="c-name it">${c.name}</i><span class="c-line"><b${c.id === "dolce" ? ' class="it" lang="it"' : ""}>${esc(c.title)}</b><span class="c-dots" aria-hidden="true"></span><span class="c-val">${done ? `${I.check}<span class="sr">fait</span>` : esc(val)}</span></span>${c.sub ? `<small>${esc(c.sub)}</small>` : ""}`)}</li>`; }).join("")}</ol>
-    ${nextC ? tag(nextC, "btn brand block", `${doneN ? "Continuer" : "Commencer"} · ${nextC.name}`) : `<p class="carta-end it">Menù terminato. Complimenti!</p>`}</section>`;
+  const course = (c) => {
+    const done = !!m.done[c.id], next = c === nextC, dolce = c.id === "dolce", title = c.id === "primo" && c.ids?.length ? "Parole nuove" : c.title;
+    // Une ligne par plat ; le détail n'accompagne que le prochain plat, et la traduction du Dolce n'apparaît qu'une fois goûté
+    const sub = dolce ? (done ? c.sub : "") : next && c.id !== "antipasto" ? c.sub : "";
+    return `<li>${tag(c, `course${done ? " done" : next ? " next" : ""}`, `<i class="c-name it" lang="it">${c.name}</i><span class="c-line"><b${dolce ? ' class="it" lang="it"' : ""}>${esc(title)}</b><span class="c-dots" aria-hidden="true"></span><span class="c-val"${done ? "" : ' lang="it"'}>${done ? `${I.check}<span class="sr">fait</span>` : esc(courseVal(c))}</span></span>${sub ? `<small>${esc(sub)}</small>` : ""}`)}</li>`;
+  };
+  const carta = `<section class="carta" aria-label="Menù del giorno"><header><h2 class="it" lang="it">Menù del giorno</h2><span>${doneN} / 5</span></header>
+    <ol>${m.courses.map(course).join("")}</ol>
+    ${nextC ? tag(nextC, "btn brand block", `${doneN ? "Continuer" : "Commencer"} · ${nextC.name}`) : `<p class="carta-end it" lang="it">Menù terminato. Complimenti!</p>`}</section>`;
 
   const due = Store.due().length, week = Store.week();
   const stats = UI.stats([UI.stat(due, "à réviser", "/ripasso", due ? "hot" : ""), UI.stat(Store.mastered(), plural(Store.mastered(), "carte acquise", "cartes acquises"), "/progressi"), UI.stat(`${week.newCards}<small>/${Store.s.goals.newCards}</small>`, "nouvelles cette semaine", "/progressi")]);
@@ -1112,22 +1173,22 @@ Views["/oggi"] = () => {
   const itemRow = (x) => {
     const it = x.item; if (!it) return ""; const t = new Date(x.sent_at), k = it.id + x.sent_at, open = !!st.open?.[k], conj = it.kind === "conj";
     const body = conj ? `${esc(it.body)}<br><i>${esc(it.extra || "")}</i>` : `${esc(it.body)}${it.extra ? `<br><i>${esc(it.extra)}</i>` : ""}`;
-    return `<div class="item"><button type="button" class="item-main" data-a="reveal" data-id="${esc(k)}" aria-expanded="${open}"><span class="k ${esc(it.kind)}"></span><span class="tx"><span class="w it" lang="it">${esc(it.title)}</span>${open ? `<span class="tr">${body}</span>` : `<span class="hint">${conj ? "Touche pour la forme" : "Touche pour la traduction"}</span>`}</span><time>${t.getHours()}:${String(t.getMinutes()).padStart(2, "0")}</time></button>${UI.spk(conj ? it.body : it.title)}</div>`;
+    return `<div class="item"><button type="button" class="item-main" data-a="reveal" data-id="${esc(k)}" aria-expanded="${open}"><span class="k ${esc(it.kind)}"></span><span class="tx"><span class="w it" lang="it">${esc(it.title)}</span>${open ? `<span class="tr">${body}</span>` : `<span class="hint">${conj ? "verbe · touche pour la forme" : `${it.kind === "phrase" ? "phrase" : "mot"} · touche pour la traduction`}</span>`}</span><time>${t.getHours()}:${String(t.getMinutes()).padStart(2, "0")}</time></button>${UI.spk(conj ? it.body : it.title)}</div>`;
   };
   const byDay = {}; older.forEach((x) => (byDay[dayKey(x.sent_at)] ||= []).push(x));
   const longDay = (k) => { const [y, mo, d] = k.split("-").map(Number); return new Date(y, mo - 1, d).toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }); };
   const days = Object.keys(byDay).sort().reverse().slice(0, 7);
   const nToday = Math.min(12, new Set(items.map((x) => x.item?.id).filter(Boolean)).size);
   const received = !Store.s.subscribed ? "" : `<div>
-      <div class="h3"><span>Reçus aujourd'hui</span><button type="button" class="h3btn" data-a="refresh" aria-label="Actualiser" ${Today.loading ? "disabled" : ""}>${I.refresh}</button></div>
+      <div class="h3"><h2>Reçus aujourd'hui</h2><button type="button" class="h3btn" data-a="refresh" aria-label="Actualiser" ${Today.loading ? "disabled" : ""}>${I.refresh}</button></div>
       ${status}
       ${Today.error ? `<div class="banner warn">${I.cloud}<div class="t">${esc(Today.error)}<small>Les notifications déjà reçues restent visibles ; le reste de l'app fonctionne sans serveur.</small></div><button class="act" data-a="refresh">Réessayer</button></div>` : ""}
-      ${items.length ? `<div class="list">${items.map(itemRow).join("")}</div><div class="btnrow"><button class="btn brand block" data-a="session" data-scope="today">Esercizi di oggi (${nToday})</button></div>`
+      ${items.length ? `<div class="list">${items.map(itemRow).join("")}</div><div class="btnrow"><button class="btn line block" data-a="session" data-scope="today">Esercizi di oggi (${nToday})</button></div>`
         : Today.error ? "" : `<div class="list"><div class="empty">${Today.loading && !Today.at ? "Chargement…" : `${I.inbox}<br>Rien reçu pour l'instant. La prochaine notification suit ton rythme, ou touche <b>Tester</b>.`}</div></div>`}
       ${days.map((k, i) => `<details class="day" data-k="${k}" ${(st.days?.[k] ?? i === 0) ? "open" : ""}><summary><span>${esc(longDay(k))}</span><span>${byDay[k].length}</span></summary><div class="list">${byDay[k].map(itemRow).join("")}</div></details>`).join("")}
       ${days.length ? `<div class="btnrow"><button class="btn block" data-a="session" data-scope="week">Esercizi sulla settimana</button></div>` : ""}
     </div>`;
-  return `<p class="date it" lang="it">${itDate()}</p>${news}${alert}<div class="cols${received ? "" : " one"}"><div>${carta}${stats}</div>${received}</div>`;
+  return `<p class="date it" lang="it">${itDate()}</p>${urgent}<div class="cols${received ? "" : " one"}"><div>${carta}${stats}${news}${alert}</div>${received}</div>`;
 };
 
 Views["/sessione"] = () => {
@@ -1146,12 +1207,15 @@ Views["/sessione"] = () => {
     const title = s.kind === "check" ? (s.passed ? "Controllo superato" : "Non ancora") : s.score === n ? "Perfetto!" : s.score >= n * .6 ? "Molto bene" : "Si impara ripetendo";
     const sub = s.kind === "check" ? (s.passed ? "Étape validée." : "Il faut 80 % : revois les cartes et réessaie.") : s.onDone?.type === "step" ? "Étape validée." : "Les bonnes réponses font avancer tes cartes.";
     const again = s.kind === "today" ? `<button class="btn brand" data-a="session" data-scope="${s.scope}">Encore</button>` : s.kind === "check" && !s.passed ? `<button class="btn brand" data-a="sess-retry">Réessayer</button>` : "";
-    return UI.result(UI.big(s.score, n), title, sub, `${again}<button class="btn ${again ? "" : "brand"}" data-a="sess-close" data-enter="1">Terminer</button>`);
+    return UI.result(UI.big(s.score, n), title, sub, `${again}<button class="btn ${again ? "" : "brand"}" data-a="sess-close" data-enter="1">Terminer</button>`, s.missed);
   }
-  const r = s.rounds[s.idx], a = s.answered;
-  const body = r.type === "mcq" ? `<div class="q sans">${esc(r.q)}</div>${UI.opts(r.opts, "s-mcq", a && { picked: a.pick, correct: r.a })}` : `<div class="q sans">${esc(r.prompt)}</div>${UI.tin(s.input, a)}${a ? "" : `<div class="btnrow">${UI.verify("s-verify")}</div>`}`;
-  const fb = a ? UI.fb(a.ok, `${a.ok ? "Esatto." : `Peccato — la réponse : <b lang="it">${esc(r.display)}</b>`}${UI.exLine(r.w)} ${UI.spk(r.display)}`) : "";
-  return `<div class="fill">${UI.meta(`${esc(s.title)} · ${s.idx + 1} / ${n}`, `${s.score} pt`)}${UI.prog(s.idx / n * 100)}<p class="lead">${esc(r.lead)}</p>${body}${fb}${a ? UI.dock(UI.next("s-next", s.idx + 1 >= n)) : ""}</div>`;
+  const r = s.rounds[s.idx], a = s.answered, last = s.idx + 1 >= n;
+  const head = `${UI.meta(`${esc(s.title)} · ${s.idx + 1} / ${n}`, `${s.score} pt`)}${UI.prog(s.idx / n * 100)}<p class="lead">${esc(r.lead)}</p>`;
+  const fb = a ? UI.fb(a.ok, `${a.ok ? "Esatto." : `Peccato — la réponse : <b lang="it">${esc(r.display)}</b>`}${UI.exLine(r.w)}`, r.display) : "";
+  // QCM : question en haut, correction dessous, réponses en bas sous le pouce, « Suivant » toujours à la même place
+  if (r.type === "mcq") return `<div class="fill">${head}<div class="q sans">${esc(r.q)}</div>${fb}${UI.opts(r.opts, "s-mcq", a && { picked: a.pick, correct: r.a })}${UI.dock(UI.next("s-next", last, !!a))}</div>`;
+  // Saisie : correction et bouton sous le champ, au-dessus du clavier qui reste ouvert
+  return `<div class="fill">${head}<div class="q sans">${esc(r.prompt)}</div>${UI.tin(s.input, a)}${fb}<div class="btnrow">${a ? UI.next("s-next", last) : UI.verify("s-verify")}</div></div>`;
 };
 
 Views["/studia"] = () => {
@@ -1159,7 +1223,7 @@ Views["/studia"] = () => {
   if (!c) {
     const p = Percorsi.active();
     const hero = p ? `<a class="hero" href="#/percorsi/${p.id}"><span class="ic">${I.route}</span><span><b>${esc(p.title)}</b><small>Étape ${Math.min(Percorsi.progress(p) + 1, p.steps.length)} / ${p.steps.length} · ${esc(Percorsi.next(p)?.title || "terminé")}</small></span>${I.chev}</a>` : `<a class="hero" href="#/percorsi"><span class="ic">${I.route}</span><span><b>Percorsi</b><small>Des parcours guidés : Al lavoro, Vivere a Torino, Calcio, Verso il B1…</small></span>${I.chev}</a>`;
-    return `${hero}<div class="h3"><span>Thèmes</span><span>${CARDS.length} cartes</span></div><div class="list">${CATEGORIES.map((c) => { const ws = BY_CAT[c.id] || []; const done = ws.filter((w) => (Store.s.progress[w.id]?.box || 0) >= 4).length, seen = ws.filter((w) => Store.s.progress[w.id]?.seen).length; return UI.row({ href: `/studia/${c.id}`, ic: UI.ring(ws.length ? done / ws.length : 0), title: esc(c.label), sub: esc(c.desc), end: `${seen}/${ws.length}` }); }).join("")}</div>`;
+    return `${hero}<div class="h3"><h2>Thèmes</h2><span>${CARDS.length} cartes</span></div><div class="list">${CATEGORIES.map((c) => { const ws = BY_CAT[c.id] || []; const done = ws.filter((w) => (Store.s.progress[w.id]?.box || 0) >= 4).length, seen = ws.filter((w) => Store.s.progress[w.id]?.seen).length; return UI.row({ href: `/studia/${c.id}`, ic: UI.ring(ws.length ? done / ws.length : 0), title: esc(c.label), sub: esc(c.desc), end: `${seen}/${ws.length}` }); }).join("")}</div>`;
   }
   const ws = BY_CAT[cat] || []; if (!ws.length) return `<div class="empty">Aucune carte dans ce thème.</div>`;
   if (Store.s.lastCat !== cat) { Store.s.lastCat = cat; Store.save(); Sync.schedule(); }
@@ -1178,14 +1242,14 @@ Views["/percorsi"] = () => {
   const typeLabel = (s) => ({ vocab: `${s.to - s.from} mots`, phrases: "phrases", lesson: "leçon", conj: "conjugaison", check: `contrôle · ${s.n} questions` })[s.type];
   return `<div class="hero static"><span class="ic">${I.route}</span><span><b>${esc(p.title)}</b><small>${esc(p.desc)} · ${Percorsi.progress(p)}/${p.steps.length}</small></span></div>
     ${UI.prog(Percorsi.progress(p) / p.steps.length * 100)}
-    <div class="btnrow">${active ? `<button class="btn" data-a="path-deactivate">Ne plus suivre</button>` : `<button class="btn" data-a="path-activate" data-id="${p.id}">Suivre ce parcours</button>`}${next ? `<button class="btn brand" data-a="step" data-path="${p.id}" data-step="${next.id}">${Percorsi.progress(p) ? "Continuer" : "Commencer"}</button>` : ""}</div>
-    <div class="h3"><span>Étapes</span></div>
-    <div class="list">${p.steps.map((s, i) => { const done = Percorsi.isDone(p, s), cur = s === next; return `<button type="button" class="row step ${done ? "done" : ""} ${cur ? "cur" : ""}" data-a="step" data-path="${p.id}" data-step="${s.id}"><span class="num">${done ? I.check : i + 1}</span><span class="ic ${done ? "ok" : cur ? "" : "muted"}">${icon(s)}</span><span class="tx"><b>${esc(s.title)}</b><small>${typeLabel(s)}</small></span><span class="end">${I.chev}</span></button>`; }).join("")}</div>`;
+    <div class="h3"><h2>Étapes</h2></div>
+    <div class="list">${p.steps.map((s, i) => { const done = Percorsi.isDone(p, s), cur = s === next; return `<button type="button" class="row step ${done ? "done" : ""} ${cur ? "cur" : ""}" data-a="step" data-path="${p.id}" data-step="${s.id}"><span class="num">${done ? I.check : i + 1}</span><span class="ic ${done ? "ok" : cur ? "" : "muted"}">${icon(s)}</span><span class="tx"><b>${esc(s.title)}</b><small>${typeLabel(s)}</small></span><span class="end">${I.chev}</span></button>`; }).join("")}</div>
+    <div class="dock float"><div class="btnrow">${active ? `<button class="btn" data-a="path-deactivate">Ne plus suivre</button>` : `<button class="btn" data-a="path-activate" data-id="${p.id}">Suivre ce parcours</button>`}${next ? `<button class="btn brand" data-a="step" data-path="${p.id}" data-step="${next.id}">${Percorsi.progress(p) ? "Continuer" : "Commencer"}</button>` : ""}</div></div>`;
 };
 
 Views["/ripasso"] = () => {
   const st = G.st; st.queue ??= shuffle(Store.due()).map((w) => w.id);
-  if (!st.queue.length) return `<div class="result">${I.check.replace('class="i"', 'class="i" style="width:34px;height:34px;color:var(--ok)"')}<div class="t">${st.done ? "File terminée" : "Rien à réviser pour le moment"}</div><div class="s">Les cartes reviennent ici au bon moment : 1, 3, 7 puis 14 jours.</div></div><div class="btnrow"><a class="btn brand" href="#/grammatica">Grammatica</a><a class="btn" href="#/giochi">Giochi</a></div>`;
+  if (!st.queue.length) return `<div class="fill"><div class="result solo">${I.check.replace('class="i"', 'class="i" style="width:34px;height:34px;color:var(--ok)"')}<div class="t">${st.done ? "File terminée" : "Rien à réviser pour le moment"}</div><div class="s">Les cartes reviennent ici au bon moment : 1, 3, 7 puis 14 jours.</div></div>${UI.dock(`<div class="btnrow"><a class="btn brand" href="#/grammatica">Grammatica</a><a class="btn" href="#/giochi">Giochi</a></div>`)}</div>`;
   const w = BY_ID[st.queue[0]];
   return `<div class="fill">${UI.meta("Ripasso", `${st.queue.length} ${plural(st.queue.length, "carte", "cartes")}`)}
     ${UI.flash({ id: w.id, flipped: st.flipped, lv: w.lv, it: w.it, ex: w.ex, fr: w.fr, exFr: w.exFr, action: "rflip" })}
@@ -1197,28 +1261,37 @@ Views["/grammatica"] = () => {
   const id = Router.params.a, lesson = LESSONS.find((l) => l.id === id);
   if (id === "coniuga") return Views.coniuga();
   if (lesson) return Views.lesson(lesson);
-  const status = (l) => (Store.s.grammar[l.id] || 0) >= l.quiz.length ? { ic: I.done, cls: "ok" } : Store.s.grammar[l.id] ? { ic: I.half, cls: "gold" } : { ic: I.circle, cls: "muted" };
-  const rows = (track) => `<div class="list">${LESSONS.filter((l) => l.track === track).map((l) => { const s = status(l); return UI.row({ href: `/grammatica/${l.id}`, ic: s.ic, icCls: s.cls, title: esc(l.title), sub: esc(l.ref) }); }).join("")}</div>`;
+  const status = (l) => (Store.s.grammar[l.id] || 0) >= l.quiz.length ? { ic: I.done, cls: "ok", t: "validée" } : Store.s.grammar[l.id] ? { ic: I.half, cls: "gold", t: "en cours" } : { ic: I.circle, cls: "muted", t: "à faire" };
+  const rows = (track) => `<div class="list">${LESSONS.filter((l) => l.track === track).map((l) => { const s = status(l); return UI.row({ href: `/grammatica/${l.id}`, ic: `${s.ic}<span class="sr">Leçon ${s.t} : </span>`, icCls: s.cls, title: esc(l.title), sub: esc(l.ref) }); }).join("")}</div>`;
   const count = (track) => LESSONS.filter((l) => l.track === track).length;
-  const sec = (track, label) => `<div class="h3"><span>${label}</span><span>${Store.lessonsDone(track)}/${count(track)}</span></div>${rows(track)}`;
+  const sec = (track, label) => `<div class="h3"><h2>${label}</h2><span>${Store.lessonsDone(track)}/${count(track)}</span></div>${rows(track)}`;
   return `<a class="hero" href="#/grammatica/coniuga"><span class="ic">${I.dumbbell}</span><span><b>Coniuga!</b><small>${TENSES.map((t) => t[1]).join(", ").toLowerCase()}</small></span>${I.chev}</a>
     ${sec("ripasso", "Ripasso del libro (A1)")}${sec("avanti", "Avanti (A2 → B1)")}${sec("b1", "Verso il B1")}`;
 };
+// Tables de leçon : l'italien en Newsreader et en encre pleine ; seules les étiquettes (pronoms, catégories) et les colonnes en français sont en police d'interface
+const FR_COLS = new Set(["à qui ?", "comparaison", "type", "usage", "forme", "moment", "traduction", "français", "piège", "remarque", "remplace"]), FR_LABELS = new Set(["g2", "g6", "g9"]);
+const nb = (t) => esc(t).replace(/(^|[\s(\/→])(-\p{L}+)/gu, '$1<span class="nb">$2</span>'); // un suffixe (-are, -ghi) ne se coupe pas après son trait d'union
+function gtable(l, t) {
+  const fr = t.h.map((h) => FR_COLS.has(h)), lab0 = t.h[0] === "" || fr[0];
+  const cell = (c, i) => { const french = fr[i] || (i === 0 && t.h[0] === "" && FR_LABELS.has(l.id)); return `<td${i === 0 && lab0 ? ' class="lab"' : french ? ' class="fr"' : ""}${french || l.id === "g12" ? "" : ' lang="it"'}>${nb(c)}</td>`; };
+  return `<div class="gscroll"><table class="gtab${t.h.length > 4 ? " dense" : ""}"><thead><tr>${t.h.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.r.map((r) => `<tr>${r.map(cell).join("")}</tr>`).join("")}</tbody></table></div>`;
+}
 Views.lesson = (l) => {
   const L = G.st; L.phase ??= "read"; L.q ??= 0; L.score ??= 0; L.answered ??= null;
   const n = l.quiz.length, best = Store.s.grammar[l.id] || 0;
-  if (L.phase === "done") return UI.result(UI.big(L.score, n), L.score === n ? "Lezione superata" : L.score >= n - 1 ? "Quasi perfetto" : "Rileggi e riprova", L.score === n ? "Leçon validée." : "Un sans-faute valide la leçon.", `<button class="btn" data-a="l-read">Relire</button><button class="btn brand" data-a="l-quiz">Refaire le quiz</button>`);
+  if (L.phase === "done") return UI.result(UI.big(L.score, n), L.score === n ? "Lezione superata" : L.score >= n - 1 ? "Quasi perfetto" : "Rileggi e riprova", L.score === n ? "Leçon validée." : "Un sans-faute valide la leçon.", `<button class="btn" data-a="l-read">Relire</button><button class="btn brand" data-a="l-quiz">Refaire le quiz</button>`, L.missed);
   if (L.phase === "quiz") {
     const q = l.quiz[L.q], a = L.answered, opts = (L.order?.[L.q] || q.opts.map((_, i) => i)).map((i) => ({ id: String(i), label: q.opts[i] }));
     return `<div class="fill">${UI.meta(esc(l.title), `${L.q + 1} / ${n}`)}${UI.prog(L.q / n * 100)}<div class="q" lang="it">${esc(q.q)}</div>
+      ${a !== null ? UI.fb(a === q.a, `${a === q.a ? "Esatto. " : "Peccato. "}${esc(q.why)}`) : ""}
       ${UI.opts(opts, "l-ans", a !== null && { picked: String(a), correct: String(q.a) })}
-      ${a !== null ? UI.fb(a === q.a, `${a === q.a ? "Esatto. " : "Peccato. "}${esc(q.why)}`) + UI.dock(UI.next("l-next", L.q + 1 >= n)) : ""}</div>`;
+      ${UI.dock(UI.next("l-next", L.q + 1 >= n, a !== null))}</div>`;
   }
   const x = EXPL[l.id], X = L.xp;
   const explainer = !x ? "" : X ? Xp.html(x, X) : `<button type="button" class="xbtn" data-a="xp-open"><span class="ic">${I.sparkle}</span><span><b>Spiegazione animata</b><small>${x.steps.length} étapes · ${esc(x.title)}</small></span><span class="end">${I.play}</span></button>`;
   return `<div class="lesson">${UI.meta(esc(l.ref), best >= n ? `<span style="color:var(--ok)">Validée</span>` : `${best} / ${n}`)}<h2 class="h2">${esc(l.title)}</h2><p>${esc(l.intro)}</p>${explainer}
-    ${l.tables.map((t) => `<div class="gscroll"><table class="gtab"><thead><tr>${t.h.map((h) => `<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${t.r.map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`).join("")}
-    ${l.exs.map((e) => `<div class="gex"><span class="it" lang="it">${esc(e.it)}</span>${UI.spk(e.it, "inline")}<small>${esc(e.fr)}</small></div>`).join("")}
+    ${l.tables.map((t) => gtable(l, t)).join("")}
+    ${l.exs.map((e) => `<div class="gex">${ita(e.it)}${UI.spk(e.it)}<small>${esc(e.fr)}</small></div>`).join("")}
     <div class="btnrow"><button class="btn brand block" data-a="l-quiz">Mini-quiz (${n} questions)</button></div></div>`;
 };
 function startConiuga(t) {
@@ -1230,37 +1303,40 @@ function startConiuga(t) {
 Views.coniuga = () => {
   const C = G.st.conj, want = Router.params.b;
   if (!C && want && Object.hasOwn(TENSE_LABEL, want)) { startConiuga(want); return Views.coniuga(); }
-  if (!C) return `<div class="h3"><span>Choisis un temps</span></div><div class="list">${TENSES.map(([id, label]) => UI.row({ a: "c-start", data: `data-t="${id}"`, ic: UI.ring((Store.s.conjBest[id] || 0) / 8), title: label, sub: `Meilleur score ${Store.s.conjBest[id] || 0} / 8` })).join("")}</div><p class="p" style="margin-top:12px">Un verbe et une personne : écris la forme. Les accents sont pardonnés, « vai / va' » accepte les deux.</p>`;
+  if (!C) return `<div class="h3"><h2>Choisis un temps</h2></div><div class="list">${TENSES.map(([id, label]) => UI.row({ a: "c-start", data: `data-t="${id}"`, ic: UI.ring((Store.s.conjBest[id] || 0) / 8), title: label, sub: `Meilleur score ${Store.s.conjBest[id] || 0} / 8` })).join("")}</div><p class="p" style="margin-top:12px">Un verbe et une personne : écris la forme. Les accents sont pardonnés, « vai / va' » accepte les deux.</p>`;
   const label = TENSE_LABEL[C.tense], n = C.rounds.length;
-  if (C.finished) return UI.result(UI.big(C.score, n), C.score >= 7 ? "Coniugatore nato" : C.score >= 4 ? "Molto bene" : "La pratica rende perfetti", `${label} — meilleur score ${Store.s.conjBest[C.tense] || 0} / ${n}${C.step ? " · étape validée" : ""}`, `<button class="btn brand" data-a="c-start" data-t="${C.tense}">Encore</button><button class="btn" data-a="c-menu">Autre temps</button>`);
+  if (C.finished) return UI.result(UI.big(C.score, n), C.score >= 7 ? "Coniugatore nato" : C.score >= 4 ? "Molto bene" : "La pratica rende perfetti", `${label} — meilleur score ${Store.s.conjBest[C.tense] || 0} / ${n}${C.step ? " · étape validée" : ""}`, `<button class="btn" data-a="c-menu">Autre temps</button><button class="btn brand" data-a="c-start" data-t="${C.tense}">Encore</button>`, C.missed);
   const r = C.rounds[C.idx];
   return `<div class="fill">${UI.meta(label, `${C.idx + 1} / ${n} · ${C.score} pt`)}${UI.prog(C.idx / n * 100)}
     <div class="q" lang="it">${esc(r.prompt)} <span class="gloss" lang="fr">${esc(r.fr || "")}</span></div><p class="lead tight">à la personne <b lang="it">${esc(r.person)}</b></p>
     ${UI.tin(C.input, C.result, "Scrivi la forma")}
-    ${C.result ? UI.fb(C.result.ok, `${C.result.ok ? "Perfetto." : `La réponse : <b lang="it">${esc(r.display)}</b>`} ${UI.spk(r.display)}`) + UI.dock(UI.next("c-next", C.idx + 1 >= n)) : `<div class="btnrow">${UI.verify("c-check")}</div>`}</div>`;
+    ${C.result ? UI.fb(C.result.ok, C.result.ok ? "Perfetto." : `La réponse : <b lang="it">${esc(r.display)}</b>`, r.display) : ""}
+    <div class="btnrow">${C.result ? UI.next("c-next", C.idx + 1 >= n) : UI.verify("c-check")}</div></div>`;
 };
 
 Views["/giochi"] = () => {
   const g = Router.params.a, map = { scelta: Views.scelta, scrivi: Views.scrivi, cruci: Views.cruci, anagramma: Views.anagramma, abbina: Views.abbina };
   if (Object.hasOwn(map, g)) return map[g]();
-  return `<div class="h3"><span>Cinq jeux, du français vers l'italien</span></div><div class="grid2">${GAMES.map(([id, ic, t, d]) => `<a class="gtile" href="#/giochi/${id}"><span class="ic">${I[ic]}</span><span><b>${t}</b><small>${d}</small></span></a>`).join("")}</div><p class="p" style="margin-top:12px">Les bonnes réponses comptent dans la répétition espacée.</p>`;
+  return `<div class="h3"><h2>Cinq jeux, du français vers l'italien</h2></div><div class="grid2">${GAMES.map(([id, ic, t, d]) => `<a class="gtile" href="#/giochi/${id}"><span class="ic">${I[ic]}</span><span><b>${t}</b><small>${d}</small></span></a>`).join("")}</div><p class="p" style="margin-top:12px">Les bonnes réponses comptent dans la répétition espacée.</p>`;
 };
 Views.scelta = () => {
   const S = G.st.s ??= { qs: shuffle(WORDS).slice(0, 10).map((w) => ({ w, opts: Distract.options(w) })), idx: 0, score: 0, ans: null, fin: false };
-  if (S.fin) return UI.result(UI.big(S.score, 10), S.score >= 8 ? "Eccellente" : S.score >= 5 ? "Bene" : "Coraggio", `Meilleur score ${Store.s.stats.bestQuiz || 0} / 10`, `<button class="btn brand" data-a="g-again">Encore</button><a class="btn" href="#/giochi">Giochi</a>`);
+  if (S.fin) return UI.result(UI.big(S.score, 10), S.score >= 8 ? "Eccellente" : S.score >= 5 ? "Bene" : "Coraggio", `Meilleur score ${Store.s.stats.bestQuiz || 0} / 10`, `<a class="btn" href="#/giochi">Giochi</a><button class="btn brand" data-a="g-again">Encore</button>`, S.missed);
   const q = S.qs[S.idx], a = S.ans;
   return `<div class="fill">${UI.meta(`Domanda ${S.idx + 1} / 10`, `${S.score} pt`)}${UI.prog(S.idx * 10)}<p class="lead">Comment dit-on en italien</p><div class="q sans">${esc(q.w.fr)}</div>
+    ${a ? UI.fb(a.ok, `${a.ok ? "Bravissimo." : `Peccato — c'était <b lang="it">${esc(q.w.it)}</b>.`}${UI.exLine(q.w)}`, q.w.it) : ""}
     ${UI.opts(q.opts, "sc-ans", a && { picked: a.id, correct: q.w.id })}
-    ${a ? UI.fb(a.ok, `${a.ok ? "Bravissimo." : `Peccato — c'était <b>${esc(q.w.it)}</b>.`}${UI.exLine(q.w)} ${UI.spk(q.w.it)}`) + UI.dock(UI.next("sc-next", S.idx + 1 >= 10)) : ""}</div>`;
+    ${UI.dock(UI.next("sc-next", S.idx + 1 >= 10, !!a))}</div>`;
 };
 Views.scrivi = () => {
   const S = G.st.w ??= { qs: shuffle(WORDS).slice(0, 8), idx: 0, input: "", res: null, score: 0, hint: false, fin: false };
-  if (S.fin) return UI.result(UI.big(S.score, 8), S.score >= 7 ? "Da madrelingua" : S.score >= 4 ? "Molto bene" : "Si impara scrivendo", "", `<button class="btn brand" data-a="g-again">Encore</button><a class="btn" href="#/giochi">Giochi</a>`);
+  if (S.fin) return UI.result(UI.big(S.score, 8), S.score >= 7 ? "Da madrelingua" : S.score >= 4 ? "Molto bene" : "Si impara scrivendo", "", `<a class="btn" href="#/giochi">Giochi</a><button class="btn brand" data-a="g-again">Encore</button>`, S.missed);
   const w = S.qs[S.idx], t = w.it.replace(/[!?.]/g, "").trim(), hint = t[0] + " " + t.slice(1).replace(/\p{L}/gu, "_").split("").join(" ");
   return `<div class="fill">${UI.meta(`Parola ${S.idx + 1} / 8`, `${S.score} pt`)}${UI.prog(S.idx * 12.5)}<p class="lead">Écris en italien</p><div class="q sans">${esc(w.fr)}</div>
     ${UI.tin(S.input, S.res)}
     ${S.hint && !S.res ? `<p class="lead hintline" lang="it">${esc(hint)}</p>` : ""}
-    ${S.res ? UI.fb(S.res.ok, `${S.res.ok ? "Perfetto." : `La réponse : <b lang="it">${esc(w.it)}</b>`}${UI.exLine(w)} ${UI.spk(w.it)}`) + UI.dock(UI.next("wr-next", S.idx + 1 >= 8)) : `<div class="btnrow"><button class="btn" data-a="wr-hint">Indice</button>${UI.verify("wr-check", false)}</div>`}</div>`;
+    ${S.res ? UI.fb(S.res.ok, `${S.res.ok ? "Perfetto." : `La réponse : <b lang="it">${esc(w.it)}</b>`}${UI.exLine(w)}`, w.it) : ""}
+    <div class="btnrow">${S.res ? UI.next("wr-next", S.idx + 1 >= 8) : `<button class="btn" data-a="wr-hint">Indice</button>${UI.verify("wr-check", false)}`}</div></div>`;
 };
 // Cruciverba
 let SIMPLE_POOL_ = null; // mots simples pour les grilles et anagrammes, calculés au premier jeu
@@ -1315,26 +1391,27 @@ Views.cruci = () => {
 function anaRound(A) { const pool = simplePool().filter((p) => p.word.length <= 9 && !A.used.has(p.id)); const w = pick(pool.length ? pool : simplePool()); let letters = shuffle(w.word.split("")); if (letters.join("") === w.word) letters.reverse(); A.w = w; A.letters = letters.map((ch) => ({ ch, used: false })); A.picked = []; A.status = null; }
 Views.anagramma = () => {
   const A = G.st.a ??= (() => { const a = { used: new Set(), count: 1, score: 0, fin: false }; anaRound(a); return a; })();
-  if (A.fin) return UI.result(UI.big(A.score, 8), A.score >= 7 ? "Maestro delle lettere" : A.score >= 4 ? "Bene" : "Ci si allena", "", `<button class="btn brand" data-a="g-again">Encore</button><a class="btn" href="#/giochi">Giochi</a>`);
+  if (A.fin) return UI.result(UI.big(A.score, 8), A.score >= 7 ? "Maestro delle lettere" : A.score >= 4 ? "Bene" : "Ci si allena", "", `<a class="btn" href="#/giochi">Giochi</a><button class="btn brand" data-a="g-again">Encore</button>`, A.missed);
   const built = A.picked.map((i) => A.letters[i].ch).join(""), locked = A.status === "ok" || A.status === "rev";
   return `<div class="fill">${UI.meta(`Anagramma ${A.count} / 8`, `${A.score} pt`)}${UI.prog((A.count - 1) * 12.5)}<p class="lead">Indice</p><div class="q sans">${esc(A.w.clue)}</div>
-    <div class="slots">${A.w.word.split("").map((_, i) => `<span class="slot ${A.status === "ok" ? "ok" : A.status === "ko" ? "ko" : ""}">${A.status === "rev" ? A.w.word[i] : (built[i] || "")}</span>`).join("")}</div>
+    <div class="slots" lang="it">${A.w.word.split("").map((_, i) => `<span class="slot ${A.status === "ok" ? "ok" : A.status === "ko" ? "ko" : ""}">${A.status === "rev" ? A.w.word[i] : (built[i] || "")}</span>`).join("")}</div>
+    ${A.status === "ok" ? UI.fb(true, `Perfetto — <b lang="it">${esc(A.w.display)}</b>${UI.exLine(BY_ID[A.w.id])}`, A.w.display) : A.status === "ko" ? UI.fb(false, "Ce n'est pas ça. Corrige avec la flèche.") : A.status === "rev" ? UI.fb(null, `C'était <b lang="it">${esc(A.w.display)}</b>.${UI.exLine(BY_ID[A.w.id])}`, A.w.display) : ""}
     <div class="letters">${A.letters.map((l, i) => `<button class="lb" data-a="an-pick" data-i="${i}" ${l.used || locked ? "disabled" : ""}>${l.ch}</button>`).join("")}</div>
-    ${A.status === "ok" ? UI.fb(true, `Perfetto — <b>${esc(A.w.display)}</b><br><span class="it">${esc(BY_ID[A.w.id]?.ex || "")}</span>`) : A.status === "ko" ? UI.fb(false, "Ce n'est pas ça. Corrige avec la flèche.") : A.status === "rev" ? `<div class="fb">C'était <b>${esc(A.w.display)}</b>.</div>` : ""}
-    ${locked ? UI.dock(UI.next("an-next", A.count >= 8)) : `<div class="btnrow"><button class="btn" data-a="an-undo" aria-label="Effacer la dernière lettre">${I.undo}</button><button class="btn" data-a="an-clear">Effacer</button><button class="btn" data-a="an-reveal">Solution</button></div>`}</div>`;
+    ${UI.dock(locked ? UI.next("an-next", A.count >= 8) : `<div class="btnrow"><button class="btn" data-a="an-undo" aria-label="Effacer la dernière lettre">${I.undo}</button><button class="btn" data-a="an-clear">Effacer</button><button class="btn" data-a="an-reveal">Solution</button></div>`)}</div>`;
 };
 // Jamais deux étiquettes françaises identiques dans une manche (il casello / il pedaggio = « le péage »)
 function abbinaRound(prev) { const seen = new Set(), ws = shuffle(CARDS).filter((w) => { const k = norm(shortClue(w.fr)); return !seen.has(k) && seen.add(k); }).slice(0, 6); return { left: shuffle(ws.map((w) => ({ id: w.id, label: w.it }))), right: shuffle(ws.map((w) => ({ id: w.id, label: shortClue(w.fr) }))), selL: null, selR: null, matched: new Set(), err: null, tries: 0, round: (prev?.round || 0) + 1 }; }
 Views.abbina = () => {
   const B = G.st.b ??= abbinaRound(); const done = B.matched.size === 6;
   const cls = (side, id) => { let c = "pb"; if (side === "l") c += " it"; if (B.matched.has(id)) c += " done"; else if (B.err && B.err[side] === id) c += " err"; else if ((side === "l" ? B.selL : B.selR) === id) c += " sel"; return c; };
-  return `${UI.meta(`Manche ${B.round}`, `${B.matched.size} / 6 · ${B.tries} ${plural(B.tries, "essai", "essais")}`)}${UI.prog(B.matched.size / 6 * 100)}<p class="lead" style="margin-bottom:10px">Touche un mot italien puis sa traduction</p>
-    <div class="pairs"><div class="pcol">${B.left.map((o) => `<button class="${cls("l", o.id)}" data-a="ab-l" data-id="${o.id}" ${B.matched.has(o.id) ? "disabled" : ""}>${esc(o.label)}</button>`).join("")}</div><div class="pcol">${B.right.map((o) => `<button class="${cls("r", o.id)}" data-a="ab-r" data-id="${o.id}" ${B.matched.has(o.id) ? "disabled" : ""}>${esc(o.label)}</button>`).join("")}</div></div>
-    ${done ? UI.fb(true, `Tutto abbinato${B.tries === 6 ? ", sans aucune erreur." : ` en ${B.tries} essais.`}`) + `<div class="btnrow"><button class="btn brand" data-a="ab-new">Encore</button><a class="btn" href="#/giochi">Giochi</a></div>` : ""}`;
+  return `<div class="fill">${UI.meta(`Manche ${B.round}`, `${B.matched.size} / 6 · ${B.tries} ${plural(B.tries, "essai", "essais")}`)}${UI.prog(B.matched.size / 6 * 100)}<p class="lead">Touche un mot italien puis sa traduction</p>
+    ${done ? UI.fb(true, `Tutto abbinato${B.tries === 6 ? ", sans aucune erreur." : ` en ${B.tries} essais.`}`) : ""}
+    <div class="pairs"><div class="pcol">${B.left.map((o) => `<button class="${cls("l", o.id)}" lang="it" data-a="ab-l" data-id="${o.id}" ${B.matched.has(o.id) ? "disabled" : ""}>${esc(o.label)}</button>`).join("")}</div><div class="pcol">${B.right.map((o) => `<button class="${cls("r", o.id)}" data-a="ab-r" data-id="${o.id}" ${B.matched.has(o.id) ? "disabled" : ""}>${esc(o.label)}</button>`).join("")}</div></div>
+    ${UI.dock(`<button class="btn brand block" data-a="ab-new"${done ? ' data-enter="1"' : " disabled"}>Manche suivante</button>`)}</div>`;
 };
 
 /* Progressi — tableau de bord vivant : Io (progression locale) · Notifiche (serveur) · Contenuto (carte du contenu) */
-const KIND_SERIES = [{ key: "word", label: "Mots", color: "var(--c2)" }, { key: "phrase", label: "Phrases", color: "var(--c1)" }, { key: "conj", label: "Verbes", color: "var(--c3)" }];
+const KIND_SERIES = [{ key: "word", label: "Mots", color: "var(--c2)" }, { key: "phrase", label: "Phrases", color: "var(--c1)", hatch: true }, { key: "conj", label: "Verbes", color: "var(--c3)" }];
 const WHY_LABEL = { ripasso: "Cartes faibles", percorso: "Parcours suivi", random: "Au hasard" }, WHY_COLOR = { ripasso: "var(--c1)", percorso: "var(--c2)", random: "var(--c4)" };
 const animOnce = (tab) => { G.st.animDone ??= {}; if (G.st.animDone[tab]) return ""; setTimeout(() => { if (G.st.animDone) G.st.animDone[tab] = true; }, 900); return "anim"; };
 const ContentMap = {
@@ -1355,7 +1432,7 @@ const ContentMap = {
 Views["/progressi"] = () => {
   const tab = G.st.tab || "io";
   const segs = [["io", "Io"], ["notifiche", "Notifiche"], ["contenuto", "Contenuto"]];
-  const head = `<div class="seg top" role="tablist">${segs.map(([k, l]) => `<button role="tab" class="${tab === k ? "on" : ""}" aria-selected="${tab === k}" data-a="prog-tab" data-tab="${k}">${l}</button>`).join("")}</div>`;
+  const head = `<div class="seg top" role="group" aria-label="Vue">${segs.map(([k, l]) => `<button class="${tab === k ? "on" : ""}" aria-pressed="${tab === k}" data-a="prog-tab" data-tab="${k}">${l}</button>`).join("")}</div>`;
   return head + (tab === "notifiche" ? Views.progNotifiche() : tab === "contenuto" ? Views.progContenuto() : Views.progIo());
 };
 Views.progIo = () => {
@@ -1368,17 +1445,17 @@ Views.progIo = () => {
   const weak = Store.weak().slice(0, 10);
   const streak = Store.s.stats.streak || 1;
   return `<div class="${anim}">${UI.stats([UI.stat(seen, plural(seen, "carte vue", "cartes vues"), "/studia"), UI.stat(mastered, plural(mastered, "acquise", "acquises"), "/studia"), UI.stat(due, "à réviser", "/ripasso", due ? "hot" : ""), UI.stat(streak, plural(streak, "jour de suite", "jours de suite"), "/progressi")])}
-    <div class="h3"><span>Objectifs de la semaine</span><button type="button" class="h3btn" data-a="goals-edit" aria-label="Modifier les objectifs">${I.cog}</button></div>
+    <div class="h3"><h2>Objectifs de la semaine</h2><button type="button" class="h3btn" data-a="goals-edit" aria-label="Modifier les objectifs">${I.cog}</button></div>
     <div class="list"><div class="goal"><div class="inl"><span>Nouvelles cartes</span><b>${week.newCards} / ${g.newCards}</b></div>${UI.prog(week.newCards / g.newCards * 100)}</div><div class="goal"><div class="inl"><span>Leçons validées</span><b>${week.lessons} / ${g.lessons}</b></div>${UI.prog(week.lessons / g.lessons * 100)}</div><div class="goal"><div class="inl"><span>Réponses · précision</span><b>${week.answers} · ${week.answers ? Math.round(week.correct / week.answers * 100) : 0} %</b></div></div></div>
-    <div class="h3"><span>Réponses, 14 jours</span><span>${totalAns} · ${totalAns ? Math.round(totalOk / totalAns * 100) : 0} % justes</span></div>
-    <div class="card">${Chart.vbars([{ key: "ok", label: "Justes", color: "var(--c3)" }, { key: "ko", label: "Fausses", color: "var(--c1)" }], rows)}</div>
-    <div class="h3"><span>Où en sont les ${CARDS.length} cartes</span></div>
+    <div class="h3"><h2>Réponses, 14 jours</h2><span>${totalAns} · ${totalAns ? Math.round(totalOk / totalAns * 100) : 0} % justes</span></div>
+    <div class="card">${Chart.vbars([{ key: "ok", label: "Justes", color: "var(--c3)" }, { key: "ko", label: "Fausses", color: "var(--c1)", hatch: true }], rows, { label: "Réponses des 14 derniers jours" })}</div>
+    <div class="h3"><h2>Où en sont les ${CARDS.length} cartes</h2></div>
     <div class="card">${Chart.hstack([{ label: "Jamais vues", n: boxes[0], color: "var(--line-2)" }, { label: "Vues", n: boxes[1], color: "color-mix(in srgb,var(--c2) 40%,var(--card))" }, { label: "En cours", n: boxes[2], color: "color-mix(in srgb,var(--c2) 70%,var(--card))" }, { label: "Acquises", n: boxes[3], color: "var(--c2)" }])}</div>
-    <div class="h3"><span>Types d'erreurs</span></div>
+    <div class="h3"><h2>Types d'erreurs</h2></div>
     <div class="card">${errs.length ? Chart.hbars(errs.map(([k, v]) => ({ label: ERR_LABEL[k] || k, n: v })), { color: "var(--c1)" }) : `<p class="p">Pas encore d'erreur enregistrée : les QCM notent le type de piège choisi (auxiliaire, accord, préposition…).</p>`}</div>
-    <div class="h3"><span>Da rivedere</span><span>${Store.weak().length}</span></div>
-    ${weak.length ? `<div class="list">${weak.map((w) => { const p = Store.s.progress[w.id]; return `<div class="item"><button type="button" class="item-main" data-a="reveal" data-id="w${w.id}"><span class="k ${isPhrase(w) ? "phrase" : "word"}"></span><span class="tx"><span class="w it">${esc(w.it)}</span>${G.st.open?.["w" + w.id] ? `<span class="tr">${esc(w.fr)}</span>` : `<span class="hint">${p.fails} ${plural(p.fails, "erreur", "erreurs")}${p.lapses ? ` · ${p.lapses} ${plural(p.lapses, "oubli", "oublis")}` : ""} · touche pour la traduction</span>`}</span></button>${UI.spk(w.it)}</div>`; }).join("")}</div><div class="btnrow"><button class="btn brand block" data-a="learn-weak">Réviser ces cartes</button></div>` : `<div class="list"><div class="empty">Aucune carte en difficulté pour l'instant.</div></div>`}
-    <div class="h3"><span>Maîtrise par thème</span></div>
+    <div class="h3"><h2>Da rivedere</h2><span>${Store.weak().length}</span></div>
+    ${weak.length ? `<div class="list">${weak.map((w) => { const p = Store.s.progress[w.id]; return `<div class="item"><button type="button" class="item-main" data-a="reveal" data-id="w${w.id}"><span class="k ${isPhrase(w) ? "phrase" : "word"}"></span><span class="tx">${ita(w.it, "w")}${G.st.open?.["w" + w.id] ? `<span class="tr">${esc(w.fr)}</span>` : `<span class="hint">${isPhrase(w) ? "phrase" : "mot"} · ${p.fails} ${plural(p.fails, "erreur", "erreurs")}${p.lapses ? ` · ${p.lapses} ${plural(p.lapses, "oubli", "oublis")}` : ""} · touche pour la traduction</span>`}</span></button>${UI.spk(w.it)}</div>`; }).join("")}</div><div class="btnrow"><button class="btn brand block" data-a="learn-weak">Réviser ces cartes</button></div>` : `<div class="list"><div class="empty">Aucune carte en difficulté pour l'instant.</div></div>`}
+    <div class="h3"><h2>Maîtrise par thème</h2></div>
     <div class="list">${CATEGORIES.filter((c) => BY_CAT[c.id]?.length).map((c) => { const ws = BY_CAT[c.id], m = ws.filter((w) => (Store.s.progress[w.id]?.box || 0) >= 4).length, sn = ws.filter((w) => Store.s.progress[w.id]?.seen).length; return UI.row({ href: `/studia/${c.id}`, ic: UI.ring(m / ws.length), title: esc(c.label), sub: `${sn} vues · ${m} acquises`, end: `${Math.round(m / ws.length * 100)} %` }); }).join("")}</div></div>`;
 };
 Views.progNotifiche = () => {
@@ -1404,17 +1481,17 @@ Views.progNotifiche = () => {
   const tags = (d.top_tags || []).slice(0, 6).map((t) => ({ label: t.tag, n: t.n }));
   const cron = d.cron || {}, cronOk = cron.last_run && now - new Date(cron.last_run).getTime() < 20 * 60000;
   return `<div class="${anim}">
-    <div class="card"><div class="h4"><span>Cet appareil</span>${status}</div>
+    <div class="card"><div class="h4"><h3>Cet appareil</h3>${status}</div>
       <div class="kv"><div><small>Fréquence</small><b>${dev.interval_min ? `toutes les ${UI.fmtInterval(dev.interval_min)}` : "—"}</b></div><div><small>Plage horaire</small><b>${dev.start_hour != null ? `${dev.start_hour}h – ${dev.end_hour}h` : "—"}</b></div><div><small>Dernière envoyée</small><b>${dev.last_sent_at ? ago(dev.last_sent_at) : "jamais"}</b></div><div><small>Prochaine</small><b>${nextTxt ? nextTxt.replace("prochaine ", "") : "—"}</b></div></div>
       <div class="kpi-sub">Contenu : ${(dev.kinds || []).map((k) => KIND_SERIES.find((s) => s.key === k)?.label.toLowerCase() || k).join(", ") || "—"} · abonné depuis le ${dev.created_at ? fmtDay(dev.created_at) : "—"}</div></div>
-    <div class="h3"><span>Notifications reçues</span><button type="button" class="h3btn" data-a="stats-refresh" aria-label="Actualiser" ${S.loading ? "disabled" : ""}>${I.refresh}</button></div>
+    <div class="h3"><h2>Notifications reçues</h2><button type="button" class="h3btn" data-a="stats-refresh" aria-label="Actualiser" ${S.loading ? "disabled" : ""}>${I.refresh}</button></div>
     <div class="card">${Chart.kpi(d.total || 0, plural(d.total || 0, "notification", "notifications"), `${d.distinct || 0} ${plural(d.distinct || 0, "élément différent", "éléments différents")} · ${pct(d.distinct || 0, d.items_total || 0, 1)} du contenu${d.first_at ? ` · depuis le ${fmtDay(d.first_at)}` : ""}<br>7 derniers jours : <b>${last7}</b>${prev7 ? ` (${last7 >= prev7 ? "+" : "−"}${Math.abs(last7 - prev7)} vs les 7 d'avant)` : ""}`)}</div>
-    <div class="card"><div class="h4"><span>Par jour, 30 jours</span></div>${Chart.vbars(KIND_SERIES, days, { labelEvery: 7 })}</div>
-    <div class="card"><div class="h4"><span>Par heure d'envoi</span><span>plage ${dev.start_hour}h – ${dev.end_hour}h en fond</span></div>${Chart.vbars([{ key: "n", label: "Envois", color: "var(--c2)" }], hours)}</div>
-    <div class="card"><div class="h4"><span>Couverture du contenu</span><span>${d.items_total || 0} éléments</span></div>${Chart.hbars(covRows, { cls: "c3", max: covMax })}<p class="kpi-sub">Part de chaque type déjà reçue au moins une fois. Les verbes sont nombreux (${cov.conj?.total || 0} formes) : la barre monte lentement, c'est normal.</p></div>
-    <div class="card"><div class="h4"><span>D'où viennent les envois</span></div>${why.length ? Chart.hstack(why) : `<p class="p">Pas encore d'envoi.</p>`}<p class="kpi-sub">Cartes faibles et parcours suivi sont envoyés par cet appareil au serveur ; le reste est tiré au hasard dans le contenu.</p></div>
-    <div class="card"><div class="h4"><span>Thèmes les plus reçus</span></div>${tags.length ? Chart.hbars(tags, { color: "var(--c4)" }) : `<p class="p">Pas encore d'envoi.</p>`}</div>
-    <div class="card"><div class="h4"><span>Serveur</span><span class="status ${cronOk ? "" : "warn"}">${cronOk ? I.check : I.clock}${cronOk ? "En marche" : "Pas de passage récent"}</span></div>
+    <div class="card"><div class="h4"><h3>Par jour, 30 jours</h3></div>${Chart.vbars(KIND_SERIES, days, { labelEvery: 7, label: "Notifications par jour sur 30 jours" })}</div>
+    <div class="card"><div class="h4"><h3>Par heure d'envoi</h3><span>plage ${dev.start_hour}h – ${dev.end_hour}h en fond</span></div>${Chart.vbars([{ key: "n", label: "Envois", color: "var(--c2)" }], hours, { label: "Notifications par heure d'envoi" })}</div>
+    <div class="card"><div class="h4"><h3>Couverture du contenu</h3><span>${d.items_total || 0} éléments</span></div>${Chart.hbars(covRows, { cls: "c3", max: covMax })}<p class="kpi-sub">Part de chaque type déjà reçue au moins une fois. Les verbes sont nombreux (${cov.conj?.total || 0} formes) : la barre monte lentement, c'est normal.</p></div>
+    <div class="card"><div class="h4"><h3>D'où viennent les envois</h3></div>${why.length ? Chart.hstack(why) : `<p class="p">Pas encore d'envoi.</p>`}<p class="kpi-sub">Cartes faibles et parcours suivi sont envoyés par cet appareil au serveur ; le reste est tiré au hasard dans le contenu.</p></div>
+    <div class="card"><div class="h4"><h3>Thèmes les plus reçus</h3></div>${tags.length ? Chart.hbars(tags, { color: "var(--c4)" }) : `<p class="p">Pas encore d'envoi.</p>`}</div>
+    <div class="card"><div class="h4"><h3>Serveur</h3><span class="status ${cronOk ? "" : "warn"}">${cronOk ? I.check : I.clock}${cronOk ? "En marche" : "Pas de passage récent"}</span></div>
       <div class="kv"><div><small>Passages réussis</small><b>${cron.ok ?? 0}</b></div><div><small>Échecs</small><b>${cron.failed ?? 0}</b></div><div><small>Dernier passage</small><b>${cron.last_run ? ago(cron.last_run) : "—"}</b></div><div><small>Cadence</small><b>toutes les 5 min</b></div></div></div>
     <div class="live"><i class="${S.visible() ? "" : "off"}"></i>Actualisé ${ago(S.at)} · se rafraîchit chaque minute sur cet onglet</div></div>`;
 };
@@ -1427,17 +1504,17 @@ Views.progContenuto = () => {
   const lessonsHtml = lessonsBy.map((r, i) => `<div class="hbar c3" data-tip="${esc(`${r.label} : ${r.n} leçons, ${r.done} validées`)}"><span>${esc(r.label)}</span><div class="track" style="background:transparent"><div class="hstack" style="width:${Math.round(r.n / lessonsMax * 100)}%;height:10px;--d:${(i * 0.04).toFixed(2)}s">${r.done ? `<i style="flex:${r.done};background:var(--c4)"></i>` : ""}${r.n - r.done ? `<i style="flex:${r.n - r.done};background:color-mix(in srgb,var(--c4) 28%,var(--card))"></i>` : ""}</div></div><b>${r.done} / ${r.n}</b></div>`).join("") + Chart.legend([{ label: "Validées", color: "var(--c4)" }, { label: "À faire", color: "color-mix(in srgb,var(--c4) 28%,var(--card))" }]);
   return `<div class="${anim}">
     ${UI.stats([UI.stat(WORDS.length, "mots", "/studia"), UI.stat(PHRASES.length, "phrases", "/studia/dialoghi"), UI.stat(M.verbs, "verbes", "/grammatica/coniuga"), UI.stat(LESSONS.length, "leçons", "/grammatica")])}
-    <div class="card"><div class="h4"><span>Mots par niveau</span><span>${WORDS.length} mots</span></div>${Chart.hstack(LV.map((l) => ({ ...l, n: M.levels[l.key] })))}</div>
-    <div class="h3"><span>Mots par thème</span><span>${seenOf(WORDS)} vus</span></div>
+    <div class="card"><div class="h4"><h3>Mots par niveau</h3><span>${WORDS.length} mots</span></div>${Chart.hstack(LV.map((l) => ({ ...l, n: M.levels[l.key] })))}</div>
+    <div class="h3"><h2>Mots par thème</h2><span>${seenOf(WORDS)} vus</span></div>
     <div class="card">${M.wordCats.map((x, i) => { const segs = LV.filter((l) => x.lv[l.key] > 0).map((l) => `<i style="flex:${x.lv[l.key]};background:${l.color}"></i>`).join(""); const tip = `${x.c.label} : ${x.ws.length} mots\nA1 ${x.lv.A1} · A2 ${x.lv.A2} · B1 ${x.lv.B1}\n${seenOf(x.ws)} vus`; return `<div class="hbar c3" data-tip="${esc(tip)}"><span>${esc(x.c.label)}</span><div class="track" style="background:transparent"><div class="hstack" style="width:${Math.round(x.ws.length / themeMax * 100)}%;height:10px;--d:${(i * 0.03).toFixed(2)}s">${segs}</div></div><b>${x.ws.length}</b></div>`; }).join("")}${Chart.legend(LV.filter((l) => M.levels[l.key] > 0))}</div>
-    <div class="h3"><span>Phrases</span><span>${PHRASES.length}</span></div>
-    <div class="card"><div class="h4"><span>Vivi l'italiano, par unité</span><span>${M.units.reduce((a, b) => a + b, 0)} phrases</span></div>${Chart.vbars([{ key: "n", label: "Phrases", color: "var(--c1)" }], M.units.map((n, i) => ({ label: String(i + 1), tipTitle: `Unità ${i + 1}`, values: { n } })))}</div>
-    <div class="card"><div class="h4"><span>Dialoghi, par situation</span><span>${M.sits.reduce((a, s) => a + s[1], 0)} phrases</span></div>${Chart.hbars(M.sits.map(([sit, n]) => ({ label: sit, n })), { color: "var(--c1)" })}</div>
-    <div class="h3"><span>Verbes</span><span>${M.verbs} verbes · ${M.conjForms} formes</span></div>
-    <div class="card"><div class="h4"><span>Terminaisons</span></div>${Chart.hstack([{ label: "-are", n: M.endings["-are"] || 0, color: "var(--c3)" }, { label: "-ere", n: M.endings["-ere"] || 0, color: "color-mix(in srgb,var(--c3) 65%,var(--card))" }, { label: "-ire", n: M.endings["-ire"] || 0, color: "color-mix(in srgb,var(--c3) 38%,var(--card))" }])}
-      <div class="h4" style="margin-top:12px"><span>Auxiliaire au passato prossimo</span></div>${Chart.hstack([{ label: "avere", n: M.aux.avere, color: "var(--c2)" }, { label: "essere", n: M.aux.essere, color: "var(--c1)" }, { label: "réfléchis", n: M.aux.riflessivo, color: "var(--c4)" }])}
-      <div class="h4" style="margin-top:12px"><span>Temps, meilleur score Coniuga</span></div>${Chart.hbars(TENSES.map(([id, label]) => ({ label, n: Store.s.conjBest[id] || 0, text: `${Store.s.conjBest[id] || 0} / 8`, tip: `${label} : meilleur score ${Store.s.conjBest[id] || 0} / 8` })), { color: "var(--c3)", max: 8, cls: "c3" })}</div>
-    <div class="h3"><span>Leçons et parcours</span></div>
+    <div class="h3"><h2>Phrases</h2><span>${PHRASES.length}</span></div>
+    <div class="card"><div class="h4"><h3>Vivi l'italiano, par unité</h3><span>${M.units.reduce((a, b) => a + b, 0)} phrases</span></div>${Chart.vbars([{ key: "n", label: "Phrases", color: "var(--c1)" }], M.units.map((n, i) => ({ label: String(i + 1), tipTitle: `Unità ${i + 1}`, values: { n } })), { label: "Phrases du livre par unité" })}</div>
+    <div class="card"><div class="h4"><h3>Dialoghi, par situation</h3><span>${M.sits.reduce((a, s) => a + s[1], 0)} phrases</span></div>${Chart.hbars(M.sits.map(([sit, n]) => ({ label: sit, n })), { color: "var(--c1)" })}</div>
+    <div class="h3"><h2>Verbes</h2><span>${M.verbs} verbes · ${M.conjForms} formes</span></div>
+    <div class="card"><div class="h4"><h3>Terminaisons</h3></div>${Chart.hstack([{ label: "-are", n: M.endings["-are"] || 0, color: "var(--c3)" }, { label: "-ere", n: M.endings["-ere"] || 0, color: "color-mix(in srgb,var(--c3) 65%,var(--card))" }, { label: "-ire", n: M.endings["-ire"] || 0, color: "color-mix(in srgb,var(--c3) 38%,var(--card))" }])}
+      <div class="h4" style="margin-top:12px"><h3>Auxiliaire au passato prossimo</h3></div>${Chart.hstack([{ label: "avere", n: M.aux.avere, color: "var(--c2)" }, { label: "essere", n: M.aux.essere, color: "var(--c1)" }, { label: "réfléchis", n: M.aux.riflessivo, color: "var(--c4)" }])}
+      <div class="h4" style="margin-top:12px"><h3>Temps, meilleur score Coniuga</h3></div>${Chart.hbars(TENSES.map(([id, label]) => ({ label, n: Store.s.conjBest[id] || 0, text: `${Store.s.conjBest[id] || 0} / 8`, tip: `${label} : meilleur score ${Store.s.conjBest[id] || 0} / 8` })), { color: "var(--c3)", max: 8, cls: "c3" })}</div>
+    <div class="h3"><h2>Leçons et parcours</h2></div>
     <div class="card">${lessonsHtml}</div>
     <div class="list" style="margin-top:8px">${PERCORSI.map((p) => UI.row({ href: `/percorsi/${p.id}`, ic: UI.ring(Percorsi.progress(p) / p.steps.length, "brand"), title: esc(p.title), sub: `${p.steps.length} étapes · ${p.steps.filter((s) => s.type === "vocab").length} vocab, ${p.steps.filter((s) => s.type === "phrases").length} phrases, ${p.steps.filter((s) => s.type === "lesson").length} leçons`, end: `${Percorsi.progress(p)} / ${p.steps.length}` })).join("")}</div></div>`;
 };
@@ -1445,20 +1522,21 @@ Views.progContenuto = () => {
 Views["/impostazioni"] = () => {
   const s = Store.s.settings, ui = Store.s.ui, imp = G.st.imp;
   const opts = (sel) => Array.from({ length: 25 }, (_, h) => h).filter((h) => sel === "start" ? h <= 23 : h >= 1).map((h) => `<option value="${h}" ${h === (sel === "start" ? s.start_hour : s.end_hour) ? "selected" : ""}>${h}h</option>`).join("");
-  const seg = (items, cur, a, extra = "") => `<div class="seg">${items.map(([v, l]) => `<button class="${(Array.isArray(cur) ? cur.includes(v) : cur === v) ? "on" : ""}" data-a="${a}" data-v="${v}" ${extra} aria-pressed="${Array.isArray(cur) ? cur.includes(v) : cur === v}">${l}</button>`).join("")}</div>`;
-  return `<div class="h3"><span>Notifications</span></div><div class="list">
-      <div class="field"><div class="inl"><label>${Store.s.subscribed ? (s.enabled ? "Actives sur cet appareil" : "En pause") : "Non activées sur cet appareil"}</label>${Store.s.subscribed ? `<button class="sw ${s.enabled ? "on" : ""}" data-a="set-enabled" role="switch" aria-checked="${s.enabled}" aria-label="Notifications"></button>` : `<button class="btn brand" data-a="enable">Activer</button>`}</div></div>
-      <div class="field"><label>Fréquence</label>${seg([[30, "30 min"], [60, "1 h"], [120, "2 h"], [180, "3 h"], [240, "4 h"]], s.interval_min, "set-int")}</div>
-      <div class="field"><label>Plage horaire</label><div class="hours"><select id="sh" aria-label="Début">${opts("start")}</select><span>à</span><select id="eh" aria-label="Fin">${opts("end")}</select></div></div>
-      <div class="field"><label>Contenu</label>${seg([["word", "Mots"], ["phrase", "Phrases"], ["conj", "Verbes"]], s.kinds, "set-kind")}</div>
+  const seg = (label, items, cur, a, extra = "") => { const multi = Array.isArray(cur); return `<div class="seg" role="group" aria-label="${label}">${items.map(([v, l]) => { const on = multi ? cur.includes(v) : cur === v; return `<button class="${on ? "on" : ""}" data-a="${a}" data-v="${v}" ${extra} aria-pressed="${on}">${multi && on ? I.check : ""}${l}</button>`; }).join("")}</div>`; };
+  const field = (label, html) => `<div class="field"><div class="flab">${label}</div>${html}</div>`;
+  return `<div class="h3"><h2>Notifications</h2></div><div class="list">
+      <div class="field"><div class="inl"><span class="flab">${Store.s.subscribed ? (s.enabled ? "Actives sur cet appareil" : "En pause") : "Non activées sur cet appareil"}</span>${Store.s.subscribed ? `<button class="sw ${s.enabled ? "on" : ""}" data-a="set-enabled" role="switch" aria-checked="${s.enabled}" aria-label="Notifications"></button>` : `<button class="btn brand" data-a="enable">Activer</button>`}</div></div>
+      ${field("Fréquence", seg("Fréquence", [[30, "30 min"], [60, "1 h"], [120, "2 h"], [180, "3 h"], [240, "4 h"]], s.interval_min, "set-int"))}
+      ${field("Plage horaire", `<div class="hours"><select id="sh" aria-label="Début de la plage horaire">${opts("start")}</select><span>à</span><select id="eh" aria-label="Fin de la plage horaire">${opts("end")}</select></div>`)}
+      ${field("Contenu", seg("Contenu des notifications", [["word", "Mots"], ["phrase", "Phrases"], ["conj", "Verbes"]], s.kinds, "set-kind"))}
     </div>
     <div class="btnrow"><button class="btn block" data-a="test" ${Store.s.subscribed ? "" : "disabled"}>${I.send} Envoyer une notification de test</button></div>
-    <div class="h3"><span>Objectifs hebdomadaires</span></div><div class="list">
-      <div class="field"><label>Nouvelles cartes par semaine</label>${seg([20, 30, 50, 80].map((n) => [n, n]), Store.s.goals.newCards, "set-goal", 'data-k="newCards"')}</div>
-      <div class="field"><label>Leçons validées par semaine</label>${seg([1, 2, 3, 5].map((n) => [n, n]), Store.s.goals.lessons, "set-goal", 'data-k="lessons"')}</div>
+    <div class="h3"><h2>Objectifs hebdomadaires</h2></div><div class="list">
+      ${field("Nouvelles cartes par semaine", seg("Nouvelles cartes par semaine", [20, 30, 50, 80].map((n) => [n, n]), Store.s.goals.newCards, "set-goal", 'data-k="newCards"'))}
+      ${field("Leçons validées par semaine", seg("Leçons validées par semaine", [1, 2, 3, 5].map((n) => [n, n]), Store.s.goals.lessons, "set-goal", 'data-k="lessons"'))}
     </div>
-    <div class="h3"><span>Apparence</span></div><div class="list"><div class="field"><label>Thème</label>${seg([["auto", "Automatique"], ["light", "Clair"], ["dark", "Sombre"]], ui.scheme, "set-scheme")}</div></div>
-    <div class="h3"><span>Sauvegarde</span></div><div class="list"><div class="field">
+    <div class="h3"><h2>Apparence</h2></div><div class="list">${field("Thème", seg("Thème", [["auto", "Automatique"], ["light", "Clair"], ["dark", "Sombre"]], ui.scheme, "set-scheme"))}</div>
+    <div class="h3"><h2>Sauvegarde</h2></div><div class="list"><div class="field">
       <p class="p">Ta progression (${Store.seen().length} ${plural(Store.seen().length, "carte vue", "cartes vues")}, ${Store.lessonsDone()} ${plural(Store.lessonsDone(), "leçon validée", "leçons validées")}) n'existe que sur cet appareil. Exporte-la pour la mettre à l'abri ou la reprendre ailleurs.${Store.s.lastExport ? ` Dernier export : ${fmtDay(Store.s.lastExport)}.` : ""}</p>
       ${imp ? `<div class="banner warn" style="margin:10px 0 0">${I.cloud}<div class="t">Sauvegarde${imp.exported ? ` du ${fmtDay(imp.exported)}` : ""} : ${imp.seen} ${plural(imp.seen, "carte vue", "cartes vues")}, ${imp.lessons} ${plural(imp.lessons, "leçon", "leçons")}<small>Elle remplace la progression de cet appareil. Les réglages de notification restent ceux d'ici.</small></div></div><div class="btnrow"><button class="btn" data-a="import-cancel">Annuler</button><button class="btn brand" data-a="import-confirm">Remplacer</button></div>`
         : `<div class="btnrow"><button class="btn" data-a="export">Exporter</button><button class="btn" data-a="import-pick">Importer</button></div>`}
@@ -1475,7 +1553,7 @@ const Dom = {
   patch(root, html, typing) {
     this.tpl.innerHTML = html; this.kids(root, this.tpl.content);
     // La valeur affichée des champs suit l'état — sauf la réponse en cours de saisie, que l'état ne connaît pas encore
-    root.querySelectorAll("input:not([type=file])").forEach((el) => { const v = el.getAttribute("value") ?? ""; if (el.value !== v && (el.id !== "inp" || !typing || el.readOnly || el._sync)) el.value = v; el._sync = false; });
+    root.querySelectorAll("input:not([type=file])").forEach((el) => { const v = el.getAttribute("value") ?? ""; if (el.value !== v && (el.id !== "inp" || !typing || el.dataset.locked || el._sync)) el.value = v; el._sync = false; });
     root.querySelectorAll("select").forEach((el) => { const v = el.querySelector("option[selected]")?.value; if (v != null && el.value !== v) el.value = v; });
   },
   kids(from, to) {
@@ -1514,24 +1592,38 @@ function render({ top = false } = {}) {
   const backAct = path === "/sessione" ? "sess-close" : path === "/grammatica" && pa === "coniuga" && G.st.conj && !Router.params.b ? "c-menu" : "back";
   let body; try { body = view(); } catch (e) { console.error(e); body = `<div class="banner warn">${I.cloud}<div class="t">Cet écran n'a pas pu s'afficher<small>${esc(e.message)}</small></div></div><div class="btnrow"><a class="btn" href="#/oggi">Oggi</a><button class="btn brand" data-a="update-app">Recharger</button></div>`; }
   const due = Store.due().length, streak = Store.s.stats.streak || 1;
-  const cls = `${body.startsWith('<div class="fill"') ? " fill" : ""}${path === "/oggi" || path === "/progressi" ? " wide" : ""}`;
+  const fill = body.startsWith('<div class="fill"'), cls = `${fill ? " fill" : ""}${path === "/oggi" || path === "/progressi" ? " wide" : ""}`;
+  // Exercices ouverts depuis une liste : plein écran sans onglets (le retour est dans l'en-tête) ; Ripasso, onglet racine, garde les siens
+  const focus = path === "/sessione" || (sub && fill), title = titleFor();
   const nav = (h, ic, l, extra = "") => `<a href="#${h}" class="${path === h ? "on" : ""}" ${path === h ? 'aria-current="page"' : ""}>${I[ic]}${l}${extra}</a>`;
-  Dom.patch(app, `<div class="shell${path === "/sessione" ? " focus" : ""}">
+  Dom.patch(app, `<div class="shell${focus ? " focus" : ""}">
     <aside class="side"><div class="logo">Impara!</div>${NAV.map(([h, ic, l]) => nav(h, ic, l)).join("")}${nav("/percorsi", "route", "Percorsi")}${nav("/progressi", "chart", "Progressi")}<div class="grow"></div>${nav("/impostazioni", "cog", "Réglages")}</aside>
     <div class="main">
-      <header class="bar${sub ? "" : " root"}">${sub ? `<button class="back" data-a="${backAct}" data-to="${parent}" aria-label="Retour">${I.chevL}<span>Retour</span></button>` : ""}<h1>${esc(titleFor())}</h1>${!sub ? `<a class="streak" href="#/progressi" aria-label="${streak} ${plural(streak, "jour", "jours")} de suite">${I.flame}${streak} ${plural(streak, "jour", "jours")}</a><a class="iconbtn" href="#/impostazioni" aria-label="Réglages">${I.cog}</a>` : ""}</header>
+      <header class="bar${sub ? "" : " root"}">${sub ? `<button class="back" data-a="${backAct}" data-to="${parent}" aria-label="Retour">${I.chevL}<span>Retour</span></button>` : ""}<h1 tabindex="-1">${esc(title)}</h1>${!sub ? `<a class="streak" href="#/progressi" aria-label="${streak} ${plural(streak, "jour", "jours")} de suite">${I.flame}${streak} ${plural(streak, "jour", "jours")}</a><a class="iconbtn" href="#/impostazioni" aria-label="Réglages">${I.cog}</a>` : ""}</header>
       <main class="content${cls}">${body}</main>
     </div>
     <nav class="tabs" aria-label="Sections">${NAV.map(([h, ic, l]) => nav(h, ic, l, h === "/ripasso" && due ? `<span class="dot" aria-label="${due} à réviser">${due > 99 ? "99+" : due}</span>` : "")).join("")}</nav>
   </div>`, !top);
-  const main = app.querySelector(".main");
-  if (top) { main.scrollTop = 0; if (render.key !== G.key && !reducedMotion()) app.querySelector(".content").animate?.([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 220, easing: "cubic-bezier(.2,.7,.2,1)" }); }
+  const main = app.querySelector(".main"), changed = render.key !== G.key;
+  if (top) { main.scrollTop = 0; if (changed && !reducedMotion()) app.querySelector(".content").animate?.([{ opacity: 0, transform: "translateY(8px)" }, { opacity: 1, transform: "none" }], { duration: 220, easing: "cubic-bezier(.2,.7,.2,1)" }); }
   render.key = G.key;
-  const touch = "ontouchstart" in window, inp = document.getElementById("inp"), ae = document.activeElement;
-  if (inp && !inp.readOnly) { if (!touch && ae !== inp) inp.focus(); }
-  else if (!touch && (ae === document.body || !ae)) app.querySelector("[data-enter]")?.focus({ preventScroll: true });
+  if (!DEMO) document.title = title === "Impara!" ? title : `${title} · Impara!`;
+  app.querySelectorAll(".gscroll").forEach(markOver);
+  // Correction ou score final : annoncés une fois par la zone d'annonce (le texte italien garde sa langue)
+  const fbEl = app.querySelector(".fb") || app.querySelector(".result"), fbText = fbEl ? fbEl.textContent.trim() : "";
+  if (fbText !== render.fb) { render.fb = fbText; if (fbEl) { const c = fbEl.cloneNode(true); c.querySelectorAll("button").forEach((b) => b.remove()); announce(c.innerHTML); } }
+  // Focus : nouvel écran → son titre (lecteur d'écran, tabulation) ; champ de réponse → le champ, y compris sur téléphone quand le rendu répond à un toucher (le clavier reste ouvert)
+  const touch = "ontouchstart" in window, inp = document.getElementById("inp");
+  if (changed && top && !inp) app.querySelector(".bar h1")?.focus({ preventScroll: true });
+  let ae = document.activeElement; if (ae?.disabled) { ae.blur(); ae = document.body; } // « Suivant » redevenu inactif : il ne doit pas garder le focus (ni avaler les raccourcis clavier)
+  const idle = !ae || ae === document.body || ae.nodeName === "H1";
+  if (inp) { if (ae !== inp && (!touch || inGesture)) inp.focus(); }
+  else if (!touch && idle) app.querySelector("[data-enter]:not([disabled])")?.focus({ preventScroll: true });
   if (path === "/giochi" && pa === "cruci" && G.st.c?.focus) { const el = app.querySelector(`.cell input[data-key="${G.st.c.focus}"]`); if (el && document.activeElement !== el) el.focus(); }
 }
+let inGesture = false; // vrai pendant qu'une action répond à un toucher ou à une touche : le focus peut alors ouvrir le clavier du téléphone
+// Table plus large que l'écran : un fondu sur le bord droit signale qu'elle défile
+const markOver = (el) => el.classList.toggle("over", el.scrollWidth - el.clientWidth - el.scrollLeft > 4);
 const HOST_THEME = document.documentElement.dataset.theme || null; // thème imposé par la page hôte (simulateur), rétabli en mode automatique
 function applyScheme() {
   const s = Store.s.ui.scheme, root = document.documentElement;
@@ -1542,8 +1634,6 @@ function applyScheme() {
 /* ═══════════════════════════════════════════
    12. Actions (délégation par data-a)
    ═══════════════════════════════════════════ */
-// Réponse validée : le clavier du téléphone se replie pour laisser voir la correction
-const doneTyping = () => { if ("ontouchstart" in window) document.getElementById("inp")?.blur(); };
 const sansSujet = (v) => norm(v).replace(/^(io|tu|lui|lei|noi|voi|loro) /, "");
 const errTypeOf = (round, pickId) => round.opts?.find((o) => o.id === pickId)?.t || "lessico";
 function finishGame() { if (Menu.course("contorno")?.game === Router.params.a) Menu.done("contorno"); }
@@ -1586,7 +1676,7 @@ const Actions = {
   "sess-flip": () => { G.sess.flipped = !G.sess.flipped; render(); },
   "sess-seen": () => { const s = G.sess; Store.see(s.cards[s.ci]); s.flipped = false; if (s.ci + 1 >= s.cards.length) s.phase = "quiz"; else s.ci++; render({ top: true }); },
   "s-mcq": (d) => { const s = G.sess; if (!s || s.answered) return; const r = s.rounds[s.idx], ok = d.id === r.a; sessionAnswer(ok, { pick: d.id }, ok ? null : errTypeOf(r, d.id)); },
-  "s-verify": () => { const s = G.sess, r = s.rounds[s.idx], v = inputValue(); if (!v.trim() || s.answered) return; s.input = v; doneTyping(); sessionAnswer(r.accepted.includes(norm(v)) || (!!r.conj && r.accepted.includes(sansSujet(v))), {}, "scrittura"); },
+  "s-verify": () => { const s = G.sess, r = s.rounds[s.idx], v = inputValue(); if (!v.trim() || s.answered) return; s.input = v; sessionAnswer(r.accepted.includes(norm(v)) || (!!r.conj && r.accepted.includes(sansSujet(v))), {}, "scrittura"); },
   "s-next": () => { const s = G.sess; s.idx++; s.answered = null; s.input = ""; render({ top: true }); },
   "menu-antipasto": () => { const c = Menu.course("antipasto"), due = Store.due(); const ids = (due.length ? shuffle(due) : shuffle(Store.seen())).slice(0, c?.n || 8).map((w) => w.id); if (!ids.length) { toast("Aucune carte vue pour l'instant : commence par le Primo"); return; } Sess.open({ kind: "menu", title: "Antipasto · ripasso", back: "/oggi", onDone: { type: "menu", course: "antipasto" }, phase: "quiz", rounds: Sess.rounds(ids.map((id) => BY_ID[id]), { n: ids.length, typeEvery: 3 }) }); },
   "menu-primo": () => { const c = Menu.course("primo"); if (!c?.ids?.length) { toast("Tout est déjà vu !"); return; } Sess.learn({ ids: c.ids, title: "Primo · parole nuove", back: "/oggi", onDone: { type: "menu", course: "primo" } }); },
@@ -1601,18 +1691,18 @@ const Actions = {
   rflip: () => { G.st.flipped = !G.st.flipped; render(); },
   rgrade: (d) => { const q = G.st.queue, cur = q.shift(); Store.grade(cur, d.k === "1"); if (d.k !== "1") q.push(cur); G.st.flipped = false; G.st.done = true; const m = Store.s.menu; if (m?.day === dayKey()) { m.counts.ripasso = (m.counts.ripasso || 0) + 1; if (m.counts.ripasso >= (Menu.course("antipasto")?.n || 8)) Menu.done("antipasto"); } render(); },
   "l-read": () => { G.st.phase = "read"; render({ top: true }); },
-  "l-quiz": () => { Xp.stop(); const l = LESSONS.find((x) => x.id === Router.params.a); Object.assign(G.st, { phase: "quiz", q: 0, score: 0, answered: null, order: l.quiz.map((q) => shuffle(q.opts.map((_, i) => i))) }); render({ top: true }); },
-  "l-ans": (d) => { const L = G.st, l = LESSONS.find((x) => x.id === Router.params.a); if (L.answered !== null) return; L.answered = +d.id; if (L.answered === l.quiz[L.q].a) L.score++; render(); },
+  "l-quiz": () => { Xp.stop(); const l = LESSONS.find((x) => x.id === Router.params.a); Object.assign(G.st, { phase: "quiz", q: 0, score: 0, answered: null, missed: [], order: l.quiz.map((q) => shuffle(q.opts.map((_, i) => i))) }); render({ top: true }); },
+  "l-ans": (d) => { const L = G.st, l = LESSONS.find((x) => x.id === Router.params.a); if (L.answered !== null) return; const q = l.quiz[L.q]; L.answered = +d.id; if (L.answered === q.a) L.score++; else (L.missed ||= []).push({ it: /_{2,}/.test(q.q) ? q.q.replace(/_{2,}/, q.opts[q.a]).replace(/\s*\([^)]*\)\s*$/, "") : q.opts[q.a], fr: q.why }); render(); },
   "l-next": () => { const L = G.st, l = LESSONS.find((x) => x.id === Router.params.a); if (L.q + 1 >= l.quiz.length) { Store.s.grammar[l.id] = Math.max(Store.s.grammar[l.id] || 0, L.score); Sync.schedule(); if (L.score === l.quiz.length) { Store.lessonValidated(l.id); Percorsi.hook("lesson", l.id); } if (Menu.course("secondo")?.lesson === l.id) Menu.done("secondo"); Store.save(); L.phase = "done"; } else { L.q++; L.answered = null; } render({ top: true }); },
   "c-start": (d) => { startConiuga(d.t); render({ top: true }); },
   "c-menu": () => { G.st.conj = null; if (Router.params.b) Router.replace("/grammatica/coniuga"); else render({ top: true }); },
-  "c-check": () => { const C = G.st.conj, v = inputValue(); if (!v.trim() || C.result) return; C.input = v; doneTyping(); const acc = C.rounds[C.idx].accepted, ok = acc.includes(norm(v)) || acc.includes(sansSujet(v)); C.result = { ok }; if (ok) C.score++; Store.activity({ answers: 1, correct: ok ? 1 : 0 }); if (!ok) { Store.s.stats.errors.verbo = (Store.s.stats.errors.verbo || 0) + 1; Sync.schedule(); } Store.save(); render(); },
+  "c-check": () => { const C = G.st.conj, v = inputValue(); if (!v.trim() || C.result) return; C.input = v; const r = C.rounds[C.idx], acc = r.accepted, ok = acc.includes(norm(v)) || acc.includes(sansSujet(v)); C.result = { ok }; if (ok) C.score++; else (C.missed ||= []).push({ it: r.display, fr: `${r.prompt} · ${r.person}` }); Store.activity({ answers: 1, correct: ok ? 1 : 0 }); if (!ok) { Store.s.stats.errors.verbo = (Store.s.stats.errors.verbo || 0) + 1; Sync.schedule(); } Store.save(); render(); },
   "c-next": () => { const C = G.st.conj; if (C.idx + 1 >= C.rounds.length) { C.step = C.score >= 6 && PERCORSI.some((p) => p.steps.some((s) => s.type === "conj" && s.tense === C.tense && !Percorsi.isDone(p, s))); Store.s.conjBest[C.tense] = Math.max(Store.s.conjBest[C.tense] || 0, C.score); Sync.schedule(); if (C.score >= 6) Percorsi.hook("conj", C.tense); if (Menu.course("secondo")?.tense === C.tense) Menu.done("secondo"); Store.save(); C.finished = true; } else { C.idx++; C.input = ""; C.result = null; } render({ top: true }); },
   "g-again": () => { G.st = {}; render({ top: true }); },
-  "sc-ans": (d) => { const S = G.st.s; if (S.ans) return; const q = S.qs[S.idx], ok = d.id === q.w.id; S.ans = { id: d.id, ok }; if (ok) S.score++; Store.grade(q.w.id, ok, ok ? null : errTypeOf(q, d.id)); render(); },
+  "sc-ans": (d) => { const S = G.st.s; if (S.ans) return; const q = S.qs[S.idx], ok = d.id === q.w.id; S.ans = { id: d.id, ok }; if (ok) S.score++; else (S.missed ||= []).push(q.w); Store.grade(q.w.id, ok, ok ? null : errTypeOf(q, d.id)); render(); },
   "sc-next": () => { const S = G.st.s; if (S.idx + 1 >= 10) { S.fin = true; Store.s.stats.bestQuiz = Math.max(Store.s.stats.bestQuiz || 0, S.score); Sync.schedule(); Store.save(); finishGame(); } else { S.idx++; S.ans = null; } render({ top: true }); },
   "wr-hint": () => { G.st.w.input = inputValue(); G.st.w.hint = true; render(); },
-  "wr-check": () => { const S = G.st.w, v = inputValue(); if (!v.trim() || S.res) return; S.input = v; doneTyping(); const ok = acceptedAnswers(S.qs[S.idx]).has(norm(v)); S.res = { ok }; if (ok) S.score++; Store.grade(S.qs[S.idx].id, ok, "scrittura"); render(); },
+  "wr-check": () => { const S = G.st.w, v = inputValue(); if (!v.trim() || S.res) return; S.input = v; const ok = acceptedAnswers(S.qs[S.idx]).has(norm(v)); S.res = { ok }; if (ok) S.score++; else (S.missed ||= []).push(S.qs[S.idx]); Store.grade(S.qs[S.idx].id, ok, "scrittura"); render(); },
   "wr-next": () => { const S = G.st.w; if (S.idx + 1 >= 8) { S.fin = true; finishGame(); } else { S.idx++; S.input = ""; S.res = null; S.hint = false; } render({ top: true }); },
   "cw-clue": (d) => { const C = G.st.c; C.active = { id: d.id, dir: d.dir }; const ks = cellsOf(Cw.active()); Cw.paint(); Cw.focus(ks.find((k) => !(C.cells[k] || "").length) || ks[0]); },
   "cw-verify": () => { const C = G.st.c; C.checked = true; Cw.entries().forEach((p) => { if (!C.graded.has(p.id) && cellsOf(p).every((k) => stripAccents((C.cells[k] || "").toUpperCase()) === C.cw.solution[k])) { C.graded.add(p.id); Store.grade(p.id, true); } }); if (!C.cheated && C.graded.size === Cw.entries().length) finishGame(); render(); },
@@ -1621,13 +1711,13 @@ const Actions = {
   "an-pick": (d) => { const A = G.st.a, i = +d.i; if (A.status === "ok" || A.status === "rev" || A.letters[i].used) return; A.letters[i].used = true; A.picked.push(i); A.status = null; if (A.picked.length === A.w.word.length) { const g = A.picked.map((x) => A.letters[x].ch).join(""); if (g === A.w.word) { A.status = "ok"; A.score++; Store.grade(A.w.id, true); } else A.status = "ko"; } render(); },
   "an-undo": () => { const A = G.st.a; if (!A.picked.length || A.status === "ok") return; A.letters[A.picked.pop()].used = false; A.status = null; render(); },
   "an-clear": () => { const A = G.st.a; if (A.status === "ok") return; A.letters.forEach((l) => l.used = false); A.picked = []; A.status = null; render(); },
-  "an-reveal": () => { const A = G.st.a; Store.grade(A.w.id, false, "ortografia"); A.status = "rev"; render(); },
+  "an-reveal": () => { const A = G.st.a; Store.grade(A.w.id, false, "ortografia"); (A.missed ||= []).push(BY_ID[A.w.id] || { it: A.w.display, fr: A.w.clue }); A.status = "rev"; render(); },
   "an-next": () => { const A = G.st.a; A.used.add(A.w.id); if (A.count >= 8) { A.fin = true; finishGame(); } else { A.count++; anaRound(A); } render({ top: true }); },
   "ab-l": (d) => { if (G.st.b.err) return; G.st.b.selL = d.id; render(); abbinaCheck(); },
   "ab-r": (d) => { if (G.st.b.err) return; G.st.b.selR = d.id; render(); abbinaCheck(); },
   "ab-new": () => { G.st.b = abbinaRound(G.st.b); render({ top: true }); },
 };
-function sessionAnswer(ok, extra, errType) { const s = G.sess, r = s.rounds[s.idx]; s.answered = { ok, ...extra }; if (ok) s.score++; if (r.w && BY_ID[r.w.id]) Store.grade(r.w.id, ok, errType); else { Store.activity({ answers: 1, correct: ok ? 1 : 0 }); if (!ok && errType) { Store.s.stats.errors[errType] = (Store.s.stats.errors[errType] || 0) + 1; Sync.schedule(); } Store.save(); } render(); }
+function sessionAnswer(ok, extra, errType) { const s = G.sess, r = s.rounds[s.idx]; s.answered = { ok, ...extra }; if (ok) s.score++; else (s.missed ||= []).push({ it: r.display, fr: r.w?.fr || r.q || r.prompt }); if (r.w && BY_ID[r.w.id]) Store.grade(r.w.id, ok, errType); else { Store.activity({ answers: 1, correct: ok ? 1 : 0 }); if (!ok && errType) { Store.s.stats.errors[errType] = (Store.s.stats.errors[errType] || 0) + 1; Sync.schedule(); } Store.save(); } render(); }
 function abbinaCheck() { const B = G.st.b; if (!B.selL || !B.selR) return; B.tries++; if (B.selL === B.selR) { B.matched.add(B.selL); Store.grade(B.selL, true); B.selL = B.selR = null; if (B.matched.size === 6) finishGame(); render(); } else { B.err = { l: B.selL, r: B.selR }; render(); setTimeout(() => { if (G.st.b !== B) return; B.err = null; B.selL = B.selR = null; render(); }, 550); } }
 
 // Glisser une carte : à droite « lo so », à gauche « non lo so » — les mêmes boutons que les flèches du clavier
@@ -1652,22 +1742,25 @@ app.addEventListener("pointermove", (e) => Swipe.move(e));
 app.addEventListener("click", (e) => {
   if (Date.now() - Swipe.block < 350 && e.target.closest(".scene")) { e.preventDefault(); return; } // fin de glissement : pas de retournement
   const el = e.target.closest("[data-a]");
-  if (el) { const fn = Actions[el.dataset.a]; if (fn) { e.preventDefault(); if (Store.tick()) Store.save(); fn(el.dataset, el); } return; }
+  if (el) { const fn = Actions[el.dataset.a]; if (fn) { e.preventDefault(); if (Store.tick()) Store.save(); inGesture = true; try { fn(el.dataset, el); } finally { inGesture = false; } } return; }
   const a = e.target.closest('a[href^="#/"]'); if (a) { e.preventDefault(); Router.go(a.getAttribute("href").slice(1)); }
 });
 app.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && e.target.id === "inp") { e.preventDefault(); app.querySelector("[data-enter]")?.click(); }
   if (e.target.matches(".cell input") && e.key === "Backspace") { const key = e.target.dataset.key, C = G.st.c; if ((C.cells[key] || "").length) return; e.preventDefault(); const p = Cw.entryFor(key); if (!p) return; const ks = cellsOf(p), i = ks.indexOf(key); if (i > 0) { C.cells[ks[i - 1]] = ""; Cw.paint(); Cw.focus(ks[i - 1]); } }
 });
-// Raccourcis clavier (ordinateur) : Entrée valide, ← → notent la carte, Espace la retourne, 1-4 choisissent une réponse
+// Raccourcis clavier (ordinateur) : Entrée valide, ← → notent la carte, Espace la retourne, 1-4 ou A-D choisissent une réponse
 document.addEventListener("keydown", (e) => {
   if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.nodeName)) return;
-  const onBody = e.target === document.body;
+  const onBody = e.target === document.body || e.target.nodeName === "H1";
   if (e.key === "Enter") { if (onBody) { e.preventDefault(); app.querySelector("[data-enter]")?.click(); } return; }
   if (e.key === " " && !onBody) return;
-  const el = app.querySelector(`[data-kbd="${e.key}"]`); if (el && !el.disabled) { e.preventDefault(); el.click(); }
+  const key = /^[a-d]$/i.test(e.key) && app.querySelector(".opt") ? String("abcd".indexOf(e.key.toLowerCase()) + 1) : e.key; // les pastilles affichent A B C D
+  const el = app.querySelector(`[data-kbd="${key}"]`); if (el && !el.disabled) { e.preventDefault(); el.click(); }
 });
-app.addEventListener("input", (e) => { if (e.target.matches(".cell input")) Cw.input(e.target.dataset.key, e.target.value); });
+app.addEventListener("input", (e) => { const t = e.target; if (t.matches(".cell input")) Cw.input(t.dataset.key, t.value); else if (t.id === "inp" && t.dataset.locked) t.value = t.getAttribute("value") ?? ""; });
+// Réponse vérifiée : le champ garde le focus (et le clavier) mais n'accepte plus de frappe
+app.addEventListener("beforeinput", (e) => { if (e.target.id === "inp" && e.target.dataset.locked && e.cancelable) e.preventDefault(); });
 app.addEventListener("change", async (e) => {
   if (e.target.id === "impfile") { const f = e.target.files?.[0]; e.target.value = ""; if (!f) return; try { G.st.imp = Store.parseBackup(await f.text()); render(); } catch (err) { toast(err instanceof SyntaxError ? "Fichier illisible : ce n'est pas une sauvegarde Impara!" : err.message); } return; }
   if (e.target.id === "sh" || e.target.id === "eh") { const s = Store.s.settings; s.start_hour = +document.getElementById("sh").value; s.end_hour = +document.getElementById("eh").value; if (s.end_hour <= s.start_hour) { s.end_hour = Math.min(24, s.start_hour + 1); toast("La fin doit être après le début"); } settingsChanged(); }
@@ -1679,6 +1772,7 @@ document.addEventListener("visibilitychange", () => {
   if (document.visibilityState === "visible") { if (Store.tick()) { Store.save(); render(); } if (Router.path === "/oggi") Today.refresh(); if (Stats.visible()) { Stats.refresh(); Stats.watch(); } Push.checkUpdate(); }
   else { clearTimeout(Sync.t); Sync.push({ keepalive: true }); if (G.st.xp?.play) Xp.play(false); else Xp.stop(); }
 });
+window.addEventListener("resize", () => app.querySelectorAll(".gscroll").forEach(markOver));
 window.addEventListener("online", () => { if (Router.path === "/oggi") Today.refresh(true); });
 // Deux fenêtres ouvertes : celle qui n'écrit pas reprend l'état de l'autre au lieu de l'écraser à sa prochaine action
 window.addEventListener("storage", (e) => { if (e.key !== KEY || !e.newValue) return; try { Store.s = Store.merge(JSON.parse(e.newValue)); applyScheme(); if (Router.path !== "/sessione") render(); } catch (err) {} });
@@ -1688,11 +1782,12 @@ app.addEventListener("pointerout", (e) => { const t = e.target.closest("[data-ti
 app.addEventListener("focusin", (e) => { const t = e.target.closest("[data-tip]"); if (t) Tip.show(t); });
 app.addEventListener("focusout", (e) => { if (e.target.closest("[data-tip]")) Tip.hide(); });
 app.addEventListener("click", (e) => { const t = e.target.closest("[data-tip]"); if (!t) { Tip.hide(); return; } if (e.pointerType && e.pointerType !== "touch") return; if (Tip.cur === t) Tip.hide(); else Tip.show(t); });
-app.addEventListener("scroll", () => { const f = document.activeElement; if (f?.dataset?.tip && app.contains(f)) Tip.show(f); else if (Tip.cur) Tip.hide(); }, true);
+app.addEventListener("scroll", (e) => { if (e.target.classList?.contains("gscroll")) markOver(e.target); const f = document.activeElement; if (f?.dataset?.tip && app.contains(f)) Tip.show(f); else if (Tip.cur) Tip.hide(); }, true);
 
 /* ═══════════════════════════════════════════
    13. Démarrage
    ═══════════════════════════════════════════ */
+{ const live = document.createElement("div"); live.id = "live"; live.className = "sr"; live.setAttribute("role", "status"); live.setAttribute("aria-live", "polite"); document.getElementById("app").appendChild(live); }
 Store.load();
 applyScheme();
 try { navigator.storage?.persist?.(); localStorage.removeItem("impara-auth-v1"); } catch (e) {} // demande au navigateur de ne pas effacer la progression pour faire de la place

@@ -11,6 +11,38 @@ Audit de la version 3.2 (commit `d12d755`) et contenu de la version 4 qui la rem
 - **Performance : aucun problème réel**, mais le démarrage gagne 24 % et un rendu est 2 à 4 fois plus léger.
 - **Deux volets restent à faire** : audit du serveur Supabase (projet sur un autre compte) et essai sur ton iPhone.
 
+## Version 4.1 — ergonomie d'une main et accessibilité
+
+Suite de la critique indépendante du design de la version 4 (45 constats mesurés). Lots 1 et 2 appliqués et déployés le 10 novembre 2026 ; 83 contrôles automatiques.
+
+| Point (iPhone 390 × 844) | Version 4 | Version 4.1 |
+|---|---|---|
+| Réponses d'un QCM (centre des boutons, en % de la hauteur) | 24 à 45 % | 66 à 87 % |
+| Réponses d'un quiz de leçon | 21 à 35 % | 73 à 87 % |
+| Bouton « Suivant » | apparaît après la réponse | présent dès la question (inactif), même place |
+| Saisie (Coniuga, Scrivi, sessions) : focus après « Vérifier », puis après « Suivant » | perdu, perdu : le clavier se ferme et se rouvre | gardé, gardé |
+| Sessions mêlant QCM et saisie | alternés | QCM d'abord, saisie ensuite |
+| Oggi avec panneau Nouveautés et bandeau d'activation : bouton du menu | 822–868, sous les onglets (783) | 485–531, visible ; il reste collé au-dessus des onglets si la carte dépasse |
+| Hauteur du Menù del giorno | 553 px | 456 px |
+| Carte : hauteur, mot, phrase d'exemple | 540 px, 31 px, 15 px | 460 px, 43 px, 18 px ; les 865 cartes tiennent sans déborder à 390, 360 et 320 px de large |
+| Écart entre « Lo so » et les onglets | 6,6 px | 18 px (Ripasso) ; onglets masqués dans les exercices ouverts depuis une liste |
+| Écrans de fin : boutons | 31 % de la hauteur, 559 px vides dessous | ancrés en bas, avec la liste des réponses manquées et leur écoute |
+| Italien : réponses de QCM, corrections, tables | 16, 14 et 15 px, première colonne grise | 19, 17 à 19, 17 px (16 px dans les tables de 5 colonnes et plus), encre pleine |
+| Tables de leçon qui défilent à 390 px | 8, sans indice | 3, avec un fondu sur le bord |
+| Thème sombre : paires sous le seuil de contraste | 8 | 0 (« Lo so » 5,70 ; pastilles 6,49 et 6,54 ; texte d'invite 6,44 ; verso 6,44 ; barre de progression 5,58) |
+
+Autres changements :
+
+- **États lisibles sans la couleur** : ✓ et ✗ dans les pastilles des réponses, choix des réglages entourés (cochés quand plusieurs sont possibles), interrupteur éteint contrasté, série « Fausses » et « Phrases » hachurée dans les graphiques avec les totaux dans la légende, type de carte écrit (« mot », « phrase », « verbe »).
+- **Lecteur d'écran** : l'italien est balisé partout où il s'affiche en Newsreader (carte lue telle quelle, Abbina, Da rivedere, tables, corrections) ; corrections, scores et messages passent par une zone d'annonce permanente ; vrais titres de section ; titre de document par écran ; focus sur le titre à chaque changement d'écran ; les 54 barres de graphique sortent de l'ordre de tabulation et sont remplacées par un résumé.
+- **Clavier d'ordinateur** : A à D choisissent une réponse, comme 1 à 4.
+- **Carte** : cinq points pour les cinq boîtes de la répétition espacée, verso sur le même papier avec un filet bordeaux, zoom par pincement possible sur la carte.
+- **Corrigé au passage** : la barre d'onglets mesurait 61,4 px pour une réserve de 58 px, les boutons ancrés la chevauchaient de 3,4 px.
+
+Non vérifiable d'ici : le comportement réel du clavier de l'iPhone (il doit rester ouvert d'une question à l'autre et s'ouvrir quand une question de saisie suit un QCM) et la lecture par VoiceOver.
+
+Reste de la critique, non fait : réglage « Taille du texte », un seul titre par écran, gris plus chauds, échelle typographique à 6 tailles.
+
 ## Ce qui a été examiné
 
 | Volet | Méthode | État |
@@ -116,6 +148,6 @@ Navigateur automatisé, processeur ralenti ×4 (ordre de grandeur d'un télépho
 1. **Recharger 38 éléments de notification sur le serveur** : l'app n'affiche plus de prénom, d'employeur ni de ville personnels, mais la table `items` du serveur contient encore les anciennes phrases (`tools/build-items.js` régénère `items.json`).
 2. **Vocabulaire, points laissés ouverts** : `la caparra` (caution ou arrhes), `mi è scappato il treno` (familier), heures tantôt sur 12 h tantôt sur 24 h dans les traductions, 6 interjections saisies avec majuscule.
 3. **Auditer le serveur** : nécessite de brancher le connecteur Supabase sur le compte du projet `impara-italiano`. À vérifier : alertes de sécurité (RLS), tables restées de la connexion par e-mail (`profiles`, `progress`, `state`, `activity`), croissance de la table `sent`, journaux du cron. Mettre aussi les sources des deux fonctions et le schéma dans le dépôt.
-4. **Essayer sur l'iPhone** : glissement des cartes, clavier pendant les réponses écrites, bandeau de mise à jour, export par la feuille de partage.
+4. **Essayer sur l'iPhone** : clavier pendant les réponses écrites (il doit rester ouvert de « Vérifier » à la question suivante), glissement des cartes, bandeau de mise à jour, export par la feuille de partage, lecture VoiceOver.
 5. **Doutes de grammaire laissés ouverts** : 10 questions légèrement ambiguës, variantes correctes refusées (`siederò`, `debbo`, `perduto`), légendes trop absolues (g21, g26).
 6. `items.json` (886 Ko) est publié avec le site alors que l'app ne le lit pas ; il sert à recharger la base. À déplacer lors de l'audit serveur.
