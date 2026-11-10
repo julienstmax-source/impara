@@ -26,7 +26,13 @@ const shuffleSeeded = (a, r) => { a = [...a]; for (let i = a.length - 1; i > 0; 
 const stripAccents = (s) => s.normalize("NFD").replace(/[̀-ͯ]/g, "");
 const norm = (s) => stripAccents(String(s).toLowerCase()).replace(/[^a-z' ]/g, " ").replace(/'/g, " ").replace(/\s+/g, " ").trim();
 const stripArticle = (s) => s.replace(/^(l|il|la|lo|le|i|gli|un|una|uno) /, "");
-const acceptedAnswers = (w) => { const all = new Set(); w.it.split("/").map((p) => norm(p)).filter(Boolean).forEach((p) => { all.add(p); all.add(stripArticle(p)); }); return all; };
+// Vrais synonymes : pour une même question française, les deux mots sont acceptés (et jamais proposés comme mauvaise réponse l'un de l'autre)
+const SYNONYMS = [["e10", "x19"], ["l8", "l40"], ["e11", "e25"], ["k5", "r25"]];
+const acceptedAnswers = (w) => {
+  const all = new Set(), add = (it) => it.split("/").map((p) => norm(p)).filter(Boolean).forEach((p) => { all.add(p); all.add(stripArticle(p)); });
+  add(w.it); for (const g of SYNONYMS) if (g.includes(w.id)) for (const id of g) if (id !== w.id && BY_ID[id]) add(BY_ID[id].it);
+  return all;
+};
 const shortClue = (fr) => fr.split("—")[0].split("(")[0].split(";")[0].trim();
 const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 const plural = (n, s, p) => n > 1 ? p : s;
@@ -900,7 +906,8 @@ Views.anagramma = () => {
     ${A.status === "ok" ? UI.fb(true, `Perfetto — <b>${esc(A.w.display)}</b><br><span class="it">${esc(BY_ID[A.w.id]?.ex || "")}</span>`) : A.status === "ko" ? UI.fb(false, "Ce n'est pas ça. Corrige avec la flèche.") : A.status === "rev" ? `<div class="fb">C'était <b>${esc(A.w.display)}</b>.</div>` : ""}
     ${locked ? UI.dock(UI.next("an-next", A.count >= 8)) : `<div class="btnrow"><button class="btn" data-a="an-undo" aria-label="Effacer la dernière lettre">${I.undo}</button><button class="btn" data-a="an-clear">Effacer</button><button class="btn" data-a="an-reveal">Solution</button></div>`}</div>`;
 };
-function abbinaRound(prev) { const ws = shuffle(CARDS).slice(0, 6); return { left: shuffle(ws.map((w) => ({ id: w.id, label: w.it }))), right: shuffle(ws.map((w) => ({ id: w.id, label: shortClue(w.fr) }))), selL: null, selR: null, matched: new Set(), err: null, tries: 0, round: (prev?.round || 0) + 1 }; }
+// Jamais deux étiquettes françaises identiques dans une manche (il casello / il pedaggio = « le péage »)
+function abbinaRound(prev) { const seen = new Set(), ws = shuffle(CARDS).filter((w) => { const k = norm(shortClue(w.fr)); return !seen.has(k) && seen.add(k); }).slice(0, 6); return { left: shuffle(ws.map((w) => ({ id: w.id, label: w.it }))), right: shuffle(ws.map((w) => ({ id: w.id, label: shortClue(w.fr) }))), selL: null, selR: null, matched: new Set(), err: null, tries: 0, round: (prev?.round || 0) + 1 }; }
 Views.abbina = () => {
   const B = G.st.b ??= abbinaRound(); const done = B.matched.size === 6;
   const cls = (side, id) => { let c = "pb"; if (side === "l") c += " it"; if (B.matched.has(id)) c += " done"; else if (B.err && B.err[side] === id) c += " err"; else if ((side === "l" ? B.selL : B.selR) === id) c += " sel"; return c; };

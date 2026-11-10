@@ -9,7 +9,7 @@ Audit de la version 3.2 (commit `d12d755`) et contenu de la version 4 qui la rem
 - **Le contenu de grammaire contenait une réponse de quiz fausse** (leçon 20) et 24 questions où deux réponses se défendaient vraiment. Corrigé. Les conjugaisons (3 648 formes) sont sans erreur.
 - **Le design avait trois défauts mesurables** : texte secondaire sous le contraste AA, actions principales au milieu de l'écran avec la moitié basse vide, et un accueil sans action principale. Repris dans la version 4.
 - **Performance : aucun problème réel**, mais le démarrage gagne 24 % et un rendu est 2 à 4 fois plus léger.
-- **Trois volets restent à faire** : relecture des 865 mots et phrases, audit du serveur Supabase (projet sur un autre compte), essai sur ton iPhone.
+- **Deux volets restent à faire** : audit du serveur Supabase (projet sur un autre compte) et essai sur ton iPhone.
 
 ## Ce qui a été examiné
 
@@ -18,7 +18,7 @@ Audit de la version 3.2 (commit `d12d755`) et contenu de la version 4 qui la rem
 | Code de l'app (`app.js`, `sw.js`, CSS) | Lecture complète + revue indépendante, bugs reproduits sous navigateur automatisé | Fait : 26 constats |
 | Grammaire (40 leçons, 160 questions, 343 étapes d'animation, 3 648 formes verbales) | Relecture complète + conjugueur de contrôle | Fait : 15 corrections, 34 questions ambiguës |
 | Design, ergonomie, accessibilité | Captures de tous les écrans (clair, sombre, ordinateur), contrastes calculés, cibles tactiles mesurées | Fait par moi ; la critique indépendante s'est arrêtée (limite d'usage) |
-| Mots et phrases (865 cartes) | Relecture complète prévue | **Non fait** (limite d'usage) |
+| Mots et phrases (865 cartes, 18 catégories) | Relecture complète + contrôles par script (doublons, typographie, articles) | Fait : 2 erreurs certaines, 15 traductions ou notes améliorées |
 | Serveur Supabase (sécurité, cron, tables, journaux) | Alertes de sécurité, requêtes | **Non fait** : le projet est sur un autre compte que celui du connecteur |
 | Vrai iPhone (clavier, glissement, push, mise à jour) | — | **Non vérifiable d'ici** |
 
@@ -57,6 +57,7 @@ Gravité : **critique** = perte de données ; **majeur** = fonction faussée ou 
 | 20 | Échéance à l'heure près : carte notée à 22 h 30 pas due le lendemain à 19 h | Mineur | Due dès le début du jour visé |
 | 21 | Menù del giorno : remis à 0 / 5 en changeant de parcours, Contorno coché par n'importe quel jeu, plat impossible à cocher, premier jour bloqué sur l'Antipasto | Mineur | Corrigé (sauf session à cheval sur minuit) |
 | 22 | Étape « leçon » d'un parcours non cochée si la leçon était déjà validée | Mineur | Cochée d'office |
+| 22 ter | Mots et phrases : « torta » traduit par tarte, « boh » par bof, « brioche » (croissant au Nord) par brioche, « ce l'ho » après un indéfini, « sono un ingegnere » ; vrais synonymes comptés faux l'un pour l'autre (per fortuna / meno male, rimandare / rinviare) | Mineur | 17 cartes corrigées ; 4 paires de synonymes acceptées dans les deux sens |
 | 22 bis | 21 cartes et 2 leçons citaient un prénom, un employeur, un client et une ville personnels, visibles par quiconque ouvre l'app | Majeur | Prénom et entreprise inventés (Jonas, Deltamec), lieux et client rendus neutres |
 
 ### Design, ergonomie, accessibilité
@@ -112,8 +113,8 @@ Navigateur automatisé, processeur ralenti ×4 (ordre de grandeur d'un télépho
 
 ## Reste à faire
 
-1. **Recharger 21 éléments de notification sur le serveur** : l'app n'affiche plus de prénom, d'employeur ni de ville personnels, mais la table `items` du serveur contient encore les anciennes phrases (`tools/build-items.js` régénère `items.json`).
-2. **Relire les 571 mots et 294 phrases** (non fait).
+1. **Recharger 38 éléments de notification sur le serveur** : l'app n'affiche plus de prénom, d'employeur ni de ville personnels, mais la table `items` du serveur contient encore les anciennes phrases (`tools/build-items.js` régénère `items.json`).
+2. **Vocabulaire, points laissés ouverts** : `la caparra` (caution ou arrhes), `mi è scappato il treno` (familier), heures tantôt sur 12 h tantôt sur 24 h dans les traductions, 6 interjections saisies avec majuscule.
 3. **Auditer le serveur** : nécessite de brancher le connecteur Supabase sur le compte du projet `impara-italiano`. À vérifier : alertes de sécurité (RLS), tables restées de la connexion par e-mail (`profiles`, `progress`, `state`, `activity`), croissance de la table `sent`, journaux du cron. Mettre aussi les sources des deux fonctions et le schéma dans le dépôt.
 4. **Essayer sur l'iPhone** : glissement des cartes, clavier pendant les réponses écrites, bandeau de mise à jour, export par la feuille de partage.
 5. **Doutes de grammaire laissés ouverts** : 10 questions légèrement ambiguës, variantes correctes refusées (`siederò`, `debbo`, `perduto`), légendes trop absolues (g21, g26).
