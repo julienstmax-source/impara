@@ -1,6 +1,6 @@
 # Audit d'Impara! — 10 novembre 2026
 
-Audit de la version en ligne (commit `d12d755`, « v3.2 ») et état de la version 4 préparée à la suite. La version 4 n'est **pas déployée** : elle est visible dans le simulateur et attend ta validation.
+Audit de la version 3.2 (commit `d12d755`) et contenu de la version 4 qui la remplace, déployée le 10 novembre 2026.
 
 ## En bref
 
@@ -57,6 +57,7 @@ Gravité : **critique** = perte de données ; **majeur** = fonction faussée ou 
 | 20 | Échéance à l'heure près : carte notée à 22 h 30 pas due le lendemain à 19 h | Mineur | Due dès le début du jour visé |
 | 21 | Menù del giorno : remis à 0 / 5 en changeant de parcours, Contorno coché par n'importe quel jeu, plat impossible à cocher, premier jour bloqué sur l'Antipasto | Mineur | Corrigé (sauf session à cheval sur minuit) |
 | 22 | Étape « leçon » d'un parcours non cochée si la leçon était déjà validée | Mineur | Cochée d'office |
+| 22 bis | 21 cartes et 2 leçons citaient un prénom, un employeur, un client et une ville personnels, visibles par quiconque ouvre l'app | Majeur | Prénom et entreprise inventés (Jonas, Deltamec), lieux et client rendus neutres |
 
 ### Design, ergonomie, accessibilité
 
@@ -111,7 +112,7 @@ Navigateur automatisé, processeur ralenti ×4 (ordre de grandeur d'un télépho
 
 ## Reste à faire
 
-1. **Valider la version 4** dans le simulateur, puis la déployer.
+1. **Recharger 21 éléments de notification sur le serveur** : l'app n'affiche plus de prénom, d'employeur ni de ville personnels, mais la table `items` du serveur contient encore les anciennes phrases (`tools/build-items.js` régénère `items.json`).
 2. **Relire les 571 mots et 294 phrases** (non fait).
 3. **Auditer le serveur** : nécessite de brancher le connecteur Supabase sur le compte du projet `impara-italiano`. À vérifier : alertes de sécurité (RLS), tables restées de la connexion par e-mail (`profiles`, `progress`, `state`, `activity`), croissance de la table `sent`, journaux du cron. Mettre aussi les sources des deux fonctions et le schéma dans le dépôt.
 4. **Essayer sur l'iPhone** : glissement des cartes, clavier pendant les réponses écrites, bandeau de mise à jour, export par la feuille de partage.
